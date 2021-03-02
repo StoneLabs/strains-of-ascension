@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "strainsofascension",
+  "version": "${version}",
+  "name": "Delayed Respawn",
+  "description": "There is nothing but death down there.",
+  "license": "UNLICENSE",
+  "authors": [
+    "StoneLabs <levyehrstein@googlemail.com>",
+    "Luke322"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/"
+  },
+  "icon": "assets/strainsofascension/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [],
+    "client": [],
+    "server": [
+      "net.stone_labs.strainsofascension.StrainsOfAscension"
+    ]
+  },
+  "mixins": [
+    "strainsofascension.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*"
+  }
+}

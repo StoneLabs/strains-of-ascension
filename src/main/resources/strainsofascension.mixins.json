@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.stone_labs.strainsofascension.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
