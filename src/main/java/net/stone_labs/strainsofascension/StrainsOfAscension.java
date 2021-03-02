@@ -2,11 +2,17 @@ package net.stone_labs.strainsofascension;
 
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.client.realms.dto.RealmsServer;
+import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldSaveHandler;
+import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +38,7 @@ DURATION 2400
 public class StrainsOfAscension implements DedicatedServerModInitializer
 {
     public final static int effectDuration = 2410;
-    public final static boolean showIcon = true;
+    public final static boolean showIcon = false;
 
     public static void setEffectLayer1(ServerPlayerEntity player)
     {
@@ -130,6 +136,9 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
     private static void setEffects(double height, ServerPlayerEntity player, Random random)
     {
+        if (player.world.getRegistryKey() != World.OVERWORLD)
+            return;
+
         if (height >= 40)
             return; // You can live... for now...
 
