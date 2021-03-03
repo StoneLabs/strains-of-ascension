@@ -20,6 +20,8 @@ import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.jmx.Server;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +41,13 @@ L   H  DH	    Mining Fatigue  Weakness   Hunger  Slowness    Blindness    Nausea
 7   -48	16	    1	            2	        4	    2	        0	        0	    0              + INSANITY
 8   -59	11	    3	            2	        5	    2	        0	        0	    0	    0      + INSANITY
 
-DURATION 2400
+DURATION 120*20
  */
 
 public class StrainsOfAscension implements DedicatedServerModInitializer
 {
-    public final static int effectDuration = 2410;
+    public final static int effectDuration = 120*20+10;
+    public final static int effectDurationBlindness = 3*10+10;
     public final static boolean showIcon = false;
 
     public static void setEffectLayer1(ServerPlayerEntity player)
@@ -79,7 +82,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 2, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 0, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDuration, 0, true, false, showIcon));
+        setEffectNightVisionBlindness(player, true);
     }
 
     public static void setEffectLayer6(ServerPlayerEntity player)
@@ -88,7 +91,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 2, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 3, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 1, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDuration, 0, true, false, showIcon));
+        setEffectNightVisionBlindness(player, true);
     }
 
     public static void setEffectLayer7(ServerPlayerEntity player)
@@ -97,9 +100,9 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 2, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 4, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 2, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, effectDuration, 0, true, false, showIcon));
+        setEffectNightVisionBlindness(player, false);
     }
 
     public static void setEffectLayer8(ServerPlayerEntity player)
@@ -108,10 +111,27 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 2, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 5, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 2, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, effectDuration, 0, true, false, showIcon));
+        setEffectNightVisionBlindness(player, false);
+    }
+
+    public static void setEffectNightVisionBlindness(ServerPlayerEntity player, boolean allowNVCancel)
+    {
+        @Nullable StatusEffectInstance nvEffect = player.getStatusEffect(StatusEffects.NIGHT_VISION);
+        if (nvEffect != null)
+        {
+            int duration = nvEffect.getDuration();
+            player.removeStatusEffect(StatusEffects.NIGHT_VISION);
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, duration - 19, 0, true, true));
+            if (allowNVCancel)
+            {
+                player.removeStatusEffect(StatusEffects.BLINDNESS);
+                return;
+            }
+        }
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDurationBlindness, 0, true, false, showIcon));
     }
 
     private static void setEffects(double height, ServerPlayerEntity player, Random random)
@@ -119,8 +139,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         if (player.world.getRegistryKey() != World.OVERWORLD)
             return;
 
-        if (player.interactionManager.getGameMode() == GameMode.SPECTATOR ||
-                player.interactionManager.getGameMode() == GameMode.CREATIVE)
+        if (player.interactionManager.getGameMode() == GameMode.SPECTATOR)
             return;
 
         if (height >= 40)
