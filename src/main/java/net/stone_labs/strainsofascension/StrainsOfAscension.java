@@ -9,7 +9,11 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSaveHandler;
 import net.minecraft.world.dimension.DimensionType;
@@ -21,8 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static net.stone_labs.strainsofascension.StrainsOfAscensionData.horrorMessages;
+import static net.stone_labs.strainsofascension.StrainsOfAscensionData.horrorSounds;
+
 /*
-L   H  DH	    Mining Fatigue	Weakness	Hunger	Slowness	Blindness	Nausea	Poison	Wither
+L   H  DH	    Mining Fatigue  Weakness   Hunger  Slowness    Blindness    Nausea  Poison  Wither
 1   40		    0
 2   24	16	    0	            0
 3   8	16	    0	            0	        0
@@ -100,40 +107,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, effectDuration, 0, true, false, showIcon));
     }
 
-    public static final List<String> horrorMessages = new ArrayList<String>() {{
-        add("LEAVE THIS PLACE");
-        add("LEAVE OR DIE");
-        add("I CAN HEAR THEM");
-        add("HELP MEE");
-        add("IT HURTS");
-        add("die");
-        add("WHERE ARE YOU");
-        add("DIE!");
-        add("DIE! DIE! DIE!");
-        add("LEAVE!");
-        add("GET OUT!");
-        add("AAAAAAAAAAAAHHHH");
-        add("HELP ME PLEASE");
-        add("I WANNT TO LEAVE");
-        add("PLEASE GET OUT");
-        add("ITS IN MY MIND");
-        add("I'M SCARED");
-        add("PLEASE NO MORE");
-        add("ESCAPE");
-        add("THERE IS NO ESCAPE");
-        add("YOU WILL DIE HERE");
-        add("CRY! CRY! CRY!");
-        add("I HAVE TO LEAVE");
-        add("I NEED TO GET OUT");
-        add("I WANT TO GO HOME");
-        add("WE'LL DIE!");
-        add("OH GOD PLEASE NO MORE");
-        add("DEATH!!!");
-        add("DEATH!");
-        add("DEATH DEATH DEATH");
-        add("IT IS TOO MUCH");
-    }};
-
     private static void setEffects(double height, ServerPlayerEntity player, Random random)
     {
         if (player.world.getRegistryKey() != World.OVERWORLD)
@@ -141,6 +114,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
         if (height >= 40)
             return; // You can live... for now...
+
+        // Do not spam messages and audio every tick
+        if (height < -64)
+            height = -64;
 
         if (height < -59)
             setEffectLayer8(player);
@@ -159,8 +136,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         else if (height < 40)
             setEffectLayer1(player);
 
-        if (height < -32 && random.nextFloat() < ((-0.0024f)*height - 0.0768f))
+        if (height < -32 && random.nextFloat() < ((-0.0001f)*height - 0.0032f))
             player.sendMessage(new LiteralText(horrorMessages.get(random.nextInt(horrorMessages.size()))), false);
+        if (height < -32 && random.nextFloat() < ((-0.0002f)*height - 0.0064f))
+            player.playSound(horrorSounds.get(random.nextInt(horrorSounds.size())), SoundCategory.AMBIENT, random.nextFloat(), 0);
     }
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
