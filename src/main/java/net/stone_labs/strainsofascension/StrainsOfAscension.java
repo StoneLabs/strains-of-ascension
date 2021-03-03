@@ -27,10 +27,10 @@ L   H  DH	    Mining Fatigue  Weakness   Hunger  Slowness    Blindness    Nausea
 3   8	16	    0	            0	        0
 4   -8	16	    0	            0	        1	    0
 5   -24	16	    0	            1	        2	    0	        (0)
-6   -32	8	    0	            2           3	    1	        (0)                                   + INSANITY
-7   -48	16	    1	            2	        4	    2	         0	        0R	    0R                + INSANITY
-8   -59	11	    1               2	        5	    2	         0	        0R	    1R	    1R        + INSANITY
-NETHER          1               3           6       2           (0)         0R      2R      2R        + INSANITY
+6   -32	8	    0	            1           3	    1	        (0)                                   + INSANITY
+7   -48	16	    1	            1	        4	    2	         0	        0R	    0R                + INSANITY
+8   -59	11	    1               1	        5	    2	         0	        0R	    1R	    1R        + INSANITY
+NETHER          1               1           6       2           (0)         0R      2R      2R        + INSANITY
 
 DURATION 120*20
  */
@@ -80,7 +80,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static void setEffectLayer6(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 2, true, false, showIcon));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 3, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 1, true, false, showIcon));
         setEffectNightVisionBlindness(player, true);
@@ -89,7 +89,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static void setEffectLayer7(ServerPlayerEntity player, Random random)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 1, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 2, true, false, showIcon));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 4, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 2, true, false, showIcon));
         if (random.nextFloat() < effectRandomProbability)
@@ -103,7 +103,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static void setEffectLayer8(ServerPlayerEntity player, Random random)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 1, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 2, true, false, showIcon));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 5, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 2, true, false, showIcon));
         if (random.nextFloat() < effectRandomProbability)
@@ -119,7 +119,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static void setEffectLayerNether(ServerPlayerEntity player, Random random)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 1, true, false, showIcon));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 3, true, false, showIcon));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 6, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 2, true, false, showIcon));
         if (random.nextFloat() < effectRandomProbability)
