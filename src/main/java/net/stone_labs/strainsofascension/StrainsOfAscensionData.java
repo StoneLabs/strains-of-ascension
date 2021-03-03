@@ -39,6 +39,13 @@ public class StrainsOfAscensionData
         add("DEATH!");
         add("DEATH DEATH DEATH");
         add("IT IS TOO MUCH");
+        add("BEHIND YOU");
+        add("KILL ME!");
+        add("COME JOIN ME");
+        add("GO DEEPER");
+        add("COME CLOSER");
+        add("BLEED FOR ME");
+        add("SUFFER!");
     }};
 
     public static final List<SoundEvent> horrorSounds = new ArrayList<SoundEvent>() {{
