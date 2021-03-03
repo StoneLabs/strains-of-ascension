@@ -51,17 +51,20 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer2(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer3(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer4(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
@@ -69,6 +72,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer5(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
@@ -77,6 +81,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer6(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 0, true, false, showIcon));
@@ -85,6 +90,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, effectDuration, 1, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer7(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 1, true, false, showIcon));
@@ -95,6 +101,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, effectDuration, 0, true, false, showIcon));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, effectDuration, 0, true, false, showIcon));
     }
+
     public static void setEffectLayer8(ServerPlayerEntity player)
     {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, effectDuration, 2, true, false, showIcon));
@@ -110,6 +117,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     private static void setEffects(double height, ServerPlayerEntity player, Random random)
     {
         if (player.world.getRegistryKey() != World.OVERWORLD)
+            return;
+
+        if (player.interactionManager.getGameMode() == GameMode.SPECTATOR ||
+                player.interactionManager.getGameMode() == GameMode.CREATIVE)
             return;
 
         if (height >= 40)
@@ -136,9 +147,9 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         else if (height < 40)
             setEffectLayer1(player);
 
-        if (height < -32 && random.nextFloat() < ((-0.0001f)*height - 0.0032f))
+        if (height < -32 && random.nextFloat() < ((-0.0001f) * height - 0.0032f))
             player.sendMessage(new LiteralText(horrorMessages.get(random.nextInt(horrorMessages.size()))), false);
-        if (height < -32 && random.nextFloat() < ((-0.0002f)*height - 0.0064f))
+        if (height < -32 && random.nextFloat() < ((-0.0002f) * height - 0.0064f))
             player.playSound(horrorSounds.get(random.nextInt(horrorSounds.size())), SoundCategory.AMBIENT, random.nextFloat(), 0);
     }
 
