@@ -8,7 +8,8 @@ import java.util.List;
 
 public class StrainsOfAscensionData
 {
-    public static final List<String> horrorMessages = new ArrayList<String>() {{
+    public static final List<String> horrorMessages = new ArrayList<String>()
+    {{
         add("LEAVE THIS PLACE");
         add("LEAVE OR DIE");
         add("I CAN HEAR THEM");
@@ -46,9 +47,26 @@ public class StrainsOfAscensionData
         add("COME CLOSER");
         add("BLEED FOR ME");
         add("SUFFER!");
+        add("You hear distant cries");
+        add("Your breathing becomes hasty");
+        add("You feel like you're being watched...");
+        add("Something is behind you!");
+        add("You feel someone's presence nearby..");
+        add("Is this really worth the risk?");
+        add("You feel a menacing presence nearby");
+        add("ᏖᏂᎧᏬᎶᏂ ᏕᏂᏗᏝᏖ ᏁᎧᏖ ᏒᏋᏖᏬᏒᏁ");
+        add("ᏕᏖᏗᎩ ᏇᎥᏖᏂ ᏬᏕ");
+        add("Yσυ ƈαɳɳσƚ ҽʂƈαρҽ υʂ");
+        add("Yσυ ƈαɳɳσƚ ҽʂƈαρҽ ყσυɾ ԃҽɱιʂҽ");
+        add("Yσυ ƈαɳɳσƚ ɾυɳ ϝσɾҽʋҽɾ");
+        add("Hσɯ ʅσɳɠ ƈαɳ ყσυ ƙҽҽρ ɠσιɳɠ ʅιƙҽ ƚԋιʂ?");
+        add("Cαɳ ყσυ ɱαƙҽ ιƚ συƚ ιɳ ƚιɱҽ?");
+        add("ɱσɾƚαʅʂ αʅɯαყʂ ɾιʂƙ ƚԋҽιɾ ʅιʋҽʂ ϝσɾ α ϝҽɯ ʂԋιɳყ ɾσƈƙʂ. Hσɯ αɱυʂιɳɠ");
+        add("Wԋყ αɾҽ ყσυ ɳσƚ ԃҽαԃ ყҽƚ!?");
     }};
 
-    public static final List<SoundEvent> horrorSounds = new ArrayList<SoundEvent>() {{
+    public static final List<SoundEvent> horrorSounds = new ArrayList<SoundEvent>()
+    {{
         add(SoundEvents.AMBIENT_CAVE);
         add(SoundEvents.AMBIENT_BASALT_DELTAS_ADDITIONS);
         add(SoundEvents.AMBIENT_BASALT_DELTAS_MOOD);
