@@ -1,5 +1,6 @@
 package net.stone_labs.strainsofascension;
 
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -9,6 +10,7 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Iterator;
 import java.util.Random;
 
 import static net.stone_labs.strainsofascension.StrainsOfAscensionData.horrorMessages;
@@ -210,5 +212,23 @@ public final class StrainsOfAscensionEffects
                 playRandomHorrorAudio(player, random);
 
         }
+    }
+
+    public static boolean clearStatusEffects(ServerPlayerEntity player)
+    {
+        boolean cancelNV = true;
+
+        if (player.world.getRegistryKey() == World.NETHER && allowNVCancelNether)
+            cancelNV = false;
+        else if (player.getPos().y < -32 && player.getPos().y >= -8)
+            cancelNV = false;
+
+        boolean ret;
+        @Nullable StatusEffectInstance nvEffect = player.getStatusEffect(StatusEffects.NIGHT_VISION);
+            ret = player.clearStatusEffects();
+
+            if (!cancelNV && nvEffect != null)
+                player.addStatusEffect(nvEffect);
+        return ret;
     }
 }
