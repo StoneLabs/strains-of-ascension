@@ -6,7 +6,7 @@ import net.minecraft.sound.SoundEvents;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StrainsOfAscensionData
+public class StrainData
 {
     public static final List<String> horrorMessages = new ArrayList<String>()
     {{
