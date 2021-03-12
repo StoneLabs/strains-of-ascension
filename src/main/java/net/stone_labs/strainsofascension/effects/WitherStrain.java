@@ -9,11 +9,16 @@ import java.util.Random;
 
 public class WitherStrain implements StrainManager.Strain
 {
+    public static boolean doWither = true;
+
     Random random = new Random();
 
     @Override
     public void effect(ServerPlayerEntity player, byte layer)
     {
+        if (!doWither)
+            return;
+
         if (layer < 8)
             return;
 

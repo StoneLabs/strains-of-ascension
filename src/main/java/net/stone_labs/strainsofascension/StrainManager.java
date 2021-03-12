@@ -39,7 +39,10 @@ public final class StrainManager
     public final static int effectDuration = 120 * 20 + 10;
     public final static int effectDurationBlindness = 3 * 10 + 10;
     public final static float effectRandomProbability = 1.0f / effectDuration;
-    public final static boolean showIcon = false;
+    public static boolean showIcon = false;
+    public static boolean doNether = true;
+    public static boolean doCreative = false;
+    public static boolean doSpectator = false;
 
 
     public static byte getOverworldLayer(double height)
@@ -68,14 +71,16 @@ public final class StrainManager
         if (player.world.getRegistryKey() == World.OVERWORLD)
             return getOverworldLayer(player.getPos().y);
         if (player.world.getRegistryKey() == World.NETHER)
-            return 9;
+            return doNether ? (byte)9 : (byte)0;
         return 0;
     }
 
     public static void applyEffects(ServerPlayerEntity player)
     {
-        if (player.interactionManager.getGameMode() == GameMode.SPECTATOR
-                || player.interactionManager.getGameMode() == GameMode.CREATIVE)
+        if (player.interactionManager.getGameMode() == GameMode.SPECTATOR && !doSpectator)
+            return;
+
+        if (player.interactionManager.getGameMode() == GameMode.CREATIVE && !doCreative)
             return;
 
         byte layer = getLayer(player);
