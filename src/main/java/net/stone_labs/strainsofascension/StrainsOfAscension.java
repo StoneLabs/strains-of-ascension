@@ -4,7 +4,6 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.fabricmc.fabric.mixin.gamerule.IntRuleAccessor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
@@ -45,6 +44,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final GameRules.Key<GameRules.BooleanRule> DO_BLINDNESS = register("doBlindnessStrain", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
         StrainsOfAscensionEffects.doBlindness = rule.get();
+    }));
+    public static final GameRules.Key<GameRules.BooleanRule> ALLOW_NV_CANCEL_NETHER = register("blindnessStrainNVCancelNetherAllowed", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
+    {
+        StrainsOfAscensionEffects.allowNVCancelNether = rule.get();
     }));
     public static final GameRules.Key<GameRules.IntRule> BLINDNESS_NV_MULTIPLIER = register("blindnessStrainNVSpeedMultiplier", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(20, 0, (server, rule) ->
     {
