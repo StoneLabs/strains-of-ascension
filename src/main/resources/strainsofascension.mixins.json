@@ -3,6 +3,7 @@
   "package": "net.stone_labs.strainsofascension.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MilkBucketMixin"
   ],
   "client": [],
   "server": [],
