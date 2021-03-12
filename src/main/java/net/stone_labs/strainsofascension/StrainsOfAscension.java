@@ -1,6 +1,7 @@
 package net.stone_labs.strainsofascension;
 
 import net.fabricmc.api.DedicatedServerModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -20,7 +21,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
     public static final String MOD_ID = "strainsofascension";
     public static final String MOD_NAME = "Strains of Ascension";
-    public static final String VERSION = "2.2.0";
+    public static final String VERSION = "2.2.1";
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
@@ -39,6 +40,14 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     {
         ServerTickEvents.END_SERVER_TICK.register(new ServerTickEvent());
         LOGGER.log(Level.INFO, "Initialized {} version {}", MOD_NAME, VERSION);
+
+        // Set values from gamerules on server start
+        ServerLifecycleEvents.SERVER_STARTED.register(server ->
+        {
+            StrainsOfAscensionEffects.doBlindness = server.getGameRules().get(DO_BLINDNESS).get();
+            StrainsOfAscensionEffects.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
+            StrainsOfAscensionEffects.blindnessNVMultiplier = server.getGameRules().get(BLINDNESS_NV_MULTIPLIER).get();
+        });
     }
 
     public static final GameRules.Key<GameRules.BooleanRule> DO_BLINDNESS = register("doBlindnessStrain", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
@@ -54,7 +63,8 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         StrainsOfAscensionEffects.blindnessNVMultiplier = rule.get();
     }));
 
-    private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type) {
+    private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)
+    {
         return GameRuleRegistry.register(name, category, type);
     }
 }
