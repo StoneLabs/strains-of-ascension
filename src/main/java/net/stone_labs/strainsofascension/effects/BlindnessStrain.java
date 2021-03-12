@@ -44,6 +44,11 @@ public class BlindnessStrain implements StrainManager.Strain
         return layer == 6 || layer == 5 || (layer == 9 && allowNVCancelNether);
     }
 
+    public static boolean isNVMilkSafe(byte layer)
+    {
+        return layer >= 6;
+    }
+
     public static boolean clearAllExceptNVCancel(ServerPlayerEntity player)
     {
         if (!doBlindness)
@@ -53,7 +58,7 @@ public class BlindnessStrain implements StrainManager.Strain
         @Nullable StatusEffectInstance nvEffect = player.getStatusEffect(StatusEffects.NIGHT_VISION);
         ret = player.clearStatusEffects();
 
-        if (isCancelable(StrainManager.getLayer(player)) && nvEffect != null)
+        if (isNVMilkSafe(StrainManager.getLayer(player)) && nvEffect != null)
             player.addStatusEffect(nvEffect);
 
         return ret;
