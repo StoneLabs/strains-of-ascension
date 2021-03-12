@@ -8,11 +8,10 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
+import net.stone_labs.strainsofascension.effects.BlindnessStrain;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Random;
 
 
 public class StrainsOfAscension implements DedicatedServerModInitializer
@@ -25,13 +24,11 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
-        public static Random random = new Random();
-
         @Override
         public void onEndTick(MinecraftServer server)
         {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
-                StrainsOfAscensionEffects.setEffects(player.getPos().y, player, random);
+                StrainManager.applyEffects(player);
         }
     }
 
@@ -44,23 +41,23 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         // Set values from gamerules on server start
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
         {
-            StrainsOfAscensionEffects.doBlindness = server.getGameRules().get(DO_BLINDNESS).get();
-            StrainsOfAscensionEffects.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
-            StrainsOfAscensionEffects.blindnessNVMultiplier = server.getGameRules().get(BLINDNESS_NV_MULTIPLIER).get();
+            BlindnessStrain.doBlindness = server.getGameRules().get(DO_BLINDNESS).get();
+            BlindnessStrain.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
+            BlindnessStrain.NVCancelMultiplier = server.getGameRules().get(BLINDNESS_NV_MULTIPLIER).get();
         });
     }
 
     public static final GameRules.Key<GameRules.BooleanRule> DO_BLINDNESS = register("doBlindnessStrain", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
-        StrainsOfAscensionEffects.doBlindness = rule.get();
+        BlindnessStrain.doBlindness = rule.get();
     }));
     public static final GameRules.Key<GameRules.BooleanRule> ALLOW_NV_CANCEL_NETHER = register("blindnessStrainNVCancelNetherAllowed", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
-        StrainsOfAscensionEffects.allowNVCancelNether = rule.get();
+        BlindnessStrain.allowNVCancelNether = rule.get();
     }));
     public static final GameRules.Key<GameRules.IntRule> BLINDNESS_NV_MULTIPLIER = register("blindnessStrainNVSpeedMultiplier", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(5, 0, (server, rule) ->
     {
-        StrainsOfAscensionEffects.blindnessNVMultiplier = rule.get();
+        BlindnessStrain.NVCancelMultiplier = rule.get();
     }));
 
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)
