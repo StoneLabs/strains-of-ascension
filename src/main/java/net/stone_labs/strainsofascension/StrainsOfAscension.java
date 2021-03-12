@@ -49,7 +49,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     {
         StrainsOfAscensionEffects.allowNVCancelNether = rule.get();
     }));
-    public static final GameRules.Key<GameRules.IntRule> BLINDNESS_NV_MULTIPLIER = register("blindnessStrainNVSpeedMultiplier", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(20, 0, (server, rule) ->
+    public static final GameRules.Key<GameRules.IntRule> BLINDNESS_NV_MULTIPLIER = register("blindnessStrainNVSpeedMultiplier", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(5, 0, (server, rule) ->
     {
         StrainsOfAscensionEffects.blindnessNVMultiplier = rule.get();
     }));
