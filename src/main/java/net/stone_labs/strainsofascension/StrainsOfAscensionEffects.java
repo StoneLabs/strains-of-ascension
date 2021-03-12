@@ -39,6 +39,7 @@ public final class StrainsOfAscensionEffects
     public final static boolean showIcon = false;
 
     public static boolean doBlindness = true;
+    public static boolean allowNVCancelNether = true;
     public static int blindnessNVMultiplier = 20;
 
     public static void setEffectLayer1(ServerPlayerEntity player)
@@ -128,7 +129,7 @@ public final class StrainsOfAscensionEffects
         }
         if (random.nextFloat() < effectRandomProbability)
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, effectDuration, 2, true, false, showIcon));
-        setEffectNightVisionBlindness(player, true);
+        setEffectNightVisionBlindness(player, allowNVCancelNether);
     }
 
     public static void setEffectNightVisionBlindness(ServerPlayerEntity player, boolean allowNVCancel)
