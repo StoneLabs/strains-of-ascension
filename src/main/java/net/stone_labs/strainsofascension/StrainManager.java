@@ -37,7 +37,7 @@ public final class StrainManager
     public static final List<Strain> strains = new ArrayList<Strain>();
 
     public final static int effectDuration = 120 * 20 + 10;
-    public final static int effectDurationBlindness = 3 * 10 + 10;
+    public final static int effectDurationBlindness = 3 * 20 + 10;
     public final static float effectRandomProbability = 1.0f / effectDuration;
     public static boolean showIcon = false;
     public static boolean doNether = true;
