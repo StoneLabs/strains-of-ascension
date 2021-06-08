@@ -3,6 +3,7 @@ package net.stone_labs.strainsofascension;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.stone_labs.strainsofascension.effects.*;
@@ -10,6 +11,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.stone_labs.strainsofascension.StrainData.horrorMessages;
 
 /*
 L   H  DH	    Mining Fatigue  Weakness   Hunger  Slowness    Blindness    Nausea  Poison  Wither
@@ -39,6 +42,7 @@ public final class StrainManager
     public final static int effectDuration = 120 * 20 + 10;
     public final static int effectDurationBlindness = 3 * 20 + 10;
     public final static float effectRandomProbability = 1.0f / effectDuration;
+    public static double localDifficultyEffectMultiplier;
     public static boolean showIcon = false;
     public static boolean doNether = true;
     public static boolean doCreative = false;
@@ -68,8 +72,12 @@ public final class StrainManager
 
     public static byte getLayer(ServerPlayerEntity player)
     {
+        double playerHeight = player.getPos().y;
+        double effectivePlayerHeight = playerHeight -
+                localDifficultyEffectMultiplier * player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty();
+
         if (player.world.getRegistryKey() == World.OVERWORLD)
-            return getOverworldLayer(player.getPos().y);
+            return getOverworldLayer(effectivePlayerHeight);
         if (player.world.getRegistryKey() == World.NETHER)
             return doNether ? (byte)9 : (byte)0;
         return 0;
