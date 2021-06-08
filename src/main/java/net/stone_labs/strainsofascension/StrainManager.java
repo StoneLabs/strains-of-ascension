@@ -43,6 +43,7 @@ public final class StrainManager
     public final static int effectDurationBlindness = 3 * 20 + 10;
     public final static float effectRandomProbability = 1.0f / effectDuration;
     public static double localDifficultyEffectMultiplier;
+    public static double lunarDifficultyEffectMultiplier;
     public static boolean showIcon = false;
     public static boolean doNether = true;
     public static boolean doCreative = false;
@@ -73,7 +74,7 @@ public final class StrainManager
     public static double getEffectPlayerHeight(ServerPlayerEntity player)
     {
         double localDifficultyImpact = localDifficultyEffectMultiplier * (player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty() / 6.75);
-        double moonPhaseImpact = 1 * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
+        double moonPhaseImpact = lunarDifficultyEffectMultiplier * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
         double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact;
 
         if (player.server.getTicks() % 20 == 0)
