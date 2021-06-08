@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.gamerule.v1.rule.DoubleRule;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
@@ -52,6 +53,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
             StrainManager.showIcon = server.getGameRules().get(SHOW_STRAIN_ICONS).get();
             StrainManager.doCreative = server.getGameRules().get(DO_CREATIVE_STRAINS).get();
             StrainManager.doSpectator = server.getGameRules().get(DO_SPECTATOR).get();
+            StrainManager.localDifficultyEffectMultiplier = server.getGameRules().get(LOCAL_DIFFICULTY_LAYER_IMPACT).get();
         });
     }
 
@@ -94,6 +96,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final GameRules.Key<GameRules.BooleanRule> DO_SPECTATOR = register("doSpectatorStrains", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(false, (server, rule) ->
     {
         StrainManager.doSpectator = rule.get();
+    }));
+    public static final GameRules.Key<DoubleRule> LOCAL_DIFFICULTY_LAYER_IMPACT = register("localDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(1.0, 0, (server, rule) ->
+    {
+        StrainManager.localDifficultyEffectMultiplier = rule.get();
     }));
 
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)
