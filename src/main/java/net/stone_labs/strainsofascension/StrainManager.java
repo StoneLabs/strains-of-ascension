@@ -49,6 +49,8 @@ public final class StrainManager
     public static boolean doCreative = false;
     public static boolean doSpectator = false;
 
+    public static boolean debugHeight;
+
 
     public static byte getOverworldLayer(double height)
     {
@@ -77,7 +79,7 @@ public final class StrainManager
         double moonPhaseImpact = lunarDifficultyEffectMultiplier * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
         double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact;
 
-        if (player.server.getTicks() % 20 == 0)
+        if (debugHeight && player.server.getTicks() % 20 == 0)
         {
             String message = String.format("%s: %.1f - (%.1f) - (%.1f) = %.1f",
                     player.getEntityName(),
