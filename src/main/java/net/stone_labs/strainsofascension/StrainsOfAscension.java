@@ -99,11 +99,11 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     {
         StrainManager.doSpectator = rule.get();
     }));
-    public static final GameRules.Key<DoubleRule> LOCAL_DIFFICULTY_LAYER_IMPACT = register("localDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(1.0, 0, (server, rule) ->
+    public static final GameRules.Key<DoubleRule> LOCAL_DIFFICULTY_LAYER_IMPACT = register("localDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(3.0, 0, (server, rule) ->
     {
         StrainManager.localDifficultyEffectMultiplier = rule.get();
     }));
-    public static final GameRules.Key<DoubleRule> LUNAR_DIFFICULTY_LAYER_IMPACT = register("lunarDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(1.0, 0, (server, rule) ->
+    public static final GameRules.Key<DoubleRule> LUNAR_DIFFICULTY_LAYER_IMPACT = register("lunarDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(3.0, 0, (server, rule) ->
     {
         StrainManager.lunarDifficultyEffectMultiplier = rule.get();
     }));
