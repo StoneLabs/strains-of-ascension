@@ -70,14 +70,29 @@ public final class StrainManager
         return 0;
     }
 
+    public static double getEffectPlayerHeight(ServerPlayerEntity player)
+    {
+        double localDifficultyImpact = localDifficultyEffectMultiplier * player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty();
+        double moonPhaseImpact = (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) - 4) * 2 - 4);
+        double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact;
+
+        if (player.server.getTicks() % 100 == 0)
+        {
+            String message = String.format("%s: %.1f - (%.1f) - (%.1f) = %.1f",
+                    player.getEntityName(),
+                    player.getPos().y,
+                    localDifficultyImpact,
+                    moonPhaseImpact,
+                    effectivePlayerHeight);
+        }
+
+        return effectivePlayerHeight;
+    }
+
     public static byte getLayer(ServerPlayerEntity player)
     {
-        double playerHeight = player.getPos().y;
-        double effectivePlayerHeight = playerHeight -
-                localDifficultyEffectMultiplier * player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty();
-
         if (player.world.getRegistryKey() == World.OVERWORLD)
-            return getOverworldLayer(effectivePlayerHeight);
+            return getOverworldLayer(getEffectPlayerHeight(player));
         if (player.world.getRegistryKey() == World.NETHER)
             return doNether ? (byte)9 : (byte)0;
         return 0;
