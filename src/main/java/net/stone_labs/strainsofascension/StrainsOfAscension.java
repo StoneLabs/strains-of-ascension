@@ -54,6 +54,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
             StrainManager.doCreative = server.getGameRules().get(DO_CREATIVE_STRAINS).get();
             StrainManager.doSpectator = server.getGameRules().get(DO_SPECTATOR).get();
             StrainManager.localDifficultyEffectMultiplier = server.getGameRules().get(LOCAL_DIFFICULTY_LAYER_IMPACT).get();
+            StrainManager.lunarDifficultyEffectMultiplier = server.getGameRules().get(LUNAR_DIFFICULTY_LAYER_IMPACT).get();
         });
     }
 
@@ -100,6 +101,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final GameRules.Key<DoubleRule> LOCAL_DIFFICULTY_LAYER_IMPACT = register("localDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(1.0, 0, (server, rule) ->
     {
         StrainManager.localDifficultyEffectMultiplier = rule.get();
+    }));
+    public static final GameRules.Key<DoubleRule> LUNAR_DIFFICULTY_LAYER_IMPACT = register("lunarDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(1.0, 0, (server, rule) ->
+    {
+        StrainManager.lunarDifficultyEffectMultiplier = rule.get();
     }));
 
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)
