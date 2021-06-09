@@ -993,5 +993,22 @@ public class StrainData
         add(SoundEvents.ENTITY_ZOMBIE_VILLAGER_DEATH);
         add(SoundEvents.ENTITY_ZOMBIE_VILLAGER_HURT);
         add(SoundEvents.ENTITY_ZOMBIE_VILLAGER_STEP);
+        add(SoundEvents.ENTITY_GOAT_AMBIENT);
+        add(SoundEvents.ENTITY_GOAT_DEATH);
+        add(SoundEvents.ENTITY_GOAT_EAT);
+        add(SoundEvents.ENTITY_GOAT_HURT);
+        add(SoundEvents.ENTITY_GOAT_LONG_JUMP);
+        add(SoundEvents.ENTITY_GOAT_MILK);
+        add(SoundEvents.ENTITY_GOAT_PREPARE_RAM);
+        add(SoundEvents.ENTITY_GOAT_RAM_IMPACT);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_AMBIENT);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_DEATH);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_EAT);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_HURT);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_LONG_JUMP);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_MILK);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_PREPARE_RAM);
+        add(SoundEvents.ENTITY_GOAT_SCREAMING_RAM_IMPACT);
+        add(SoundEvents.ENTITY_GOAT_STEP);
     }};
 }
