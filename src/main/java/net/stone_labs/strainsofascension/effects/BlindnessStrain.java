@@ -46,7 +46,7 @@ public class BlindnessStrain implements StrainManager.Strain
 
     public static boolean isNVMilkSafe(byte layer)
     {
-        return layer >= 6;
+        return layer >= 5;
     }
 
     public static boolean clearAllExceptNVCancel(ServerPlayerEntity player)
