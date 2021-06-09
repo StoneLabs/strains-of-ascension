@@ -22,7 +22,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
     public static final String MOD_ID = "strainsofascension";
     public static final String MOD_NAME = "Strains of Ascension";
-    public static final String VERSION = "2.4.0";
+    public static final String VERSION = "2.5.0";
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
@@ -54,6 +54,8 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
             StrainManager.doCreative = server.getGameRules().get(DO_CREATIVE_STRAINS).get();
             StrainManager.doSpectator = server.getGameRules().get(DO_SPECTATOR).get();
             StrainManager.localDifficultyEffectMultiplier = server.getGameRules().get(LOCAL_DIFFICULTY_LAYER_IMPACT).get();
+            StrainManager.lunarDifficultyEffectMultiplier = server.getGameRules().get(LUNAR_DIFFICULTY_LAYER_IMPACT).get();
+            StrainManager.debugHeight = server.getGameRules().get(DO_DEBUG_STRAIN_HEIGHT).get();
         });
     }
 
@@ -97,9 +99,17 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     {
         StrainManager.doSpectator = rule.get();
     }));
-    public static final GameRules.Key<DoubleRule> LOCAL_DIFFICULTY_LAYER_IMPACT = register("localDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(1.0, 0, (server, rule) ->
+    public static final GameRules.Key<DoubleRule> LOCAL_DIFFICULTY_LAYER_IMPACT = register("localDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(3.0, 0, (server, rule) ->
     {
         StrainManager.localDifficultyEffectMultiplier = rule.get();
+    }));
+    public static final GameRules.Key<DoubleRule> LUNAR_DIFFICULTY_LAYER_IMPACT = register("lunarDifficultyLayerImpact", GameRules.Category.PLAYER, GameRuleFactory.createDoubleRule(3.0, 0, (server, rule) ->
+    {
+        StrainManager.lunarDifficultyEffectMultiplier = rule.get();
+    }));
+    public static final GameRules.Key<GameRules.BooleanRule> DO_DEBUG_STRAIN_HEIGHT = register("doDebugStrainHeight", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(false, (server, rule) ->
+    {
+        StrainManager.debugHeight = rule.get();
     }));
 
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)

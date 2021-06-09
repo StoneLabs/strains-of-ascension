@@ -43,10 +43,13 @@ public final class StrainManager
     public final static int effectDurationBlindness = 3 * 20 + 10;
     public final static float effectRandomProbability = 1.0f / effectDuration;
     public static double localDifficultyEffectMultiplier;
+    public static double lunarDifficultyEffectMultiplier;
     public static boolean showIcon = false;
     public static boolean doNether = true;
     public static boolean doCreative = false;
     public static boolean doSpectator = false;
+
+    public static boolean debugHeight;
 
 
     public static byte getOverworldLayer(double height)
@@ -70,14 +73,30 @@ public final class StrainManager
         return 0;
     }
 
+    public static double getEffectPlayerHeight(ServerPlayerEntity player)
+    {
+        double localDifficultyImpact = localDifficultyEffectMultiplier * (player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty() / 6.75);
+        double moonPhaseImpact = lunarDifficultyEffectMultiplier * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
+        double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact;
+
+        if (debugHeight && player.server.getTicks() % 20 == 0)
+        {
+            String message = String.format("%s: %.1f - (%.1f) - (%.1f) = %.1f",
+                    player.getEntityName(),
+                    player.getPos().y,
+                    localDifficultyImpact,
+                    moonPhaseImpact,
+                    effectivePlayerHeight);
+            player.sendMessage(new LiteralText(message), true);
+        }
+
+        return effectivePlayerHeight;
+    }
+
     public static byte getLayer(ServerPlayerEntity player)
     {
-        double playerHeight = player.getPos().y;
-        double effectivePlayerHeight = playerHeight -
-                localDifficultyEffectMultiplier * player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty();
-
         if (player.world.getRegistryKey() == World.OVERWORLD)
-            return getOverworldLayer(effectivePlayerHeight);
+            return getOverworldLayer(getEffectPlayerHeight(player));
         if (player.world.getRegistryKey() == World.NETHER)
             return doNether ? (byte)9 : (byte)0;
         return 0;
