@@ -842,7 +842,6 @@ public class StrainData
         add(SoundEvents.ENTITY_STRAY_STEP);
         add(SoundEvents.BLOCK_SWEET_BERRY_BUSH_BREAK);
         add(SoundEvents.BLOCK_SWEET_BERRY_BUSH_PLACE);
-        add(SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH);
         add(SoundEvents.ENCHANT_THORNS_HIT);
         add(SoundEvents.ENTITY_TNT_PRIMED);
         add(SoundEvents.ITEM_TOTEM_USE);
