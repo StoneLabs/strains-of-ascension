@@ -3,6 +3,7 @@ package net.stone_labs.strainsofascension.effects;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
+import net.stone_labs.strainsofascension.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 
 import java.util.Random;
@@ -15,7 +16,7 @@ public class InsanityStrain implements StrainManager.Strain
     Random random = new Random();
 
     @Override
-    public void effect(ServerPlayerEntity player, byte layer)
+    public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
     {
         if (layer == 9)
         {

@@ -15,6 +15,9 @@ abstract class MilkBucketMixin
     @Redirect(method = "finishUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;clearStatusEffects()Z"))
     private boolean injectedClearStatusEffects(LivingEntity player)
     {
-        return BlindnessStrain.clearAllExceptNVCancel((ServerPlayerEntity) player);
+        if (player.isPlayer())
+            return BlindnessStrain.clearAllExceptNVCancel((ServerPlayerEntity) player);
+        else
+            return player.clearStatusEffects();
     }
 }

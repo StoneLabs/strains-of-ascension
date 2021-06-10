@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:shield",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.shield.name\"}',Lore:['{\"translate\":\"item.strainsofascension.shield.lore1\"}', '{\"translate\":\"item.strainsofascension.shield.lore2\"}', '{\"translate\":\"item.strainsofascension.shield.lore3\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{strainArtifact:\"strengthOfDepth\", strainArtifactPower:0}"
+    }
+  ]
+}
