@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.spyglass1.name\"}',Lore:['{\"translate\":\"item.strainsofascension.spyglass1.lore\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.spyglass1.name\"}',Lore:['{\"translate\":\"item.strainsofascension.spyglass1.lore1\"}', '{\"translate\":\"item.strainsofascension.spyglass1.lore2\"}', '{\"translate\":\"item.strainsofascension.spyglass1.lore3\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",
