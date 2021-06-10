@@ -11,8 +11,7 @@ import java.util.List;
 public class ArtifactState
 {
     public static final String DEPTH_IMMUNITY_BONUS_TAG = "depthImmunityBonus";
-    public static final int DEPTH_IMMUNITY_BONUS_LIMIT = 3;
-    private int depthImmunityBonus = 0;
+    private float depthImmunityBonus = 0;
 
     public static final String STRENGTH_OF_DEPTH_TAG = "strengthOfDepth";
     private boolean strengthOfDepth = false;
@@ -32,18 +31,16 @@ public class ArtifactState
         if (!stack.getTag().contains("strainArtifact", NbtElement.STRING_TYPE))
             return;
 
+        float artifactPower = stack.getTag().getFloat("strainArtifactPower");
+
         switch (stack.getTag().getString("strainArtifact"))
         {
-            case DEPTH_IMMUNITY_BONUS_TAG -> {
-                depthImmunityBonus += stack.getCount();
-                if (depthImmunityBonus > DEPTH_IMMUNITY_BONUS_LIMIT)
-                    depthImmunityBonus = DEPTH_IMMUNITY_BONUS_LIMIT;
-            }
+            case DEPTH_IMMUNITY_BONUS_TAG -> depthImmunityBonus = Math.max(artifactPower, depthImmunityBonus);
             case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = true;
         }
     }
 
-    public int getDepthImmunityBonus()
+    public float getDepthImmunityBonus()
     {
         return depthImmunityBonus;
     }
@@ -55,7 +52,7 @@ public class ArtifactState
 
     public void DebugToPlayer(ServerPlayerEntity player)
     {
-        String message = String.format("%s: %d %b",
+        String message = String.format("%s: %f %b",
                 player.getEntityName(),
                 depthImmunityBonus,
                 strengthOfDepth);

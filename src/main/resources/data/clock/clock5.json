@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:clock",
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.clock5.name\"}',Lore:['{\"translate\":\"item.strainsofascension.clock5.lore\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{strainArtifact:\"depthImmunityBonus\", strainArtifactPower:6}"
+    }
+  ]
+}
