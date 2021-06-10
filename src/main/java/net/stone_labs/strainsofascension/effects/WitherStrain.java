@@ -23,7 +23,8 @@ public class WitherStrain implements StrainManager.Strain
         if (layer < 8)
             return;
 
-        if (random.nextFloat() < StrainManager.effectRandomProbability)
+        double artifactMultiplier = Math.max(1 - 0.1 * artifactState.getAntiWitherLevel(), 0.4);
+        if (random.nextFloat() < StrainManager.effectRandomProbability * artifactMultiplier)
         {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, StrainManager.effectDuration, layer - 7, true, false, StrainManager.showIcon));
         }
