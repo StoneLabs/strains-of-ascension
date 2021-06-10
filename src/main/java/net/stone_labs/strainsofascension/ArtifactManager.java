@@ -39,6 +39,12 @@ public class ArtifactManager
     private static final String LOOTABLE_POISON_TALISMAN3;
     private static final String LOOTABLE_POISON_TALISMAN4;
     private static final String LOOTABLE_POISON_TALISMAN5;
+    private static final String LOOTABLE_WITHER_TALISMAN;
+    private static final String LOOTABLE_WITHER_TALISMAN1;
+    private static final String LOOTABLE_WITHER_TALISMAN2;
+    private static final String LOOTABLE_WITHER_TALISMAN3;
+    private static final String LOOTABLE_WITHER_TALISMAN4;
+    private static final String LOOTABLE_WITHER_TALISMAN5;
 
     public static void Init()
     {
@@ -53,7 +59,7 @@ public class ArtifactManager
                     .rolls(ConstantLootNumberProvider.create(1))
                     .withCondition(RandomChanceLootCondition.builder(1f).build())
                     .withFunction(new StackPreventer())
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_COMPASS, LootPoolEntry.class))
+                    /*.withEntry(LOOT_GSON.fromJson(LOOTABLE_COMPASS, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK1, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK2, LootPoolEntry.class))
@@ -69,7 +75,13 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN2, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN3, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN5, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN5, LootPoolEntry.class))*/
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN1, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN2, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN3, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN4, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN5, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -112,5 +124,11 @@ public class ArtifactManager
         LOOTABLE_POISON_TALISMAN3 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman3.json");
         LOOTABLE_POISON_TALISMAN4 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman4.json");
         LOOTABLE_POISON_TALISMAN5 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman5.json");
+        LOOTABLE_WITHER_TALISMAN = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman.json");
+        LOOTABLE_WITHER_TALISMAN1 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman1.json");
+        LOOTABLE_WITHER_TALISMAN2 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman2.json");
+        LOOTABLE_WITHER_TALISMAN3 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman3.json");
+        LOOTABLE_WITHER_TALISMAN4 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman4.json");
+        LOOTABLE_WITHER_TALISMAN5 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman5.json");
     }
 }

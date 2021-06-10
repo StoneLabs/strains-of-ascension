@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:potion",
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{Potion:\"minecraft:awkward\", CustomPotionEffects:[{Id:9,Duration:2147483647},{Id:20,Amplifier:0,Duration:2147483647}], CustomPotionColor:10664823, HideFlags:63}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.wither_talisman5.name\"}',Lore:['{\"translate\":\"item.strainsofascension.wither_talisman5.lore\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{strainArtifact:\"antiWither\", strainArtifactPower:6}"
+    }
+  ]
+}

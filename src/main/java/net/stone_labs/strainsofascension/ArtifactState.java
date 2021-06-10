@@ -22,6 +22,9 @@ public class ArtifactState
     public static final String ANTI_POISON_TAG = "antiPoison";
     private int antiPoisonLevel = 0;
 
+    public static final String ANTI_WITHER_TAG = "antiWither";
+    private int antiWitherLevel = 0;
+
     public void consider(ItemStack stack, boolean isEquip)
     {
         if (!stack.hasTag())
@@ -39,6 +42,7 @@ public class ArtifactState
             case NV_BONUS_TAG -> nvBonus = isEquip ? Math.max(artifactPower, nvBonus) : nvBonus;
             case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = isEquip || strengthOfDepth;
             case ANTI_POISON_TAG -> antiPoisonLevel = Math.max(artifactPower, antiPoisonLevel);
+            case ANTI_WITHER_TAG -> antiWitherLevel = Math.max(artifactPower, antiWitherLevel);
         }
     }
 
@@ -57,6 +61,11 @@ public class ArtifactState
         return antiPoisonLevel;
     }
 
+    public int getAntiWitherLevel()
+    {
+        return antiWitherLevel;
+    }
+
     public int getNVBonus()
     {
         return nvBonus;
@@ -64,11 +73,13 @@ public class ArtifactState
 
     public void DebugToPlayer(ServerPlayerEntity player)
     {
-        String message = String.format("%s: %f %b %d",
+        String message = String.format("%s: %f %b %d %d %d",
                 player.getEntityName(),
                 depthImmunityBonus,
                 strengthOfDepth,
-                nvBonus);
+                nvBonus,
+                antiPoisonLevel,
+                antiWitherLevel);
 
         if (player.server.getTicks() % 20 == 0)
             player.sendMessage(new LiteralText(message), false);
