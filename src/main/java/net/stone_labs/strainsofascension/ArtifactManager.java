@@ -4,14 +4,20 @@ import com.google.gson.Gson;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootGsons;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArtifactManager
 {
@@ -40,6 +46,25 @@ public class ArtifactManager
         }
     }
 
+    public static ArtifactState GetPlayerArtifactState(PlayerInventory inventory)
+    {
+        ArtifactState artifactState = new ArtifactState();
+
+        for (ItemStack stack : inventory.armor)
+            artifactState.consider(stack);
+
+        for (ItemStack stack : inventory.offHand)
+            artifactState.consider(stack);
+
+        for (ItemStack stack : inventory.main)
+            artifactState.consider(stack);
+
+        artifactState.consider(inventory.getMainHandStack());
+
+
+
+        return artifactState;
+    }
 
     static
     {
