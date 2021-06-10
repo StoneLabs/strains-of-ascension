@@ -11,15 +11,10 @@ import net.minecraft.loot.LootManager;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtInt;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
 import net.stone_labs.strainsofascension.utils.StackPreventer;
-
-import java.util.HashMap;
-import java.util.Random;
 
 public class ArtifactManager
 {
@@ -65,13 +60,13 @@ public class ArtifactManager
         ArtifactState artifactState = new ArtifactState();
 
         for (ItemStack stack : inventory.armor)
-            artifactState.consider(stack);
+            artifactState.consider(stack, true);
 
         for (ItemStack stack : inventory.offHand)
-            artifactState.consider(stack);
+            artifactState.consider(stack, true);
 
         for (ItemStack stack : inventory.main)
-            artifactState.consider(stack);
+                artifactState.consider(stack,inventory.getMainHandStack() == stack);
 
         return artifactState;
     }
@@ -80,7 +75,7 @@ public class ArtifactManager
     {
         LOOTTABLE_ID_SPAWNER = new Identifier("minecraft", "blocks/spawner");
 
-        LOOTABLE_COMPASS = ResourceLoader.LoadResource("data/compass.json");
+        LOOTABLE_COMPASS = ResourceLoader.LoadResource("data/shield.json");
         LOOTABLE_CLOCK = ResourceLoader.LoadResource("data/clock/clock.json");
         LOOTABLE_CLOCK1 = ResourceLoader.LoadResource("data/clock/clock1.json");
         LOOTABLE_CLOCK2 = ResourceLoader.LoadResource("data/clock/clock2.json");
