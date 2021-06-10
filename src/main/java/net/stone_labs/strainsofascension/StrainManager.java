@@ -124,5 +124,7 @@ public final class StrainManager
         strains.add(new PoisonNauseaStrain());
         strains.add(new WitherStrain());
         strains.add(new InsanityStrain());
+
+        strains.add(new StrengthOfDepthArtifact());
     }
 }

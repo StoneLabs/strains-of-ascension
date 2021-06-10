@@ -8,7 +8,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{strainArtifact:\"epic_compass\"}"
+      "tag": "{strainArtifact:\"strengthOfDepth\"}"
     }
   ]
 }

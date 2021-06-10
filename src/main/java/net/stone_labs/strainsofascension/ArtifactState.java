@@ -14,17 +14,8 @@ public class ArtifactState
     public static final int DEPTH_IMMUNITY_BONUS_LIMIT = 3;
     private int depthImmunityBonus = 0;
 
-    public void setDepthImmunityBonus(int value)
-    {
-        depthImmunityBonus += value;
-
-        if (depthImmunityBonus > DEPTH_IMMUNITY_BONUS_LIMIT)
-            depthImmunityBonus = DEPTH_IMMUNITY_BONUS_LIMIT;
-    }
-    public int getDepthImmunityBonus()
-    {
-        return depthImmunityBonus;
-    }
+    public static final String STRENGTH_OF_DEPTH_TAG = "strengthOfDepth";
+    private boolean strengthOfDepth = false;
 
     public void consider(List<ItemStack> stacks)
     {
@@ -43,17 +34,33 @@ public class ArtifactState
 
         switch (stack.getTag().getString("strainArtifact"))
         {
-            case DEPTH_IMMUNITY_BONUS_TAG:
-                setDepthImmunityBonus(stack.getCount());
-                break;
+            case DEPTH_IMMUNITY_BONUS_TAG -> {
+                depthImmunityBonus += stack.getCount();
+                if (depthImmunityBonus > DEPTH_IMMUNITY_BONUS_LIMIT)
+                    depthImmunityBonus = DEPTH_IMMUNITY_BONUS_LIMIT;
+            }
+            case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = true;
         }
+    }
+
+    public int getDepthImmunityBonus()
+    {
+        return depthImmunityBonus;
+    }
+
+    public boolean getStrengthOfDepth()
+    {
+        return strengthOfDepth;
     }
 
     public void DebugToPlayer(ServerPlayerEntity player)
     {
-        String message = String.format("%s: %d",
+        String message = String.format("%s: %d %b",
                 player.getEntityName(),
-                depthImmunityBonus);
-        player.sendMessage(new LiteralText(message), false);
+                depthImmunityBonus,
+                strengthOfDepth);
+
+        if (player.server.getTicks() % 20 == 0)
+            player.sendMessage(new LiteralText(message), false);
     }
 }

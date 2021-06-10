@@ -59,10 +59,6 @@ public class ArtifactManager
         for (ItemStack stack : inventory.main)
             artifactState.consider(stack);
 
-        artifactState.consider(inventory.getMainHandStack());
-
-
-
         return artifactState;
     }
 
