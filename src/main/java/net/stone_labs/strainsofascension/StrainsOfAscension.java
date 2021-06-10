@@ -40,6 +40,9 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         ServerTickEvents.END_SERVER_TICK.register(new ServerTickEvent());
         LOGGER.log(Level.INFO, "Initialized {} version {}", MOD_NAME, VERSION);
 
+        // Add lootTable loaded callback
+        ArtifactManager.Init();
+
         // Set values from gamerules on server start
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
         {
