@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:spyglass",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.spyglass3.name\"}',Lore:['{\"translate\":\"item.strainsofascension.spyglass3.lore1\"}', '{\"translate\":\"item.strainsofascension.spyglass3.lore2\"}', '{\"translate\":\"item.strainsofascension.spyglass3.lore3\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{strainArtifact:\"nvBonus\", strainArtifactPower:4}"
+    }
+  ]
+}

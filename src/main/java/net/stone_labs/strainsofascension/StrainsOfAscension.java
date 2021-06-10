@@ -22,7 +22,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
     public static final String MOD_ID = "strainsofascension";
     public static final String MOD_NAME = "Strains of Ascension";
-    public static final String VERSION = "2.5.0";
+    public static final String VERSION = "2.6.0";
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
@@ -30,7 +30,12 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         public void onEndTick(MinecraftServer server)
         {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
-                StrainManager.applyEffects(player);
+            {
+                ArtifactState artifactState = ArtifactManager.GetPlayerArtifactState(player.getInventory());
+                //artifactState.DebugToPlayer(player);
+
+                StrainManager.applyEffects(player, artifactState);
+            }
         }
     }
 
@@ -40,12 +45,14 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         ServerTickEvents.END_SERVER_TICK.register(new ServerTickEvent());
         LOGGER.log(Level.INFO, "Initialized {} version {}", MOD_NAME, VERSION);
 
+        // Add lootTable loaded callback
+        ArtifactManager.Init();
+
         // Set values from gamerules on server start
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
         {
             BlindnessStrain.doBlindness = server.getGameRules().get(DO_BLINDNESS_STRAIN).get();
             BlindnessStrain.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
-            BlindnessStrain.NVCancelMultiplier = server.getGameRules().get(NV_CANCEL_SPEED_MULTIPLIER).get();
             PoisonNauseaStrain.doPoisonNausea = server.getGameRules().get(DO_POISON_STRAIN).get();
             PoisonNauseaStrain.doNausea = server.getGameRules().get(DO_NAUSEA_WITH_POISON_STRAIN).get();
             WitherStrain.doWither = server.getGameRules().get(DO_WITHER_STRAIN).get();
@@ -66,10 +73,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final GameRules.Key<GameRules.BooleanRule> ALLOW_NV_CANCEL_NETHER = register("allowNVCancelNether", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
         BlindnessStrain.allowNVCancelNether = rule.get();
-    }));
-    public static final GameRules.Key<GameRules.IntRule> NV_CANCEL_SPEED_MULTIPLIER = register("NVCancelSpeedMultiplier", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(5, 0, (server, rule) ->
-    {
-        BlindnessStrain.NVCancelMultiplier = rule.get();
     }));
     public static final GameRules.Key<GameRules.BooleanRule> DO_POISON_STRAIN = register("doPoisonStrain", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
