@@ -11,9 +11,15 @@ import net.minecraft.loot.LootManager;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtInt;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
+import net.stone_labs.strainsofascension.utils.StackPreventer;
+
+import java.util.HashMap;
+import java.util.Random;
 
 public class ArtifactManager
 {
@@ -41,6 +47,7 @@ public class ArtifactManager
             FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                     .rolls(ConstantLootNumberProvider.create(1))
                     .withCondition(RandomChanceLootCondition.builder(1f).build())
+                    .withFunction(new StackPreventer())
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_COMPASS, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK1, LootPoolEntry.class))
