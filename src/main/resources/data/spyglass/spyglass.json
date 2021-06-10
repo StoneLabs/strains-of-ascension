@@ -1,6 +1,7 @@
 {
   "type": "minecraft:item",
   "name": "minecraft:spyglass",
+  "weight": 4,
   "functions": [
     {
       "function": "minecraft:set_nbt",

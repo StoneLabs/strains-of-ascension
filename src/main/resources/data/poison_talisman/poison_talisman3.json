@@ -1,6 +1,7 @@
 {
   "type": "minecraft:item",
   "name": "minecraft:potion",
+  "weight": 3,
   "functions": [
     {
       "function": "minecraft:set_nbt",
