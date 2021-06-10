@@ -21,7 +21,7 @@ public class ArtifactManager
     private static final Gson LOOT_GSON = LootGsons.getTableGsonBuilder().create();
 
     private static final Identifier LOOTTABLE_ID_SPAWNER;
-    private static final String LOOTABLE_COMPASS;
+    private static final String LOOTABLE_SHIELD;
 
     private static final String LOOTABLE_CLOCK;
     private static final String LOOTABLE_CLOCK1;
@@ -59,7 +59,7 @@ public class ArtifactManager
                     .rolls(ConstantLootNumberProvider.create(1))
                     .withCondition(RandomChanceLootCondition.builder(1f).build())
                     .withFunction(new StackPreventer())
-                    /*.withEntry(LOOT_GSON.fromJson(LOOTABLE_COMPASS, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SHIELD, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK1, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK2, LootPoolEntry.class))
@@ -75,7 +75,7 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN2, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN3, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN5, LootPoolEntry.class))*/
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN5, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN1, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN2, LootPoolEntry.class))
@@ -107,7 +107,7 @@ public class ArtifactManager
     {
         LOOTTABLE_ID_SPAWNER = new Identifier("minecraft", "blocks/spawner");
 
-        LOOTABLE_COMPASS = ResourceLoader.LoadResource("data/shield.json");
+        LOOTABLE_SHIELD = ResourceLoader.LoadResource("data/shield.json");
         LOOTABLE_CLOCK = ResourceLoader.LoadResource("data/clock/clock.json");
         LOOTABLE_CLOCK1 = ResourceLoader.LoadResource("data/clock/clock1.json");
         LOOTABLE_CLOCK2 = ResourceLoader.LoadResource("data/clock/clock2.json");

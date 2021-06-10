@@ -4,7 +4,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{Potion:\"minecraft:awkward\", CustomPotionEffects:[{Id:9,Duration:2147483647},{Id:19,Amplifier:4,Duration:2147483647}], CustomPotionColor:10664823, HideFlags:63}"
+      "tag": "{Potion:\"minecraft:awkward\", CustomPotionEffects:[{Id:9,Duration:2147483647},{Id:19,Amplifier:4,Duration:2147483647}], CustomPotionColor:0, HideFlags:63}"
     },
     {
       "function": "minecraft:set_nbt",
