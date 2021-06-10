@@ -1,6 +1,7 @@
 {
   "type": "minecraft:item",
   "name": "minecraft:clock",
+  "weight": 6,
   "functions": [
     {
       "function": "minecraft:set_nbt",
