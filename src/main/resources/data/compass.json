@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:compass",
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.compass.name\"}',Lore:['{\"translate\":\"item.strainsofascension.compass.lore\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{strainArtifact:\"epic_compass\"}"
+    }
+  ]
+}
