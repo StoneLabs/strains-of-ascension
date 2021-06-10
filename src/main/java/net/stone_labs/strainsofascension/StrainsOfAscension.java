@@ -30,7 +30,12 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         public void onEndTick(MinecraftServer server)
         {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
-                StrainManager.applyEffects(player);
+            {
+                ArtifactState artifactState = ArtifactManager.GetPlayerArtifactState(player.getInventory());
+                artifactState.DebugToPlayer(player);
+
+                StrainManager.applyEffects(player, artifactState);
+            }
         }
     }
 

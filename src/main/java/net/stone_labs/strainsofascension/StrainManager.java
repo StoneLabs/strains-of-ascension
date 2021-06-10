@@ -1,18 +1,13 @@
 package net.stone_labs.strainsofascension;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.stone_labs.strainsofascension.effects.*;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.stone_labs.strainsofascension.StrainData.horrorMessages;
 
 /*
 L   H  DH	    Mining Fatigue  Weakness   Hunger  Slowness    Blindness    Nausea  Poison  Wither
@@ -34,7 +29,7 @@ public final class StrainManager
 {
     public interface Strain
     {
-        void effect(ServerPlayerEntity player, byte layer);
+        void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState);
     }
 
     public static final List<Strain> strains = new ArrayList<Strain>();
@@ -73,19 +68,22 @@ public final class StrainManager
         return 0;
     }
 
-    public static double getEffectPlayerHeight(ServerPlayerEntity player)
+    public static double getEffectPlayerHeight(ServerPlayerEntity player, ArtifactState artifactState)
     {
         double localDifficultyImpact = localDifficultyEffectMultiplier * (player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty() / 6.75);
         double moonPhaseImpact = lunarDifficultyEffectMultiplier * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
-        double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact;
+        double artifactHeightImpact = -artifactState.getDepthImmunityBonus();
+        double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact - artifactHeightImpact;
+
 
         if (debugHeight && player.server.getTicks() % 20 == 0)
         {
-            String message = String.format("%s: %.1f - (%.1f) - (%.1f) = %.1f",
+            String message = String.format("%s: %.1f - (%.1f) - (%.1f) - (%.1f) = %.1f",
                     player.getEntityName(),
                     player.getPos().y,
                     localDifficultyImpact,
                     moonPhaseImpact,
+                    artifactHeightImpact,
                     effectivePlayerHeight);
             player.sendMessage(new LiteralText(message), true);
         }
@@ -93,16 +91,16 @@ public final class StrainManager
         return effectivePlayerHeight;
     }
 
-    public static byte getLayer(ServerPlayerEntity player)
+    public static byte getLayer(ServerPlayerEntity player, ArtifactState artifactState)
     {
         if (player.world.getRegistryKey() == World.OVERWORLD)
-            return getOverworldLayer(getEffectPlayerHeight(player));
+            return getOverworldLayer(getEffectPlayerHeight(player, artifactState));
         if (player.world.getRegistryKey() == World.NETHER)
             return doNether ? (byte)9 : (byte)0;
         return 0;
     }
 
-    public static void applyEffects(ServerPlayerEntity player)
+    public static void applyEffects(ServerPlayerEntity player, ArtifactState artifactState)
     {
         if (player.interactionManager.getGameMode() == GameMode.SPECTATOR && !doSpectator)
             return;
@@ -110,10 +108,10 @@ public final class StrainManager
         if (player.interactionManager.getGameMode() == GameMode.CREATIVE && !doCreative)
             return;
 
-        byte layer = getLayer(player);
+        byte layer = getLayer(player, artifactState);
 
         for (Strain strain : strains)
-            strain.effect(player, layer);
+            strain.effect(player, layer, artifactState);
     }
 
     static
