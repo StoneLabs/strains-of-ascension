@@ -53,7 +53,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         {
             BlindnessStrain.doBlindness = server.getGameRules().get(DO_BLINDNESS_STRAIN).get();
             BlindnessStrain.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
-            BlindnessStrain.NVCancelMultiplier = server.getGameRules().get(NV_CANCEL_SPEED_MULTIPLIER).get();
             PoisonNauseaStrain.doPoisonNausea = server.getGameRules().get(DO_POISON_STRAIN).get();
             PoisonNauseaStrain.doNausea = server.getGameRules().get(DO_NAUSEA_WITH_POISON_STRAIN).get();
             WitherStrain.doWither = server.getGameRules().get(DO_WITHER_STRAIN).get();
@@ -74,10 +73,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final GameRules.Key<GameRules.BooleanRule> ALLOW_NV_CANCEL_NETHER = register("allowNVCancelNether", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
         BlindnessStrain.allowNVCancelNether = rule.get();
-    }));
-    public static final GameRules.Key<GameRules.IntRule> NV_CANCEL_SPEED_MULTIPLIER = register("NVCancelSpeedMultiplier", GameRules.Category.PLAYER, GameRuleFactory.createIntRule(5, 0, (server, rule) ->
-    {
-        BlindnessStrain.NVCancelMultiplier = rule.get();
     }));
     public static final GameRules.Key<GameRules.BooleanRule> DO_POISON_STRAIN = register("doPoisonStrain", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
