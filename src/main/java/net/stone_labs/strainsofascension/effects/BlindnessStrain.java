@@ -12,7 +12,6 @@ public class BlindnessStrain implements StrainManager.Strain
 {
     public static boolean doBlindness = true;
     public static boolean allowNVCancelNether = true;
-    public static int NVCancelMultiplier = 20;
 
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
@@ -27,10 +26,11 @@ public class BlindnessStrain implements StrainManager.Strain
         if (nvEffect != null)
         {
             int duration = nvEffect.getDuration();
+            int newDuration = duration - Math.max(0, 5 - artifactState.getNVBonus());
 
             player.removeStatusEffect(StatusEffects.NIGHT_VISION);
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION,
-                    duration - (NVCancelMultiplier - 1), 0, true, true));
+                    newDuration, 0, true, true));
 
             if (isCancelable(layer))
             {

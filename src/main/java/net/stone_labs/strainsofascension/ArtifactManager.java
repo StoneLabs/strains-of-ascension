@@ -29,6 +29,10 @@ public class ArtifactManager
     private static final String LOOTABLE_CLOCK3;
     private static final String LOOTABLE_CLOCK4;
     private static final String LOOTABLE_CLOCK5;
+    private static final String LOOTABLE_SPYGLASS;
+    private static final String LOOTABLE_SPYGLASS1;
+    private static final String LOOTABLE_SPYGLASS2;
+    private static final String LOOTABLE_SPYGLASS3;
 
     public static void Init()
     {
@@ -49,7 +53,11 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK2, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK3, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK5, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK5, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS1, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS2, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS3, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -82,5 +90,9 @@ public class ArtifactManager
         LOOTABLE_CLOCK3 = ResourceLoader.LoadResource("data/clock/clock3.json");
         LOOTABLE_CLOCK4 = ResourceLoader.LoadResource("data/clock/clock4.json");
         LOOTABLE_CLOCK5 = ResourceLoader.LoadResource("data/clock/clock5.json");
+        LOOTABLE_SPYGLASS = ResourceLoader.LoadResource("data/spyglass/spyglass.json");
+        LOOTABLE_SPYGLASS1 = ResourceLoader.LoadResource("data/spyglass/spyglass1.json");
+        LOOTABLE_SPYGLASS2 = ResourceLoader.LoadResource("data/spyglass/spyglass2.json");
+        LOOTABLE_SPYGLASS3 = ResourceLoader.LoadResource("data/spyglass/spyglass3.json");
     }
 }
