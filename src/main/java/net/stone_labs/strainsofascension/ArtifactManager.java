@@ -125,8 +125,8 @@ public class ArtifactManager
     static
     {
         ALLOWED_LOOTTABLES_FULL = new HashMap<>();
-        ALLOWED_LOOTTABLES_FULL.put(new Identifier("minecraft", "blocks/spawner"), 0.25f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.SIMPLE_DUNGEON_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_FULL.put(new Identifier("minecraft", "blocks/spawner"), 0.20f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.SIMPLE_DUNGEON_CHEST, 0.15f);
         ALLOWED_LOOTTABLES_FULL.put(LootTables.ABANDONED_MINESHAFT_CHEST, 0.05f);
         ALLOWED_LOOTTABLES_FULL.put(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
 
