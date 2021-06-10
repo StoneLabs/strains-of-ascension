@@ -33,6 +33,12 @@ public class ArtifactManager
     private static final String LOOTABLE_SPYGLASS1;
     private static final String LOOTABLE_SPYGLASS2;
     private static final String LOOTABLE_SPYGLASS3;
+    private static final String LOOTABLE_POISON_TALISMAN;
+    private static final String LOOTABLE_POISON_TALISMAN1;
+    private static final String LOOTABLE_POISON_TALISMAN2;
+    private static final String LOOTABLE_POISON_TALISMAN3;
+    private static final String LOOTABLE_POISON_TALISMAN4;
+    private static final String LOOTABLE_POISON_TALISMAN5;
 
     public static void Init()
     {
@@ -57,7 +63,13 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS1, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS3, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS3, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN1, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN2, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN3, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN4, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN5, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -94,5 +106,11 @@ public class ArtifactManager
         LOOTABLE_SPYGLASS1 = ResourceLoader.LoadResource("data/spyglass/spyglass1.json");
         LOOTABLE_SPYGLASS2 = ResourceLoader.LoadResource("data/spyglass/spyglass2.json");
         LOOTABLE_SPYGLASS3 = ResourceLoader.LoadResource("data/spyglass/spyglass3.json");
+        LOOTABLE_POISON_TALISMAN = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman.json");
+        LOOTABLE_POISON_TALISMAN1 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman1.json");
+        LOOTABLE_POISON_TALISMAN2 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman2.json");
+        LOOTABLE_POISON_TALISMAN3 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman3.json");
+        LOOTABLE_POISON_TALISMAN4 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman4.json");
+        LOOTABLE_POISON_TALISMAN5 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman5.json");
     }
 }

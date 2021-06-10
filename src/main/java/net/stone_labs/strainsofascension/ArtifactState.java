@@ -19,6 +19,9 @@ public class ArtifactState
     public static final String NV_BONUS_TAG = "nvBonus";
     private int nvBonus = 0;
 
+    public static final String ANTI_POISON_TAG = "antiPoison";
+    private int antiPoisonLevel = 0;
+
     public void consider(ItemStack stack, boolean isEquip)
     {
         if (!stack.hasTag())
@@ -35,6 +38,7 @@ public class ArtifactState
             case DEPTH_IMMUNITY_BONUS_TAG -> depthImmunityBonus = Math.max(artifactPower, depthImmunityBonus);
             case NV_BONUS_TAG -> nvBonus = isEquip ? Math.max(artifactPower, nvBonus) : nvBonus;
             case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = isEquip || strengthOfDepth;
+            case ANTI_POISON_TAG -> antiPoisonLevel = Math.max(artifactPower, antiPoisonLevel);
         }
     }
 
@@ -46,6 +50,11 @@ public class ArtifactState
     public boolean getStrengthOfDepth()
     {
         return strengthOfDepth;
+    }
+
+    public int getAntiPoisonLevel()
+    {
+        return antiPoisonLevel;
     }
 
     public int getNVBonus()
