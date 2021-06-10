@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:potion",
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{Potion:\"minecraft:awkward\", CustomPotionEffects:[{Id:9,Duration:2147483647},{Id:19,Amplifier:4,Duration:2147483647}], CustomPotionColor:10664823, HideFlags:63}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.poison_talisman4.name\"}',Lore:['{\"translate\":\"item.strainsofascension.poison_talisman4.lore\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{strainArtifact:\"antiPoison\", strainArtifactPower:6}"
+    }
+  ]
+}
