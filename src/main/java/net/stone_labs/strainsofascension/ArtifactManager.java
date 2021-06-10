@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootGsons;
 import net.minecraft.loot.LootManager;
+import net.minecraft.loot.LootTables;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
@@ -16,11 +17,16 @@ import net.minecraft.util.Identifier;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
 import net.stone_labs.strainsofascension.utils.StackPreventer;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ArtifactManager
 {
     private static final Gson LOOT_GSON = LootGsons.getTableGsonBuilder().create();
 
-    private static final Identifier LOOTTABLE_ID_SPAWNER;
+    private static final Map<Identifier, Float> ALLOWED_LOOTTABLES_BASIC;
+    private static final Map<Identifier, Float> ALLOWED_LOOTTABLES_FULL;
     private static final String LOOTABLE_SHIELD;
 
     private static final String LOOTABLE_CLOCK;
@@ -53,11 +59,24 @@ public class ArtifactManager
 
     public static void ModifyLootTable(ResourceManager resourceManager, LootManager lootManager, Identifier id, FabricLootSupplierBuilder supplier, LootTableLoadingCallback.LootTableSetter setter)
     {
-        if (id.equals(LOOTTABLE_ID_SPAWNER))
+        if (ALLOWED_LOOTTABLES_BASIC.containsKey(id))
         {
             FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                     .rolls(ConstantLootNumberProvider.create(1))
-                    .withCondition(RandomChanceLootCondition.builder(1f).build())
+                    .withCondition(RandomChanceLootCondition.builder(ALLOWED_LOOTTABLES_BASIC.get(id)).build())
+                    .withFunction(new StackPreventer())
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN, LootPoolEntry.class));
+
+            supplier.withPool(poolBuilder.build());
+        }
+        if (ALLOWED_LOOTTABLES_FULL.containsKey(id))
+        {
+            FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .withCondition(RandomChanceLootCondition.builder(ALLOWED_LOOTTABLES_FULL.get(id)).build())
                     .withFunction(new StackPreventer())
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_SHIELD, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
@@ -105,7 +124,36 @@ public class ArtifactManager
 
     static
     {
-        LOOTTABLE_ID_SPAWNER = new Identifier("minecraft", "blocks/spawner");
+        ALLOWED_LOOTTABLES_FULL = new HashMap<>();
+        ALLOWED_LOOTTABLES_FULL.put(new Identifier("minecraft", "blocks/spawner"), 0.25f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.SIMPLE_DUNGEON_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.ABANDONED_MINESHAFT_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
+
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_TREASURE_CHEST, 0.25f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_OTHER_CHEST, 0.1f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_BRIDGE_CHEST, 0.1f);
+        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_HOGLIN_STABLE_CHEST, 0.1f);
+
+        ALLOWED_LOOTTABLES_BASIC = new HashMap<>();
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.WOODLAND_MANSION_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.PILLAGER_OUTPOST_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.SHIPWRECK_MAP_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.SHIPWRECK_TREASURE_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.05f);
+
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.IGLOO_CHEST_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.JUNGLE_TEMPLE_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.DESERT_PYRAMID_CHEST, 0.05f);
+
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.STRONGHOLD_CROSSING_CHEST, 0.05f);
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.05f);
+
+        ALLOWED_LOOTTABLES_BASIC.put(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
         LOOTABLE_SHIELD = ResourceLoader.LoadResource("data/shield.json");
         LOOTABLE_CLOCK = ResourceLoader.LoadResource("data/clock/clock.json");
