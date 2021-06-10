@@ -1,10 +1,10 @@
 {
   "type": "minecraft:item",
-  "name": "minecraft:compass",
+  "name": "minecraft:shield",
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.compass.name\"}',Lore:['{\"translate\":\"item.strainsofascension.compass.lore\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.shield.name\"}',Lore:['{\"translate\":\"item.strainsofascension.shield.lore\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",

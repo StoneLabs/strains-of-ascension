@@ -16,13 +16,7 @@ public class ArtifactState
     public static final String STRENGTH_OF_DEPTH_TAG = "strengthOfDepth";
     private boolean strengthOfDepth = false;
 
-    public void consider(List<ItemStack> stacks)
-    {
-        for (ItemStack stack : stacks)
-            consider(stack);
-    }
-
-    public void consider(ItemStack stack)
+    public void consider(ItemStack stack, boolean isEquip)
     {
         if (!stack.hasTag())
             return;
@@ -36,7 +30,7 @@ public class ArtifactState
         switch (stack.getTag().getString("strainArtifact"))
         {
             case DEPTH_IMMUNITY_BONUS_TAG -> depthImmunityBonus = Math.max(artifactPower, depthImmunityBonus);
-            case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = true;
+            case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = isEquip || strengthOfDepth;
         }
     }
 
