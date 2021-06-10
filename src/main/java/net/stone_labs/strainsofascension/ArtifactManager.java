@@ -12,12 +12,8 @@ import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ArtifactManager
 {
@@ -25,7 +21,13 @@ public class ArtifactManager
 
     private static final Identifier LOOTTABLE_ID_SPAWNER;
     private static final String LOOTABLE_COMPASS;
+
     private static final String LOOTABLE_CLOCK;
+    private static final String LOOTABLE_CLOCK1;
+    private static final String LOOTABLE_CLOCK2;
+    private static final String LOOTABLE_CLOCK3;
+    private static final String LOOTABLE_CLOCK4;
+    private static final String LOOTABLE_CLOCK5;
 
     public static void Init()
     {
@@ -40,7 +42,12 @@ public class ArtifactManager
                     .rolls(ConstantLootNumberProvider.create(1))
                     .withCondition(RandomChanceLootCondition.builder(1f).build())
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_COMPASS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK1, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK2, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK3, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK4, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK5, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -67,6 +74,11 @@ public class ArtifactManager
         LOOTTABLE_ID_SPAWNER = new Identifier("minecraft", "blocks/spawner");
 
         LOOTABLE_COMPASS = ResourceLoader.LoadResource("data/compass.json");
-        LOOTABLE_CLOCK = ResourceLoader.LoadResource("data/clock.json");
+        LOOTABLE_CLOCK = ResourceLoader.LoadResource("data/clock/clock.json");
+        LOOTABLE_CLOCK1 = ResourceLoader.LoadResource("data/clock/clock1.json");
+        LOOTABLE_CLOCK2 = ResourceLoader.LoadResource("data/clock/clock2.json");
+        LOOTABLE_CLOCK3 = ResourceLoader.LoadResource("data/clock/clock3.json");
+        LOOTABLE_CLOCK4 = ResourceLoader.LoadResource("data/clock/clock4.json");
+        LOOTABLE_CLOCK5 = ResourceLoader.LoadResource("data/clock/clock5.json");
     }
 }

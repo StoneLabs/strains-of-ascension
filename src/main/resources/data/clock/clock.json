@@ -8,7 +8,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{strainArtifact:\"depthImmunityBonus\"}"
+      "tag": "{strainArtifact:\"depthImmunityBonus\", strainArtifactPower:1}"
     }
   ]
 }

@@ -8,7 +8,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{strainArtifact:\"strengthOfDepth\"}"
+      "tag": "{strainArtifact:\"strengthOfDepth\", strainArtifactPower:0}"
     }
   ]
 }
