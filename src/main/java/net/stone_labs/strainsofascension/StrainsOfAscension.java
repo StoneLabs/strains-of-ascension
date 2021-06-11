@@ -32,7 +32,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
             {
                 ArtifactState artifactState = ArtifactManager.GetPlayerArtifactState(player.getInventory());
-                //artifactState.DebugToPlayer(player);
+                artifactState.DebugToPlayer(player);
 
                 StrainManager.applyEffects(player, artifactState);
             }

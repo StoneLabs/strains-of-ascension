@@ -25,6 +25,9 @@ public class ArtifactState
     public static final String ANTI_WITHER_TAG = "antiWither";
     private int antiWitherLevel = 0;
 
+    public static final String PORTAL_POWER_TAG = "portalPower";
+    private boolean portalPower;
+
     public void consider(ItemStack stack, boolean isEquip)
     {
         if (!stack.hasTag())
@@ -43,6 +46,7 @@ public class ArtifactState
             case STRENGTH_OF_DEPTH_TAG -> strengthOfDepth = isEquip || strengthOfDepth;
             case ANTI_POISON_TAG -> antiPoisonLevel = Math.max(artifactPower, antiPoisonLevel);
             case ANTI_WITHER_TAG -> antiWitherLevel = Math.max(artifactPower, antiWitherLevel);
+            case PORTAL_POWER_TAG -> portalPower = true;
         }
     }
 
@@ -66,6 +70,11 @@ public class ArtifactState
         return antiWitherLevel;
     }
 
+    public boolean getPortalPower()
+    {
+        return portalPower;
+    }
+
     public int getNVBonus()
     {
         return nvBonus;
@@ -73,13 +82,14 @@ public class ArtifactState
 
     public void DebugToPlayer(ServerPlayerEntity player)
     {
-        String message = String.format("%s: %f %b %d %d %d",
+        String message = String.format("%s: %f %b %d %d %d %b",
                 player.getEntityName(),
                 depthImmunityBonus,
                 strengthOfDepth,
                 nvBonus,
                 antiPoisonLevel,
-                antiWitherLevel);
+                antiWitherLevel,
+                portalPower);
 
         if (player.server.getTicks() % 20 == 0)
             player.sendMessage(new LiteralText(message), false);
