@@ -122,5 +122,12 @@
   "item.strainsofascension.shield.lore2": "look like a Moon in Hell. As you pick it up, you feel Energy rushing",
   "item.strainsofascension.shield.lore3": "through your Body. It pulls you down - down in to the abyss...",
 
+
+
+  "item.strainsofascension.crimson_fungus.name": "§b Nether lead",
+  "item.strainsofascension.crimson_fungus.lore1": "A common plant from hell. It is enchanted and has been used",
+  "item.strainsofascension.crimson_fungus.lore2": "by adventures for millenia as a tool to increase the range",
+  "item.strainsofascension.crimson_fungus.lore3": "of the portals used to cross the last layer boundary.",
+
   "translation.test.none": "Hello, World!"
 }
