@@ -14,7 +14,7 @@ public class NetherPortalArtifact implements StrainManager.Strain
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
     {
-        if (!player.isCreative() && !player.isSpectator() && player.getPos().y < -48 && player.world.getRegistryKey() == World.OVERWORLD)
+        if (player.getPos().y >= -48 && !artifactState.getPortalPower() && !player.isCreative() && !player.isSpectator() &&player.world.getRegistryKey() == World.OVERWORLD)
             player.resetNetherPortalCooldown();
     }
 }
