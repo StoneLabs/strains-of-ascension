@@ -10,7 +10,9 @@ import net.fabricmc.fabric.api.gamerule.v1.rule.DoubleRule;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameRules;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
@@ -22,6 +24,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.minecraft.command.argument.EntityArgumentType.getPlayers;
 import static net.minecraft.server.command.CommandManager.argument;
@@ -38,22 +42,78 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static boolean queueArtifactDebug = false;
     public static Collection<ServerPlayerEntity> queueArtifactDebugFor;
 
+    public static int LukeTimeAverage;
+    public static int StoneIncAverage;
+    public static int LukeTimeAverageL;
+    public static int StoneIncAverageL;
+    public static double LukeTimeAverageLw;
+    public static double StoneIncAverageLw;
+
+    public static final int PROFILE_LENGTH = 500;
+    public static boolean profile = false;
+    public static int profile_ticks;
+    public static Map<String, Long> timings_artifact = new HashMap<>();
+    public static Map<String, Long> timings_strain = new HashMap<>();
+    public static long timings_tick;
+
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
         @Override
         public void onEndTick(MinecraftServer server)
         {
+            long tickTimeStart = System.nanoTime();
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
             {
+                long startTime = System.nanoTime();
                 ArtifactState artifactState = ArtifactManager.GetPlayerArtifactState(player.getInventory());
+
                 if (queueArtifactDebug)
                     if (queueArtifactDebugFor == null || queueArtifactDebugFor.contains(player))
                         artifactState.Debug(player, true);
 
+                long artifactTime = System.nanoTime() - startTime;
+                startTime = System.nanoTime();
+
                 StrainManager.applyEffects(player, artifactState);
+
+                long strainTime = System.nanoTime() - startTime;
+                if (profile)
+                {
+                    timings_artifact.put(player.getEntityName(), timings_artifact.getOrDefault(player.getEntityName(), 0L) + artifactTime);
+                    timings_strain.put(player.getEntityName(), timings_strain.getOrDefault(player.getEntityName(), 0L) + strainTime);
+                }
             }
+            timings_tick += System.nanoTime() - tickTimeStart;
+
             queueArtifactDebug = false;
+            profile_ticks++;
+
+            if (profile && profile_ticks == PROFILE_LENGTH)
+            {
+                printProfiler(server);
+                profile = false;
+            }
         }
+    }
+
+    public static void printProfiler(MinecraftServer server)
+    {
+        StringBuilder message = new StringBuilder("§4PROFILING RESPORT:\n");
+        message.append("§cNAME - ARTIFACT + STRAIN = TOTAL\n");
+        message.append("§cAll values average.§f\n\n");
+
+        for (var player : server.getPlayerNames())
+        {
+            double artTime = timings_artifact.get(player) / (double) PROFILE_LENGTH / 1000.0;
+            double strTime = timings_strain.get(player) / (double) PROFILE_LENGTH / 1000.0;
+            message.append(String.format("%s - %.2fus + %.2fus = %.2fus\n",
+                    player, artTime, strTime, artTime + strTime));
+        }
+
+        message.append(String.format("\n\n§2Total Avrg: %.2fus", timings_tick / (double) PROFILE_LENGTH / 1000.0));
+        
+        for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList())
+            serverPlayer.sendMessage(new LiteralText(message.toString()), false);
     }
 
     @Override
@@ -69,18 +129,37 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated)  -> {
             dispatcher.register(literal("artifacts")
                     .then(argument("targets", EntityArgumentType.players())
+                            .executes((context) ->
+                            {
+                                final ServerCommandSource source = context.getSource();
+
+                                if (!source.hasPermissionLevel(2))
+                                    return 0;
+
+                                queueArtifactDebug = true;
+                                queueArtifactDebugFor = getPlayers(context, "targets");
+
+                                return 1;
+                            })));
+            dispatcher.register(literal("strainsofascensionProfiler")
                     .executes((context) ->
-            {
-                final ServerCommandSource source = context.getSource();
+                            {
+                                final ServerCommandSource source = context.getSource();
 
-                if (!source.hasPermissionLevel(2))
-                    return 0;
+                                if (!source.hasPermissionLevel(2))
+                                    return 0;
 
-                queueArtifactDebug = true;
-                queueArtifactDebugFor = getPlayers(context, "targets");
+                                profile = true;
+                                profile_ticks = 0;
+                                timings_tick = 0;
+                                timings_artifact.clear();
+                                timings_strain.clear();
 
-                return 1;
-            })));
+                                source.sendFeedback(new LiteralText("Profiling started by " + source.getName()), true);
+                                source.sendFeedback(new LiteralText(String.format("Will be ready in %ss", (PROFILE_LENGTH / 20.0))), true);
+
+                                return 1;
+                            }));
         });
 
         // Set values from gamerules on server start

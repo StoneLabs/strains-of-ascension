@@ -26,10 +26,10 @@ abstract class BrewingStandBlockEntityMixin
                 continue;
 
             //noinspection ConstantConditions
-            if (!stack.getTag().contains("strainArtifact", NbtElement.STRING_TYPE))
+            if (!stack.getTag().contains("artifact", NbtElement.INT_TYPE))
                 continue;
 
-            power += stack.getTag().getInt("strainArtifactPower");
+            power += stack.getTag().getInt("artifactPower");
         }
 
         if (power > 0)

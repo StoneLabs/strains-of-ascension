@@ -11,8 +11,13 @@ import java.util.Random;
 import static net.stone_labs.strainsofascension.StrainData.horrorMessages;
 import static net.stone_labs.strainsofascension.StrainData.horrorSounds;
 
-public class InsanityStrain implements StrainManager.Strain
+public class InsanityStrain extends Strain
 {
+    public InsanityStrain()
+    {
+        super(1);
+    }
+
     Random random = new Random();
 
     @Override

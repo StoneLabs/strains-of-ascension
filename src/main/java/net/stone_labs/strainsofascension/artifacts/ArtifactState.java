@@ -1,6 +1,7 @@
 package net.stone_labs.strainsofascension.artifacts;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -25,15 +26,15 @@ public class ArtifactState
 
     public void consider(ItemStack stack, boolean isEquip)
     {
-        if (!stack.hasTag())
+        NbtCompound tag = stack.getTag();
+        if (tag == null)
             return;
 
-        //noinspection ConstantConditions
-        if (!stack.getTag().contains("strainArtifact", NbtElement.STRING_TYPE))
+        Artifact artifact = Artifacts.ByID(tag.getInt("artifact"));
+        if (artifact == null)
             return;
 
-        Artifact artifact = Artifacts.ByID(stack.getTag().getString("strainArtifact"));
-        int artifactPower = stack.getTag().getInt("strainArtifactPower");
+        int artifactPower = tag.getInt("artifactPower");
 
         if (!artifact.NEEDS_EQUIPPED || isEquip)
             setArtifact(artifact, artifactPower);
