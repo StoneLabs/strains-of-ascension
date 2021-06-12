@@ -5,6 +5,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.stone_labs.strainsofascension.StrainsOfAscension;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +25,13 @@ public class ArtifactState
         return Math.min(artifact.MAX_VALUE, artifacts.getOrDefault(artifact, 0));
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void consider(ItemStack stack, boolean isEquip)
     {
-        NbtCompound tag = stack.getTag();
-        if (tag == null)
+        if (!stack.hasTag())
             return;
+
+        NbtCompound tag = stack.getTag();
 
         Artifact artifact = Artifacts.ByID(tag.getInt("artifact"));
         if (artifact == null)
@@ -56,6 +59,7 @@ public class ArtifactState
                     artifactPower,
                     artifact.NAME));
         }
+        message.append(String.format("\n§2Profiler: Average %.2fus per Tick.", StrainsOfAscension.tickAvrg));
 
         if (showToAll)
             for (ServerPlayerEntity serverPlayer : player.server.getPlayerManager().getPlayerList())
