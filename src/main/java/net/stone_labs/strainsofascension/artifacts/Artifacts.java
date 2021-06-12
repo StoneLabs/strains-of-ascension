@@ -11,6 +11,7 @@ public class Artifacts
     public static Artifact WITHER_BONUS;
     public static Artifact STRENGTH_OF_DEPTH;
     public static Artifact PORTAL_POWER;
+    public static Artifact DEPTH_AGILITY;
 
     public static Artifact ByID(Integer id)
     {
@@ -38,5 +39,6 @@ public class Artifacts
         WITHER_BONUS = register(4, "Wither Talisman", 6, false);
         STRENGTH_OF_DEPTH = register(5, "Strength of Depth", 1, true);
         PORTAL_POWER = register(6, "Portal Power", 1, false);
+        DEPTH_AGILITY = register(7, "Depth Agility", 1, false);
     }
 }

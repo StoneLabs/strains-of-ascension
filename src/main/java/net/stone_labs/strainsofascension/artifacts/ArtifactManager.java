@@ -51,6 +51,7 @@ public class ArtifactManager
     private static final String LOOTABLE_WITHER_TALISMAN4;
     private static final String LOOTABLE_WITHER_TALISMAN5;
     private static final String LOOTABLE_CRIMSON_FUNGUS;
+    private static final String LOOTABLE_RABBIT_FOOT;
 
     public static void Init()
     {
@@ -69,7 +70,8 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_RABBIT_FOOT, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -102,7 +104,8 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN3, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN4, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN5, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_RABBIT_FOOT, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -181,5 +184,6 @@ public class ArtifactManager
         LOOTABLE_WITHER_TALISMAN4 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman4.json");
         LOOTABLE_WITHER_TALISMAN5 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman5.json");
         LOOTABLE_CRIMSON_FUNGUS = ResourceLoader.LoadResource("data/crimson_fungus.json");
+        LOOTABLE_RABBIT_FOOT = ResourceLoader.LoadResource("data/rabbit_foot.json");
     }
 }
