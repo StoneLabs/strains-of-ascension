@@ -29,15 +29,10 @@ DURATION 120*20
 
 public final class StrainManager
 {
-    public interface Strain
-    {
-        void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState);
-    }
-
     public static final List<Strain> strains = new ArrayList<Strain>();
 
-    public final static int effectDuration = 120 * 20 + 10;
-    public final static int effectDurationBlindness = 3 * 20 + 10;
+    public final static int effectDuration = 120 * 20 + 19;
+    public final static int effectDurationBlindness = 3 * 20 + 19;
     public final static float effectRandomProbability = 1.0f / effectDuration;
     public static double localDifficultyEffectMultiplier;
     public static double lunarDifficultyEffectMultiplier;
@@ -113,7 +108,8 @@ public final class StrainManager
         byte layer = getLayer(player, artifactState);
 
         for (Strain strain : strains)
-            strain.effect(player, layer, artifactState);
+            if (player.server.getTicks() % strain.frequency == 0)
+                strain.effect(player, layer, artifactState);
     }
 
     static

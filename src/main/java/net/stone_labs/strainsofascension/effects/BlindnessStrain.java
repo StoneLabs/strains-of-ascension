@@ -8,9 +8,15 @@ import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Implements;
 
-public class BlindnessStrain implements StrainManager.Strain
+public class BlindnessStrain extends Strain
 {
+    public BlindnessStrain()
+    {
+        super(1);
+    }
+
     public static boolean doBlindness = true;
     public static boolean allowNVCancelNether = true;
 

@@ -6,7 +6,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 
-public class HungerStrain implements StrainManager.Strain
+public class HungerStrain extends Strain
 {
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)

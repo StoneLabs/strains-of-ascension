@@ -7,7 +7,7 @@ import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
 
-public class StrengthOfDepthArtifact implements StrainManager.Strain
+public class StrengthOfDepthArtifact extends Strain
 {
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)

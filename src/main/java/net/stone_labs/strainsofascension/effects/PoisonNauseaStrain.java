@@ -9,7 +9,7 @@ import net.stone_labs.strainsofascension.artifacts.Artifacts;
 
 import java.util.Random;
 
-public class PoisonNauseaStrain implements StrainManager.Strain
+public class PoisonNauseaStrain extends Strain
 {
     public static boolean doPoisonNausea = true;
     public static boolean doNausea = true;
@@ -26,7 +26,7 @@ public class PoisonNauseaStrain implements StrainManager.Strain
             return;
 
         double artifactMultiplier = Math.max(1 - 0.1 * artifactState.GetPower(Artifacts.POISON_BONUS), 0.4);
-        if (random.nextFloat() < StrainManager.effectRandomProbability * artifactMultiplier)
+        if (random.nextFloat() < StrainManager.effectRandomProbability * frequency * artifactMultiplier)
         {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, StrainManager.effectDuration, 0, true, false, StrainManager.showIcon));
             if (doNausea)

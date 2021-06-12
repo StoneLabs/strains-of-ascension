@@ -9,7 +9,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{strainArtifact:\"nvBonus\", strainArtifactPower:3}"
+      "tag": "{artifact:2, artifactPower:3}"
     }
   ]
 }

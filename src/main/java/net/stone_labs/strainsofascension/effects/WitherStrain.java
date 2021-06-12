@@ -9,7 +9,7 @@ import net.stone_labs.strainsofascension.artifacts.Artifacts;
 
 import java.util.Random;
 
-public class WitherStrain implements StrainManager.Strain
+public class WitherStrain extends Strain
 {
     public static boolean doWither = true;
 
@@ -25,7 +25,7 @@ public class WitherStrain implements StrainManager.Strain
             return;
 
         double artifactMultiplier = Math.max(1 - 0.1 * artifactState.GetPower(Artifacts.WITHER_BONUS), 0.4);
-        if (random.nextFloat() < StrainManager.effectRandomProbability * artifactMultiplier)
+        if (random.nextFloat() < StrainManager.effectRandomProbability * frequency * artifactMultiplier)
         {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, StrainManager.effectDuration, layer - 7, true, false, StrainManager.showIcon));
         }

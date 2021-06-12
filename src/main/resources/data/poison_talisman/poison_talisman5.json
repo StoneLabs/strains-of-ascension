@@ -13,7 +13,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{strainArtifact:\"antiPoison\", strainArtifactPower:6}"
+      "tag": "{artifact:3, artifactPower:6}"
     }
   ]
 }

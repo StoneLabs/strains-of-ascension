@@ -6,7 +6,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 
-public class WeaknessStrain implements StrainManager.Strain
+public class WeaknessStrain extends Strain
 {
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
