@@ -125,5 +125,6 @@ public final class StrainManager
 
         strains.add(new StrengthOfDepthArtifact());
         strains.add(new NetherPortalArtifact());
+        strains.add(new DepthAgilityArtifact());
     }
 }
