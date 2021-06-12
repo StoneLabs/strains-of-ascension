@@ -3,7 +3,7 @@ package net.stone_labs.strainsofascension.effects;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.stone_labs.strainsofascension.ArtifactState;
+import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 
 public class HungerStrain implements StrainManager.Strain

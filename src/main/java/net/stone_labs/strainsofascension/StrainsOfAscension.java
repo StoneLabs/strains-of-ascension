@@ -1,7 +1,5 @@
 package net.stone_labs.strainsofascension;
 
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -13,8 +11,9 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameRules;
+import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
+import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.effects.BlindnessStrain;
 import net.stone_labs.strainsofascension.effects.PoisonNauseaStrain;
 import net.stone_labs.strainsofascension.effects.WitherStrain;

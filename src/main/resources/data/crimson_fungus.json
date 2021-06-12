@@ -9,7 +9,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{strainArtifact:\"portalPower\", strainArtifactPower:0}"
+      "tag": "{strainArtifact:\"portalPower\", strainArtifactPower:1}"
     }
   ]
 }

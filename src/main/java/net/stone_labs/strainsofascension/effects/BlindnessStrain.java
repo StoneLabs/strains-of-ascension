@@ -3,9 +3,10 @@ package net.stone_labs.strainsofascension.effects;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.stone_labs.strainsofascension.ArtifactManager;
-import net.stone_labs.strainsofascension.ArtifactState;
+import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
+import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
+import net.stone_labs.strainsofascension.artifacts.Artifacts;
 import org.jetbrains.annotations.Nullable;
 
 public class BlindnessStrain implements StrainManager.Strain
@@ -26,7 +27,7 @@ public class BlindnessStrain implements StrainManager.Strain
         if (nvEffect != null)
         {
             int duration = nvEffect.getDuration();
-            int newDuration = duration - Math.max(0, 5 - artifactState.getNVBonus());
+            int newDuration = duration - Math.max(0, 5 - artifactState.GetPower(Artifacts.NV_BONUS));
 
             player.removeStatusEffect(StatusEffects.NIGHT_VISION);
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION,
