@@ -1,4 +1,4 @@
-package net.stone_labs.strainsofascension;
+package net.stone_labs.strainsofascension.artifacts;
 
 import com.google.gson.Gson;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
@@ -18,7 +18,6 @@ import net.stone_labs.strainsofascension.utils.ResourceLoader;
 import net.stone_labs.strainsofascension.utils.StackPreventer;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ArtifactManager
