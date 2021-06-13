@@ -26,63 +26,54 @@ import java.util.*;
 
 public class ArtifactManager
 {
+    private static class ArtifactManagerLootType
+    {
+        private final Map<Identifier, Float> lootTableProbabilities;
+        private final List<String> lootablesJsons;
+
+        public LootPool LootPool;
+        public boolean IncludeInGiveCommand;
+
+        public ArtifactManagerLootType(boolean includeInGiveCommand)
+        {
+            this.lootTableProbabilities = new HashMap<>();
+            this.lootablesJsons = new ArrayList<>();
+            IncludeInGiveCommand = includeInGiveCommand;
+        }
+
+        public void RegisterLoottable(Identifier identifier, Float propability)
+        {
+            lootTableProbabilities.put(identifier, propability);
+        }
+
+        public void RegisterCopyLoottable(ArtifactManagerLootType other)
+        {
+            lootTableProbabilities.putAll(other.lootTableProbabilities);
+        }
+
+        public void RegisterLootable(String path)
+        {
+            lootablesJsons.add(ResourceLoader.LoadResource(path));
+        }
+
+        public boolean ContainsLootTable(Identifier identifier)
+        {
+            return lootTableProbabilities.containsKey(identifier);
+        }
+
+        public float GetLootTablePropability(Identifier identifier)
+        {
+            return lootTableProbabilities.get(identifier);
+        }
+
+        public List<String> GetLootableJsons()
+        {
+            return lootablesJsons;
+        }
+    }
+
     private static final Gson LOOT_GSON = LootGsons.getTableGsonBuilder().create();
-
-    private static final Map<Identifier, Float> ALLOWED_LOOTTABLES_BASIC;
-    private static final Map<Identifier, Float> ALLOWED_LOOTTABLES_FULL;
-    private static final Map<Identifier, Float> ALLOWED_LOOTTABLES_LORE;
-    private static final String LOOTABLE_SHIELD;
-
-    private static final String LOOTABLE_CLOCK;
-    private static final String LOOTABLE_CLOCK1;
-    private static final String LOOTABLE_CLOCK2;
-    private static final String LOOTABLE_CLOCK3;
-    private static final String LOOTABLE_CLOCK4;
-    private static final String LOOTABLE_CLOCK5;
-    private static final String LOOTABLE_SPYGLASS;
-    private static final String LOOTABLE_SPYGLASS1;
-    private static final String LOOTABLE_SPYGLASS2;
-    private static final String LOOTABLE_SPYGLASS3;
-    private static final String LOOTABLE_POISON_TALISMAN;
-    private static final String LOOTABLE_POISON_TALISMAN1;
-    private static final String LOOTABLE_POISON_TALISMAN2;
-    private static final String LOOTABLE_POISON_TALISMAN3;
-    private static final String LOOTABLE_POISON_TALISMAN4;
-    private static final String LOOTABLE_POISON_TALISMAN5;
-    private static final String LOOTABLE_WITHER_TALISMAN;
-    private static final String LOOTABLE_WITHER_TALISMAN1;
-    private static final String LOOTABLE_WITHER_TALISMAN2;
-    private static final String LOOTABLE_WITHER_TALISMAN3;
-    private static final String LOOTABLE_WITHER_TALISMAN4;
-    private static final String LOOTABLE_WITHER_TALISMAN5;
-    private static final String LOOTABLE_CRIMSON_FUNGUS;
-    private static final String LOOTABLE_RABBIT_FOOT;
-    private static final String LOOTABLE_DEPTH_MENDING_BOOK;
-    private static final String LOOTABLE_DEPTH_MENDING_BOOK1;
-    private static final String LOOTABLE_DEPTH_MENDING_BOOK2;
-    private static final String LOOTABLE_DEPTH_MENDING_BOOK3;
-    private static final String LOOTABLE_GUIDEBOOK_INTRODUCTION;
-    private static final String LOOTABLE_GUIDEBOOK_LAYERS;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER1;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER2;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER3;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER4;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER5;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER6;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER7;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER8;
-    private static final String LOOTABLE_GUIDEBOOK_LAYER9;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACTS;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_CLOCK;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_CRIMSON_FUNGUS;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_POISON_FUNGUS;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_RABBIT_FOOT;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_SHIELD;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_SPYGLASS;
-    private static final String LOOTABLE_GUIDEBOOK_ARTIFACT_WITHER_TALISMAN;
-
-    private static LootPool fullPool = null;
-    private static LootPool lorePool = null;
+    private static final List<ArtifactManagerLootType> LOOT_TYPES;
 
     public static void Init()
     {
@@ -91,89 +82,20 @@ public class ArtifactManager
 
     public static void ModifyLootTable(ResourceManager resourceManager, LootManager lootManager, Identifier id, FabricLootSupplierBuilder supplier, LootTableLoadingCallback.LootTableSetter setter)
     {
-        if (ALLOWED_LOOTTABLES_BASIC.containsKey(id))
-        {
-            FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-                    .rolls(ConstantLootNumberProvider.create(1))
-                    .withCondition(RandomChanceLootCondition.builder(ALLOWED_LOOTTABLES_BASIC.get(id)).build())
-                    .withFunction(new StackPreventer())
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_RABBIT_FOOT, LootPoolEntry.class));
+        for (ArtifactManagerLootType lootType : LOOT_TYPES)
+            if (lootType.ContainsLootTable(id))
+            {
+                FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .withCondition(RandomChanceLootCondition.builder(lootType.GetLootTablePropability(id)).build())
+                        .withFunction(new StackPreventer());
 
-            supplier.withPool(poolBuilder.build());
-        }
-        if (ALLOWED_LOOTTABLES_FULL.containsKey(id))
-        {
-            FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-                    .rolls(ConstantLootNumberProvider.create(1))
-                    .withCondition(RandomChanceLootCondition.builder(ALLOWED_LOOTTABLES_FULL.get(id)).build())
-                    .withFunction(new StackPreventer())
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SHIELD, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK1, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK3, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CLOCK5, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS1, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_SPYGLASS3, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN1, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN3, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_POISON_TALISMAN5, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN1, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN3, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN5, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_RABBIT_FOOT, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK1, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK3, LootPoolEntry.class));
+                for (String json : lootType.GetLootableJsons())
+                    poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
 
-            fullPool = poolBuilder.build();
-            supplier.withPool(fullPool);
-        }
-        if (ALLOWED_LOOTTABLES_LORE.containsKey(id))
-        {
-            FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-                    .rolls(ConstantLootNumberProvider.create(1))
-                    .withCondition(RandomChanceLootCondition.builder(ALLOWED_LOOTTABLES_LORE.get(id)).build())
-                    .withFunction(new StackPreventer())
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_INTRODUCTION, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYERS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER1, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER2, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER3, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER4, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER5, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER6, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER7, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER8, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_LAYER9, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACTS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_CLOCK, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_CRIMSON_FUNGUS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_POISON_FUNGUS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_RABBIT_FOOT, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_SHIELD, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_SPYGLASS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_GUIDEBOOK_ARTIFACT_WITHER_TALISMAN, LootPoolEntry.class));
-
-            lorePool = poolBuilder.build();
-            supplier.withPool(lorePool);
-        }
+                lootType.LootPool = poolBuilder.build();
+                supplier.withPool(lootType.LootPool);
+            }
     }
 
     public static ArtifactState GetPlayerArtifactState(PlayerInventory inventory)
@@ -187,7 +109,7 @@ public class ArtifactManager
             artifactState.consider(stack, true);
 
         for (ItemStack stack : inventory.main)
-                artifactState.consider(stack,inventory.getMainHandStack() == stack);
+            artifactState.consider(stack, inventory.getMainHandStack() == stack);
 
         return artifactState;
     }
@@ -196,34 +118,28 @@ public class ArtifactManager
     {
         List<ItemStack> drops = new ArrayList<>();
 
-        java.util.function.Consumer<ItemStack> applier = (itemStack) -> {
+        java.util.function.Consumer<ItemStack> applier = (itemStack) ->
+        {
             if (drops.stream().noneMatch(stack -> stack.getName().getString().equals(itemStack.getName().getString())))
                 drops.add(itemStack);
         };
 
         // Yes this is a bad solution.
-        for (int i = 0; i < 99999; i++)
+        // But the chance of a item with loot change 0.05% is missing is e-11 so it should be fine
+        for (int i = 0; i < 50000; i++)
         {
-            fullPool.addGeneratedLoot(applier,
-                    new LootContext.Builder(player.getServerWorld())
-                            .parameter(LootContextParameters.ORIGIN, player.getPos())
-                            .random(new Random())
-                            .luck(3)
-                            .build(LootContextTypes.COMMAND));
-        }
-        for (int i = 0; i < 10000; i++)
-        {
-            lorePool.addGeneratedLoot(applier,
-                    new LootContext.Builder(player.getServerWorld())
-                            .parameter(LootContextParameters.ORIGIN, player.getPos())
-                            .random(new Random())
-                            .luck(3)
-                            .build(LootContextTypes.COMMAND));
+            for (ArtifactManagerLootType lootType : LOOT_TYPES)
+                lootType.LootPool.addGeneratedLoot(applier,
+                        new LootContext.Builder(player.getServerWorld())
+                                .parameter(LootContextParameters.ORIGIN, player.getPos())
+                                .random(new Random())
+                                .luck(3)
+                                .build(LootContextTypes.COMMAND));
         }
         drops.sort(Comparator.comparing(o -> o.getName().getString()));
 
         BlockPos position = player.getBlockPos().add(0, -1, 0);
-        for (int barrel_num = 0; barrel_num * 27 <= drops.size(); barrel_num ++)
+        for (int barrel_num = 0; barrel_num * 27 <= drops.size(); barrel_num++)
         {
             position = position.add(0, 1, 0);
             List<ItemStack> barrel_content = drops.subList(barrel_num * 27, Math.min((barrel_num + 1) * 27, drops.size()));
@@ -241,88 +157,123 @@ public class ArtifactManager
 
     static
     {
-        ALLOWED_LOOTTABLES_FULL = new HashMap<>();
-        ALLOWED_LOOTTABLES_FULL.put(new Identifier("minecraft", "blocks/spawner"), 0.20f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.SIMPLE_DUNGEON_CHEST, 0.15f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.ABANDONED_MINESHAFT_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
+        ArtifactManagerLootType FullLoot = new ArtifactManagerLootType(true);
+        FullLoot.RegisterLoottable(new Identifier("minecraft", "blocks/spawner"), 0.20f);
+        FullLoot.RegisterLoottable(LootTables.SIMPLE_DUNGEON_CHEST, 0.15f);
+        FullLoot.RegisterLoottable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.05f);
+        FullLoot.RegisterLoottable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
 
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_TREASURE_CHEST, 0.25f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_OTHER_CHEST, 0.1f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_BRIDGE_CHEST, 0.1f);
-        ALLOWED_LOOTTABLES_FULL.put(LootTables.BASTION_HOGLIN_STABLE_CHEST, 0.1f);
+        FullLoot.RegisterLoottable(LootTables.BASTION_TREASURE_CHEST, 0.25f);
+        FullLoot.RegisterLoottable(LootTables.BASTION_OTHER_CHEST, 0.1f);
+        FullLoot.RegisterLoottable(LootTables.BASTION_BRIDGE_CHEST, 0.1f);
+        FullLoot.RegisterLoottable(LootTables.BASTION_HOGLIN_STABLE_CHEST, 0.1f);
 
-        ALLOWED_LOOTTABLES_BASIC = new HashMap<>();
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.WOODLAND_MANSION_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.PILLAGER_OUTPOST_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.SHIPWRECK_MAP_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.SHIPWRECK_TREASURE_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.05f);
+        FullLoot.RegisterLootable("data/shield.json");
+        FullLoot.RegisterLootable("data/clock/clock.json");
+        FullLoot.RegisterLootable("data/clock/clock1.json");
+        FullLoot.RegisterLootable("data/clock/clock2.json");
+        FullLoot.RegisterLootable("data/clock/clock3.json");
+        FullLoot.RegisterLootable("data/clock/clock4.json");
+        FullLoot.RegisterLootable("data/clock/clock5.json");
+        FullLoot.RegisterLootable("data/spyglass/spyglass.json");
+        FullLoot.RegisterLootable("data/spyglass/spyglass1.json");
+        FullLoot.RegisterLootable("data/spyglass/spyglass2.json");
+        FullLoot.RegisterLootable("data/spyglass/spyglass3.json");
+        FullLoot.RegisterLootable("data/poison_talisman/poison_talisman.json");
+        FullLoot.RegisterLootable("data/poison_talisman/poison_talisman1.json");
+        FullLoot.RegisterLootable("data/poison_talisman/poison_talisman2.json");
+        FullLoot.RegisterLootable("data/poison_talisman/poison_talisman3.json");
+        FullLoot.RegisterLootable("data/poison_talisman/poison_talisman4.json");
+        FullLoot.RegisterLootable("data/poison_talisman/poison_talisman5.json");
+        FullLoot.RegisterLootable("data/wither_talisman/wither_talisman.json");
+        FullLoot.RegisterLootable("data/wither_talisman/wither_talisman1.json");
+        FullLoot.RegisterLootable("data/wither_talisman/wither_talisman2.json");
+        FullLoot.RegisterLootable("data/wither_talisman/wither_talisman3.json");
+        FullLoot.RegisterLootable("data/wither_talisman/wither_talisman4.json");
+        FullLoot.RegisterLootable("data/wither_talisman/wither_talisman5.json");
+        FullLoot.RegisterLootable("data/crimson_fungus.json");
+        FullLoot.RegisterLootable("data/rabbit_foot.json");
+        FullLoot.RegisterLootable("data/depth_mending_book/depth_mending_book.json");
+        FullLoot.RegisterLootable("data/depth_mending_book/depth_mending_book1.json");
+        FullLoot.RegisterLootable("data/depth_mending_book/depth_mending_book2.json");
+        FullLoot.RegisterLootable("data/depth_mending_book/depth_mending_book3.json");
 
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.IGLOO_CHEST_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.JUNGLE_TEMPLE_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.DESERT_PYRAMID_CHEST, 0.05f);
+        ArtifactManagerLootType BasicLoot = new ArtifactManagerLootType(false);
+        BasicLoot.RegisterLoottable(LootTables.WOODLAND_MANSION_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.PILLAGER_OUTPOST_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.SHIPWRECK_MAP_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.SHIPWRECK_TREASURE_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.05f);
 
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.STRONGHOLD_CROSSING_CHEST, 0.05f);
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.IGLOO_CHEST_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.DESERT_PYRAMID_CHEST, 0.05f);
 
-        ALLOWED_LOOTTABLES_BASIC.put(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
+        BasicLoot.RegisterLoottable(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.STRONGHOLD_CROSSING_CHEST, 0.05f);
+        BasicLoot.RegisterLoottable(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.05f);
 
-        ALLOWED_LOOTTABLES_LORE = new HashMap<>();
-        ALLOWED_LOOTTABLES_LORE.putAll(ALLOWED_LOOTTABLES_BASIC);
-        ALLOWED_LOOTTABLES_LORE.putAll(ALLOWED_LOOTTABLES_FULL);
+        BasicLoot.RegisterLoottable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
-        LOOTABLE_SHIELD = ResourceLoader.LoadResource("data/shield.json");
-        LOOTABLE_CLOCK = ResourceLoader.LoadResource("data/clock/clock.json");
-        LOOTABLE_CLOCK1 = ResourceLoader.LoadResource("data/clock/clock1.json");
-        LOOTABLE_CLOCK2 = ResourceLoader.LoadResource("data/clock/clock2.json");
-        LOOTABLE_CLOCK3 = ResourceLoader.LoadResource("data/clock/clock3.json");
-        LOOTABLE_CLOCK4 = ResourceLoader.LoadResource("data/clock/clock4.json");
-        LOOTABLE_CLOCK5 = ResourceLoader.LoadResource("data/clock/clock5.json");
-        LOOTABLE_SPYGLASS = ResourceLoader.LoadResource("data/spyglass/spyglass.json");
-        LOOTABLE_SPYGLASS1 = ResourceLoader.LoadResource("data/spyglass/spyglass1.json");
-        LOOTABLE_SPYGLASS2 = ResourceLoader.LoadResource("data/spyglass/spyglass2.json");
-        LOOTABLE_SPYGLASS3 = ResourceLoader.LoadResource("data/spyglass/spyglass3.json");
-        LOOTABLE_POISON_TALISMAN = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman.json");
-        LOOTABLE_POISON_TALISMAN1 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman1.json");
-        LOOTABLE_POISON_TALISMAN2 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman2.json");
-        LOOTABLE_POISON_TALISMAN3 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman3.json");
-        LOOTABLE_POISON_TALISMAN4 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman4.json");
-        LOOTABLE_POISON_TALISMAN5 = ResourceLoader.LoadResource("data/poison_talisman/poison_talisman5.json");
-        LOOTABLE_WITHER_TALISMAN = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman.json");
-        LOOTABLE_WITHER_TALISMAN1 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman1.json");
-        LOOTABLE_WITHER_TALISMAN2 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman2.json");
-        LOOTABLE_WITHER_TALISMAN3 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman3.json");
-        LOOTABLE_WITHER_TALISMAN4 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman4.json");
-        LOOTABLE_WITHER_TALISMAN5 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman5.json");
-        LOOTABLE_CRIMSON_FUNGUS = ResourceLoader.LoadResource("data/crimson_fungus.json");
-        LOOTABLE_RABBIT_FOOT = ResourceLoader.LoadResource("data/rabbit_foot.json");
-        LOOTABLE_DEPTH_MENDING_BOOK = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book.json");
-        LOOTABLE_DEPTH_MENDING_BOOK1 = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book1.json");
-        LOOTABLE_DEPTH_MENDING_BOOK2 = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book2.json");
-        LOOTABLE_DEPTH_MENDING_BOOK3 = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book3.json");
-        LOOTABLE_GUIDEBOOK_INTRODUCTION = ResourceLoader.LoadResource("data/lore/guidebook_introduction.json");
-        LOOTABLE_GUIDEBOOK_LAYERS = ResourceLoader.LoadResource("data/lore/guidebook_layers.json");
-        LOOTABLE_GUIDEBOOK_LAYER1 = ResourceLoader.LoadResource("data/lore/guidebook_layer1.json");
-        LOOTABLE_GUIDEBOOK_LAYER2 = ResourceLoader.LoadResource("data/lore/guidebook_layer2.json");
-        LOOTABLE_GUIDEBOOK_LAYER3 = ResourceLoader.LoadResource("data/lore/guidebook_layer3.json");
-        LOOTABLE_GUIDEBOOK_LAYER4 = ResourceLoader.LoadResource("data/lore/guidebook_layer4.json");
-        LOOTABLE_GUIDEBOOK_LAYER5 = ResourceLoader.LoadResource("data/lore/guidebook_layer5.json");
-        LOOTABLE_GUIDEBOOK_LAYER6 = ResourceLoader.LoadResource("data/lore/guidebook_layer6.json");
-        LOOTABLE_GUIDEBOOK_LAYER7 = ResourceLoader.LoadResource("data/lore/guidebook_layer7.json");
-        LOOTABLE_GUIDEBOOK_LAYER8 = ResourceLoader.LoadResource("data/lore/guidebook_layer8.json");
-        LOOTABLE_GUIDEBOOK_LAYER9 = ResourceLoader.LoadResource("data/lore/guidebook_layer9.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACTS = ResourceLoader.LoadResource("data/lore/guidebook_artifacts.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_CLOCK = ResourceLoader.LoadResource("data/lore/guidebook_artifact_clock.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_CRIMSON_FUNGUS = ResourceLoader.LoadResource("data/lore/guidebook_artifact_crimson_fungus.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_POISON_FUNGUS = ResourceLoader.LoadResource("data/lore/guidebook_artifact_poison_talisman.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_RABBIT_FOOT = ResourceLoader.LoadResource("data/lore/guidebook_artifact_rabbit_foot.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_SHIELD = ResourceLoader.LoadResource("data/lore/guidebook_artifact_shield.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_SPYGLASS = ResourceLoader.LoadResource("data/lore/guidebook_artifact_spyglass.json");
-        LOOTABLE_GUIDEBOOK_ARTIFACT_WITHER_TALISMAN = ResourceLoader.LoadResource("data/lore/guidebook_artifact_wither_talisman.json");
+        BasicLoot.RegisterLootable("data/clock/clock.json");
+        BasicLoot.RegisterLootable("data/spyglass/spyglass.json");
+        BasicLoot.RegisterLootable("data/poison_talisman/poison_talisman.json");
+        BasicLoot.RegisterLootable("data/wither_talisman/wither_talisman.json");
+        BasicLoot.RegisterLootable("data/crimson_fungus.json");
+        BasicLoot.RegisterLootable("data/rabbit_foot.json");
+
+        ArtifactManagerLootType LoreLoot = new ArtifactManagerLootType(true);
+        LoreLoot.RegisterLoottable(LootTables.SIMPLE_DUNGEON_CHEST, 0.40f);
+        LoreLoot.RegisterLoottable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.10f);
+
+        LoreLoot.RegisterLoottable(LootTables.WOODLAND_MANSION_CHEST, 0.10f);
+        LoreLoot.RegisterLoottable(LootTables.PILLAGER_OUTPOST_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.SHIPWRECK_MAP_CHEST, 0.10f);
+        LoreLoot.RegisterLoottable(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.10f);
+        LoreLoot.RegisterLoottable(LootTables.SHIPWRECK_TREASURE_CHEST, 0.10f);
+        LoreLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.10f);
+        LoreLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.10f);
+
+        LoreLoot.RegisterLoottable(LootTables.IGLOO_CHEST_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.DESERT_PYRAMID_CHEST, 0.15f);
+
+        LoreLoot.RegisterLoottable(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.STRONGHOLD_CROSSING_CHEST, 0.15f);
+        LoreLoot.RegisterLoottable(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.15f);
+
+        LoreLoot.RegisterLoottable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
+
+        LoreLoot.RegisterLootable("data/lore/guidebook_introduction.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layers.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer1.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer2.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer3.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer4.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer5.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer6.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer7.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer8.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_layer9.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifacts.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_clock.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_crimson_fungus.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_poison_talisman.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_rabbit_foot.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_shield.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_spyglass.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_wither_talisman.json");
+
+        LOOT_TYPES = new ArrayList<>()
+        {{
+            add(BasicLoot);
+            add(FullLoot);
+            add(LoreLoot);
+        }};
     }
 }
