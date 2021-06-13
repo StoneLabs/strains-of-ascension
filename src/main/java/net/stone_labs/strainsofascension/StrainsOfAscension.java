@@ -62,7 +62,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                         artifactState.Debug(player, true);
 
                 StrainManager.applyEffects(player, artifactState);
-
             }
 
             queueArtifactDebug = false;
@@ -87,24 +86,49 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         ArtifactManager.Init();
 
         // Add command to display artifacts for debugging
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated)  -> {
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
+        {
             dispatcher.register(literal("artifacts")
-                    .then(argument("targets", EntityArgumentType.players())
-                            .executes((context) ->
-                            {
-                                final ServerCommandSource source = context.getSource();
+                    .then(literal("get")
+                            .then(argument("targets", EntityArgumentType.players())
+                                    .executes((context) ->
+                                    {
+                                        final ServerCommandSource source = context.getSource();
 
-                                if (!source.hasPermissionLevel(2))
-                                {
-                                    source.sendFeedback(new LiteralText("Insufficient permissions!"), false);
-                                    return 0;
-                                }
+                                        if (!source.hasPermissionLevel(2))
+                                        {
+                                            source.sendFeedback(new LiteralText("Insufficient permissions!"), false);
+                                            return 0;
+                                        }
 
-                                queueArtifactDebug = true;
-                                queueArtifactDebugFor = getPlayers(context, "targets");
+                                        queueArtifactDebug = true;
+                                        queueArtifactDebugFor = getPlayers(context, "targets");
 
-                                return 1;
-                            })));
+                                        return 1;
+                                    })))
+                    .then(literal("give")
+                            .then(argument("targets", EntityArgumentType.players())
+                                    .executes((context) ->
+                                    {
+                                        final ServerCommandSource source = context.getSource();
+
+                                        if (!source.hasPermissionLevel(2))
+                                        {
+                                            source.sendFeedback(new LiteralText("Insufficient permissions!"), false);
+                                            return 0;
+                                        }
+
+                                        source.sendFeedback(new LiteralText("Generating Artifacts, this may take a while..."), false);
+                                        for (ServerPlayerEntity player : getPlayers(context, "targets"))
+                                        {
+                                            ArtifactManager.DropPlayerFullPool(player);
+                                            source.sendFeedback(new LiteralText(String.format("Artifacts generated for %s.", player.getEntityName())), false);
+                                        }
+
+                                        source.sendFeedback(new LiteralText("Artifacts generated."), false);
+
+                                        return 1;
+                                    }))));
         });
 
         // Set values from gamerules on server start

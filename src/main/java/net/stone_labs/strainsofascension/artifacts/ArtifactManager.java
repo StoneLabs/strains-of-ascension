@@ -1,24 +1,37 @@
 package net.stone_labs.strainsofascension.artifacts;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ChestBlock;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootGsons;
-import net.minecraft.loot.LootManager;
-import net.minecraft.loot.LootTables;
+import net.minecraft.loot.*;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextType;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceReloader;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
+import net.minecraft.util.math.BlockPos;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
 import net.stone_labs.strainsofascension.utils.StackPreventer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ArtifactManager
 {
@@ -56,6 +69,8 @@ public class ArtifactManager
     private static final String LOOTABLE_DEPTH_MENDING_BOOK1;
     private static final String LOOTABLE_DEPTH_MENDING_BOOK2;
     private static final String LOOTABLE_DEPTH_MENDING_BOOK3;
+
+    private static LootPool fullPool = null;
 
     public static void Init()
     {
@@ -115,7 +130,8 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK2, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK3, LootPoolEntry.class));
 
-            supplier.withPool(poolBuilder.build());
+            fullPool = poolBuilder.build();
+            supplier.withPool(fullPool);
         }
     }
 
@@ -133,6 +149,44 @@ public class ArtifactManager
                 artifactState.consider(stack,inventory.getMainHandStack() == stack);
 
         return artifactState;
+    }
+
+    public static void DropPlayerFullPool(ServerPlayerEntity player)
+    {
+        List<ItemStack> drops = new ArrayList<>();
+
+        java.util.function.Consumer<ItemStack> applier = (itemStack) -> {
+            if (drops.stream().noneMatch(stack -> stack.getName().getString().equals(itemStack.getName().getString())))
+                drops.add(itemStack);
+        };
+
+        // Yes this is a bad solution.
+        for (int i = 0; i < 99999; i++)
+        {
+            fullPool.addGeneratedLoot(applier,
+                    new LootContext.Builder(player.getServerWorld())
+                            .parameter(LootContextParameters.ORIGIN, player.getPos())
+                            .random(new Random())
+                            .luck(3)
+                            .build(LootContextTypes.COMMAND));
+        }
+        drops.sort(Comparator.comparing(o -> o.getName().getString()));
+
+        BlockPos position = player.getBlockPos().add(0, -1, 0);
+        for (int barrel_num = 0; barrel_num * 27 <= drops.size(); barrel_num ++)
+        {
+            position = position.add(0, 1, 0);
+            List<ItemStack> barrel_content = drops.subList(barrel_num * 27, Math.min((barrel_num + 1) * 27, drops.size()));
+
+            player.world.setBlockState(position, Blocks.BARREL.getDefaultState());
+            var barrel = player.world.getBlockEntity(position, BlockEntityType.BARREL);
+            if (!barrel.isPresent())
+                return;
+
+            for (int i = 0; i < barrel_content.size(); i++)
+                barrel.get().setStack(i, barrel_content.get(i));
+        }
+        player.setPos(position.getX() + 0.5, position.getY() + 1, position.getZ() + 0.5);
     }
 
     static
