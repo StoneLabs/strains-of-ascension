@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.crimson_fungus.name\"}',Lore:['{\"translate\":\"item.strainsofascension.crimson_fungus.lore1\"}', '{\"translate\":\"item.strainsofascension.crimson_fungus.lore2\"}', '{\"translate\":\"item.strainsofascension.crimson_fungus.lore3\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.crimson_fungus.name\"}',Lore:['{\"translate\":\"item.strainsofascension.crimson_fungus.lore1\"}', '{\"translate\":\"item.strainsofascension.crimson_fungus.lore2\"}', '{\"translate\":\"item.strainsofascension.crimson_fungus.lore3\"}', '{\"translate\":\"item.strainsofascension.crimson_fungus.lore4\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",

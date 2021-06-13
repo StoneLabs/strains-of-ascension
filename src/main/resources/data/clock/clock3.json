@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.clock3.name\"}',Lore:['{\"translate\":\"item.strainsofascension.clock3.lore1\"}', '{\"translate\":\"item.strainsofascension.clock3.lore2\"}', '{\"translate\":\"item.strainsofascension.clock3.lore3\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.clock3.name\"}',Lore:['{\"translate\":\"item.strainsofascension.clock3.lore1\"}', '{\"translate\":\"item.strainsofascension.clock3.lore2\"}', '{\"translate\":\"item.strainsofascension.clock3.lore3\"}', '{\"translate\":\"item.strainsofascension.clock3.lore4\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",
