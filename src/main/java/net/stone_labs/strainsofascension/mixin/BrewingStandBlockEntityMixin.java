@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BrewingStandBlockEntity.class)
 abstract class BrewingStandBlockEntityMixin
 {
-    @Inject(at = @At("HEAD"), method = "craft()V")
+    @Inject(at = @At("HEAD"), method = "craft")
     private static void init(World world, BlockPos pos, DefaultedList<ItemStack> slots, CallbackInfo info)
     {
         float power = 0;
