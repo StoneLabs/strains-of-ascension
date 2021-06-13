@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:written_book",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.name\"}',Lore:['{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.lore1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.lore2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.lore3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.lore4\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{filtered_title: \"§k..........\", title:\"§k..........\", author: \"§k..........\"}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_rabbit_foot.page3\"}']}"
+    }
+  ]
+}
