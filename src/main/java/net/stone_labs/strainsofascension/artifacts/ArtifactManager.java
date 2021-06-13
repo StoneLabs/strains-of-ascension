@@ -158,9 +158,9 @@ public class ArtifactManager
     static
     {
         ArtifactManagerLootType FullLoot = new ArtifactManagerLootType(true);
-        FullLoot.RegisterLoottable(new Identifier("minecraft", "blocks/spawner"), 0.20f);
+        FullLoot.RegisterLoottable(new Identifier("minecraft", "blocks/spawner"), 0.40f);
         FullLoot.RegisterLoottable(LootTables.SIMPLE_DUNGEON_CHEST, 0.15f);
-        FullLoot.RegisterLoottable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.05f);
+        FullLoot.RegisterLoottable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.10f);
         FullLoot.RegisterLoottable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
 
         FullLoot.RegisterLoottable(LootTables.BASTION_TREASURE_CHEST, 0.25f);
