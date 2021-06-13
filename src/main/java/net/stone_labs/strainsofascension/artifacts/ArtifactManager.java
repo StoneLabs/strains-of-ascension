@@ -52,6 +52,10 @@ public class ArtifactManager
     private static final String LOOTABLE_WITHER_TALISMAN5;
     private static final String LOOTABLE_CRIMSON_FUNGUS;
     private static final String LOOTABLE_RABBIT_FOOT;
+    private static final String LOOTABLE_DEPTH_MENDING_BOOK;
+    private static final String LOOTABLE_DEPTH_MENDING_BOOK1;
+    private static final String LOOTABLE_DEPTH_MENDING_BOOK2;
+    private static final String LOOTABLE_DEPTH_MENDING_BOOK3;
 
     public static void Init()
     {
@@ -105,7 +109,11 @@ public class ArtifactManager
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN4, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_WITHER_TALISMAN5, LootPoolEntry.class))
                     .withEntry(LOOT_GSON.fromJson(LOOTABLE_CRIMSON_FUNGUS, LootPoolEntry.class))
-                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_RABBIT_FOOT, LootPoolEntry.class));
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_RABBIT_FOOT, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK1, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK2, LootPoolEntry.class))
+                    .withEntry(LOOT_GSON.fromJson(LOOTABLE_DEPTH_MENDING_BOOK3, LootPoolEntry.class));
 
             supplier.withPool(poolBuilder.build());
         }
@@ -185,5 +193,9 @@ public class ArtifactManager
         LOOTABLE_WITHER_TALISMAN5 = ResourceLoader.LoadResource("data/wither_talisman/wither_talisman5.json");
         LOOTABLE_CRIMSON_FUNGUS = ResourceLoader.LoadResource("data/crimson_fungus.json");
         LOOTABLE_RABBIT_FOOT = ResourceLoader.LoadResource("data/rabbit_foot.json");
+        LOOTABLE_DEPTH_MENDING_BOOK = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book.json");
+        LOOTABLE_DEPTH_MENDING_BOOK1 = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book1.json");
+        LOOTABLE_DEPTH_MENDING_BOOK2 = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book2.json");
+        LOOTABLE_DEPTH_MENDING_BOOK3 = ResourceLoader.LoadResource("data/depth_mending_book/depth_mending_book3.json");
     }
 }
