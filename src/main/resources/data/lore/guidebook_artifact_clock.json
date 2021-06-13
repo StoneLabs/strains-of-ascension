@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:written_book",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.name\"}',Lore:['{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore4\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{filtered_title: \"§k..........\", title:\"§k..........\", author: \"§k..........\"}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page3\"}']}"
+    }
+  ]
+}
