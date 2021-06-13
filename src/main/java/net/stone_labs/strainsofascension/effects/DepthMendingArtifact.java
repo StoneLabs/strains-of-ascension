@@ -24,7 +24,8 @@ public class DepthMendingArtifact extends Strain
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
     {
-        if (artifactState.GetPower(Artifacts.DEPTH_MENDING) > 0)
+        int power = artifactState.GetPower(Artifacts.DEPTH_MENDING);
+        if (layer >= 4)
         {
             if (random.nextFloat() < 0.05 * artifactState.GetPower(Artifacts.DEPTH_MENDING))
                 return;
@@ -34,6 +35,16 @@ public class DepthMendingArtifact extends Strain
             for (ItemStack stack : player.getInventory().armor)
                 if (stack.isDamageable())
                     stacks.add(stack);
+
+            if (power == Artifacts.DEPTH_MENDING.MAX_VALUE)
+            {
+                for (ItemStack stack : player.getInventory().offHand)
+                    if (stack.isDamageable())
+                        stacks.add(stack);
+
+                if (player.getInventory().getMainHandStack().isDamageable())
+                    stacks.add(player.getInventory().getMainHandStack());
+            }
 
             if (stacks.size() == 0)
                 return;
