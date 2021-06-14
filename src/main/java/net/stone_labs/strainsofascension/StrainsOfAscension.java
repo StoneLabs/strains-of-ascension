@@ -58,11 +58,14 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                 ArtifactState artifactState = ArtifactManager.GetPlayerArtifactState(player.getInventory());
 
                 if (queueArtifactDebug)
-                    if (queueArtifactDebugFor == null || queueArtifactDebugFor.contains(player))
+                    if (queueArtifactDebugFor != null && queueArtifactDebugFor.contains(player))
                         artifactState.Debug(player, true);
 
                 StrainManager.applyEffects(player, artifactState);
             }
+
+            if (queueArtifactDebug)
+                printProfilerOutput(server);
 
             queueArtifactDebug = false;
 
@@ -74,6 +77,12 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                 tickTime = 0;
             }
         }
+    }
+
+    public static void printProfilerOutput(MinecraftServer server)
+    {
+        for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList())
+            serverPlayer.sendMessage(new LiteralText(String.format("\n§2Profiler: Average %.2fus per Server Tick.", tickAvrg)), false);
     }
 
     @Override

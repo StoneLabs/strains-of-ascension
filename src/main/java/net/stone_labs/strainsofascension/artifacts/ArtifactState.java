@@ -59,7 +59,6 @@ public class ArtifactState
                     artifactPower,
                     artifact.NAME));
         }
-        message.append(String.format("\n§2Profiler: Average %.2fus per Tick.", StrainsOfAscension.tickAvrg));
 
         if (showToAll)
             for (ServerPlayerEntity serverPlayer : player.server.getPlayerManager().getPlayerList())
