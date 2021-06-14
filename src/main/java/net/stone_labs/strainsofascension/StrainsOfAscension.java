@@ -106,7 +106,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
                                         if (!source.hasPermissionLevel(2))
                                         {
-                                            source.sendFeedback(new LiteralText("Insufficient permissions!"), false);
+                                            source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
                                             return 0;
                                         }
 
@@ -123,18 +123,20 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
                                         if (!source.hasPermissionLevel(2))
                                         {
-                                            source.sendFeedback(new LiteralText("Insufficient permissions!"), false);
+                                            source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
                                             return 0;
                                         }
 
-                                        source.sendFeedback(new LiteralText("Generating Artifacts, this may take a while..."), false);
-                                        for (ServerPlayerEntity player : getPlayers(context, "targets"))
+                                        var players = getPlayers(context, "targets");
+
+                                        source.sendFeedback(new LiteralText("Generating Artifacts, this may take a while..."), true);
+                                        for (ServerPlayerEntity player : players)
                                         {
                                             ArtifactManager.DropPlayerFullPool(player);
-                                            source.sendFeedback(new LiteralText(String.format("Artifacts generated for %s.", player.getEntityName())), false);
+                                            source.sendFeedback(new LiteralText(String.format("Artifacts generated for %s.", player.getEntityName())), true);
                                         }
 
-                                        source.sendFeedback(new LiteralText("Artifacts generated."), false);
+                                        source.sendFeedback(new LiteralText("Artifacts generated."), true);
 
                                         return 1;
                                     }))));
