@@ -29,7 +29,7 @@ DURATION 120*20
 
 public final class StrainManager
 {
-    public static final List<Strain> strains = new ArrayList<Strain>();
+    public static final List<Strain> strains = new ArrayList<>();
 
     public final static int effectDuration = 120 * 20 + 19;
     public final static int effectDurationBlindness = 3 * 20 + 19;
@@ -114,7 +114,7 @@ public final class StrainManager
 
     static
     {
-        strains.add(new FatiqueStrain());
+        strains.add(new FatigueStrain());
         strains.add(new WeaknessStrain());
         strains.add(new HungerStrain());
         strains.add(new SlownessStrain());

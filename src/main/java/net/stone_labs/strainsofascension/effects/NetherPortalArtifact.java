@@ -3,7 +3,6 @@ package net.stone_labs.strainsofascension.effects;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
-import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
 
 public class NetherPortalArtifact extends Strain

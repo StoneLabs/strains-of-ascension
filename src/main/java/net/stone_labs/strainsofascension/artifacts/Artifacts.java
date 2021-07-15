@@ -24,9 +24,9 @@ public class Artifacts
         return REGISTER.values();
     }
 
-    private static Artifact register(Integer id, String name, int maxValue, boolean needsEqupped)
+    private static Artifact register(Integer id, String name, int maxValue, boolean needsEquipped)
     {
-        Artifact artifact = new Artifact(id, name, maxValue, needsEqupped);
+        Artifact artifact = new Artifact(id, name, maxValue, needsEquipped);
         REGISTER.put(id, artifact);
 
         return artifact;
