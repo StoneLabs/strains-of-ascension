@@ -8,7 +8,6 @@ import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Implements;
 
 public class BlindnessStrain extends Strain
 {

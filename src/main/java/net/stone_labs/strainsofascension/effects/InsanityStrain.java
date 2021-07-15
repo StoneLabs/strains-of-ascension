@@ -4,7 +4,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
-import net.stone_labs.strainsofascension.StrainManager;
 
 import java.util.Random;
 

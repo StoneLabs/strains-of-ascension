@@ -124,8 +124,8 @@ public class ArtifactManager
                 drops.add(itemStack);
         };
 
-        // Yes this is a bad solution.
-        // But the chance of a item with loot change 0.05% is missing is e-11 so it should be fine
+        // Yes this is a terrible solution. But i dont see a simpler way sadly...
+        // Also the chance of a item with loot change 0.05% is missing is e-11 so it should be fine
         for (int i = 0; i < 50000; i++)
         {
             for (ArtifactManagerLootType lootType : LOOT_TYPES)
@@ -146,6 +146,8 @@ public class ArtifactManager
 
             player.world.setBlockState(position, Blocks.BARREL.getDefaultState());
             var barrel = player.world.getBlockEntity(position, BlockEntityType.BARREL);
+
+            //noinspection SimplifyOptionalCallChains
             if (!barrel.isPresent())
                 return;
 

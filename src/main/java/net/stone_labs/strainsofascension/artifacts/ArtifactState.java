@@ -2,10 +2,8 @@ package net.stone_labs.strainsofascension.artifacts;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.stone_labs.strainsofascension.StrainsOfAscension;
 
 import java.util.HashMap;
 import java.util.Map;
