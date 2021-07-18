@@ -34,9 +34,8 @@ public class BlindnessStrain extends Strain
             int duration = nvEffect.getDuration();
             int newDuration = duration - Math.max(0, 5 - artifactState.GetPower(Artifacts.NV_BONUS));
 
-            player.removeStatusEffect(StatusEffects.NIGHT_VISION);
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION,
-                    newDuration, 0, true, true));
+            player.setStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION,
+                    newDuration, 0, true, true), null);
 
             if (isCancelable(layer))
             {
