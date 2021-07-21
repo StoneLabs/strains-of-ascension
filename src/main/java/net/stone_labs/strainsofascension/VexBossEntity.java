@@ -64,10 +64,7 @@ public class VexBossEntity extends VexEntity
         this.setLifeTicks(Integer.MAX_VALUE);
         this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(200);
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
-
-        NbtCompound compound = new NbtCompound();
-        compound.putInt("test", 1);
-        this.writeNbt(compound);
+        this.setPersistent();
 
         serverWorld.spawnEntity(this);
     }
