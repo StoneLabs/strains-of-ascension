@@ -45,8 +45,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static double tickAvrg = 0;
     public static int tickNumber = 0;
 
-    VexBoss vexBoss = new VexBoss();
-
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
         @Override
@@ -90,7 +88,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public void onInitializeServer()
     {
         ServerTickEvents.END_SERVER_TICK.register(new ServerTickEvent());
-        ServerTickEvents.END_SERVER_TICK.register(vexBoss);
 
         LOGGER.log(Level.INFO, "Initialized {} version {}", MOD_NAME, VERSION);
 
@@ -154,7 +151,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                     if (!source.getPlayer().isPlayer())
                         return 1;
 
-                    vexBoss.Summon(source.getPlayer().getBlockPos());
+                    new VexBoss(source.getWorld(), source.getPlayer().getBlockPos());
                     return 0;
                 }));
         });
