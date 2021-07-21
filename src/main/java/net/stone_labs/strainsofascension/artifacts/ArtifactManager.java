@@ -12,13 +12,16 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextType;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
 import net.stone_labs.strainsofascension.utils.StackPreventer;
 
@@ -29,31 +32,25 @@ public class ArtifactManager
     private static class ArtifactManagerLootType
     {
         private final Map<Identifier, Float> lootTableProbabilities;
-        private final List<String> lootablesJsons;
+        private final List<String> lootablesJSONs;
 
-        public LootPool LootPool;
         public boolean IncludeInGiveCommand;
 
         public ArtifactManagerLootType(boolean includeInGiveCommand)
         {
             this.lootTableProbabilities = new HashMap<>();
-            this.lootablesJsons = new ArrayList<>();
+            this.lootablesJSONs = new ArrayList<>();
             IncludeInGiveCommand = includeInGiveCommand;
         }
 
-        public void RegisterLoottable(Identifier identifier, Float propability)
+        public void RegisterLootTable(Identifier identifier, Float propability)
         {
             lootTableProbabilities.put(identifier, propability);
         }
 
-        public void RegisterCopyLoottable(ArtifactManagerLootType other)
-        {
-            lootTableProbabilities.putAll(other.lootTableProbabilities);
-        }
-
         public void RegisterLootable(String path)
         {
-            lootablesJsons.add(ResourceLoader.LoadResource(path));
+            lootablesJSONs.add(ResourceLoader.LoadResource(path));
         }
 
         public boolean ContainsLootTable(Identifier identifier)
@@ -61,19 +58,46 @@ public class ArtifactManager
             return lootTableProbabilities.containsKey(identifier);
         }
 
-        public float GetLootTablePropability(Identifier identifier)
+        public float GetLootTableProbability(Identifier identifier)
         {
             return lootTableProbabilities.get(identifier);
         }
 
         public List<String> GetLootableJsons()
         {
-            return lootablesJsons;
+            return lootablesJSONs;
+        }
+
+        private LootPool LootPool = null;
+        private void CreateLootPool()
+        {
+            FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .withFunction(new StackPreventer());
+
+            for (String json : this.GetLootableJsons())
+                poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
+
+            this.LootPool = poolBuilder.build();
+        }
+        public void GenerateLoot(ServerWorld world, Vec3d origin, int number, java.util.function.Consumer<ItemStack> consumer)
+        {
+            if (LootPool == null)
+                CreateLootPool();
+
+            for (int i = 0; i < number; i++)
+                this.LootPool.addGeneratedLoot(consumer,
+                        new LootContext.Builder(world)
+                                .parameter(LootContextParameters.ORIGIN, origin)
+                                .luck(3)
+                                .random(new Random())
+                                .build(LootContextTypes.COMMAND));
         }
     }
 
     private static final Gson LOOT_GSON = LootGsons.getTableGsonBuilder().create();
     private static final List<ArtifactManagerLootType> LOOT_TYPES;
+    private static final ArtifactManagerLootType LOOT_TYPE_FULL;
 
     public static void Init()
     {
@@ -87,7 +111,7 @@ public class ArtifactManager
             {
                 FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .withCondition(RandomChanceLootCondition.builder(lootType.GetLootTablePropability(id)).build())
+                        .withCondition(RandomChanceLootCondition.builder(lootType.GetLootTableProbability(id)).build())
                         .withFunction(new StackPreventer());
 
                 for (String json : lootType.GetLootableJsons())
@@ -114,6 +138,16 @@ public class ArtifactManager
         return artifactState;
     }
 
+    public static void DropFullLootItems(ServerWorld world, Vec3d origin, int number, java.util.function.Consumer<ItemStack> consumer)
+    {
+        List<ItemStack> drops = new ArrayList<>();
+        while (drops.size() < number)
+            LOOT_TYPE_FULL.GenerateLoot(world, origin, number, drops::add);
+
+        for (ItemStack stack : drops)
+            consumer.accept(stack);
+    }
+
     public static void DropPlayerFullPool(ServerPlayerEntity player)
     {
         List<ItemStack> drops = new ArrayList<>();
@@ -126,16 +160,9 @@ public class ArtifactManager
 
         // Yes this is a terrible solution. But i dont see a simpler way sadly...
         // Also the chance of a item with loot change 0.05% is missing is e-11 so it should be fine
-        for (int i = 0; i < 50000; i++)
-        {
-            for (ArtifactManagerLootType lootType : LOOT_TYPES)
-                lootType.LootPool.addGeneratedLoot(applier,
-                        new LootContext.Builder(player.getServerWorld())
-                                .parameter(LootContextParameters.ORIGIN, player.getPos())
-                                .random(new Random())
-                                .luck(3)
-                                .build(LootContextTypes.COMMAND));
-        }
+        for (ArtifactManagerLootType lootType : LOOT_TYPES)
+            lootType.GenerateLoot(player.getServerWorld(), player.getPos(), 50000, applier);
+
         drops.sort(Comparator.comparing(o -> o.getName().getString()));
 
         BlockPos position = player.getBlockPos().add(0, -1, 0);
@@ -160,15 +187,15 @@ public class ArtifactManager
     static
     {
         ArtifactManagerLootType FullLoot = new ArtifactManagerLootType(true);
-        FullLoot.RegisterLoottable(new Identifier("minecraft", "blocks/spawner"), 0.40f);
-        FullLoot.RegisterLoottable(LootTables.SIMPLE_DUNGEON_CHEST, 0.15f);
-        FullLoot.RegisterLoottable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.10f);
-        FullLoot.RegisterLoottable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
+        FullLoot.RegisterLootTable(new Identifier("minecraft", "blocks/spawner"), 0.40f);
+        FullLoot.RegisterLootTable(LootTables.SIMPLE_DUNGEON_CHEST, 0.15f);
+        FullLoot.RegisterLootTable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.10f);
+        FullLoot.RegisterLootTable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.02f);
 
-        FullLoot.RegisterLoottable(LootTables.BASTION_TREASURE_CHEST, 0.25f);
-        FullLoot.RegisterLoottable(LootTables.BASTION_OTHER_CHEST, 0.1f);
-        FullLoot.RegisterLoottable(LootTables.BASTION_BRIDGE_CHEST, 0.1f);
-        FullLoot.RegisterLoottable(LootTables.BASTION_HOGLIN_STABLE_CHEST, 0.1f);
+        FullLoot.RegisterLootTable(LootTables.BASTION_TREASURE_CHEST, 0.25f);
+        FullLoot.RegisterLootTable(LootTables.BASTION_OTHER_CHEST, 0.1f);
+        FullLoot.RegisterLootTable(LootTables.BASTION_BRIDGE_CHEST, 0.1f);
+        FullLoot.RegisterLootTable(LootTables.BASTION_HOGLIN_STABLE_CHEST, 0.1f);
 
         FullLoot.RegisterLootable("data/shield.json");
         FullLoot.RegisterLootable("data/clock/clock.json");
@@ -201,24 +228,24 @@ public class ArtifactManager
         FullLoot.RegisterLootable("data/depth_mending_book/depth_mending_book3.json");
 
         ArtifactManagerLootType BasicLoot = new ArtifactManagerLootType(false);
-        BasicLoot.RegisterLoottable(LootTables.WOODLAND_MANSION_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.PILLAGER_OUTPOST_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.SHIPWRECK_MAP_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.SHIPWRECK_TREASURE_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.WOODLAND_MANSION_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.PILLAGER_OUTPOST_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.SHIPWRECK_MAP_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.SHIPWRECK_TREASURE_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.05f);
 
-        BasicLoot.RegisterLoottable(LootTables.IGLOO_CHEST_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.DESERT_PYRAMID_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.IGLOO_CHEST_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.JUNGLE_TEMPLE_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.DESERT_PYRAMID_CHEST, 0.05f);
 
-        BasicLoot.RegisterLoottable(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.STRONGHOLD_CROSSING_CHEST, 0.05f);
-        BasicLoot.RegisterLoottable(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.STRONGHOLD_CROSSING_CHEST, 0.05f);
+        BasicLoot.RegisterLootTable(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.05f);
 
-        BasicLoot.RegisterLoottable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
+        BasicLoot.RegisterLootTable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
         BasicLoot.RegisterLootable("data/clock/clock.json");
         BasicLoot.RegisterLootable("data/spyglass/spyglass.json");
@@ -228,28 +255,28 @@ public class ArtifactManager
         BasicLoot.RegisterLootable("data/rabbit_foot.json");
 
         ArtifactManagerLootType LoreLoot = new ArtifactManagerLootType(true);
-        LoreLoot.RegisterLoottable(LootTables.SIMPLE_DUNGEON_CHEST, 0.40f);
-        LoreLoot.RegisterLoottable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.SIMPLE_DUNGEON_CHEST, 0.40f);
+        LoreLoot.RegisterLootTable(LootTables.ABANDONED_MINESHAFT_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.VILLAGE_CARTOGRAPHER_CHEST, 0.10f);
 
-        LoreLoot.RegisterLoottable(LootTables.WOODLAND_MANSION_CHEST, 0.10f);
-        LoreLoot.RegisterLoottable(LootTables.PILLAGER_OUTPOST_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.SHIPWRECK_MAP_CHEST, 0.10f);
-        LoreLoot.RegisterLoottable(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.10f);
-        LoreLoot.RegisterLoottable(LootTables.SHIPWRECK_TREASURE_CHEST, 0.10f);
-        LoreLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.10f);
-        LoreLoot.RegisterLoottable(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.WOODLAND_MANSION_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.PILLAGER_OUTPOST_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.SHIPWRECK_MAP_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.SHIPWRECK_SUPPLY_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.SHIPWRECK_TREASURE_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.UNDERWATER_RUIN_SMALL_CHEST, 0.10f);
+        LoreLoot.RegisterLootTable(LootTables.UNDERWATER_RUIN_BIG_CHEST, 0.10f);
 
-        LoreLoot.RegisterLoottable(LootTables.IGLOO_CHEST_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.JUNGLE_TEMPLE_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.DESERT_PYRAMID_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.IGLOO_CHEST_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.JUNGLE_TEMPLE_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.DESERT_PYRAMID_CHEST, 0.15f);
 
-        LoreLoot.RegisterLoottable(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.STRONGHOLD_CROSSING_CHEST, 0.15f);
-        LoreLoot.RegisterLoottable(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.STRONGHOLD_CORRIDOR_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.STRONGHOLD_CROSSING_CHEST, 0.15f);
+        LoreLoot.RegisterLootTable(LootTables.STRONGHOLD_LIBRARY_CHEST, 0.15f);
 
-        LoreLoot.RegisterLoottable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
+        LoreLoot.RegisterLootTable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
         LoreLoot.RegisterLootable("data/lore/guidebook_introduction.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layers.json");
@@ -277,5 +304,6 @@ public class ArtifactManager
             add(FullLoot);
             add(LoreLoot);
         }};
+        LOOT_TYPE_FULL = FullLoot;
     }
 }
