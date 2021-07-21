@@ -18,7 +18,8 @@
   "entrypoints": {
     "main": [],
     "client": [
-      "net.stone_labs.strainsofascension.ClientWarning"],
+      "net.stone_labs.strainsofascension.ClientWarning"
+    ],
     "server": [
       "net.stone_labs.strainsofascension.StrainsOfAscension"
     ]

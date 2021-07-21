@@ -21,7 +21,7 @@ public class StackPreventer implements LootFunction
     @Override
     public ItemStack apply(ItemStack stack, LootContext lootContext)
     {
-        stack.getOrCreateTag().putInt("stackPreventer", random.nextInt());
+        stack.getOrCreateNbt().putInt("stackPreventer", random.nextInt());
         return stack;
     }
 }

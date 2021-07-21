@@ -22,14 +22,14 @@ abstract class BrewingStandBlockEntityMixin
 
         for (ItemStack stack : slots)
         {
-            if (!stack.hasTag())
+            if (!stack.hasNbt())
                 continue;
 
             //noinspection ConstantConditions
-            if (!stack.getTag().contains("artifact", NbtElement.INT_TYPE))
+            if (!stack.getNbt().contains("artifact", NbtElement.INT_TYPE))
                 continue;
 
-            power += stack.getTag().getInt("artifactPower");
+            power += stack.getNbt().getInt("artifactPower");
         }
 
         if (power > 0)
