@@ -2,13 +2,17 @@ package net.stone_labs.strainsofascension;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.VexEntity;
+import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.TeleportCommand;
@@ -18,6 +22,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
@@ -27,7 +32,7 @@ public class VexBossEntity extends VexEntity
 {
     final int SUMMON_DISTANCE = 10;
     final int PLATFORM_HEIGHT = 300;
-    final int TELEPORT_HEIGHT = 306;
+    final int TELEPORT_HEIGHT = 303;
     final int SPAWN_HEIGHT = 306;
 
     boolean fightInProgress = false;
@@ -121,18 +126,28 @@ public class VexBossEntity extends VexEntity
         if (this.getHealth() <= 0)
             return;
 
+
+        // Fireball
+        if (tickCounter % 20 == 0 && random.nextFloat() < 0.1f)
+            ShootFireball();
+
+        // Stage 2
         if (this.getHealth() < this.getMaxHealth() * 0.75 && this.getHealth() > this.getMaxHealth() * 0.33)
         {
-            if (tickCounter % 100 == 0)
+            if (tickCounter % 200 == 0)
+            {
                 CreatePlatform();
-            if (tickCounter % 100 == 30)
                 MarkRandomPlatformPart();
-            if (tickCounter % 100 == 70)
+            }
+            if (tickCounter % 200 == 40)
                 DestroyRedPlatform();
         }
 
+        // Stage 3
         if (this.getHealth() < this.getMaxHealth() * 0.33)
             RandomizePlatform();
+
+        HealPlatform();
     }
 
     private void MarkRandomPlatformPart()
@@ -182,6 +197,20 @@ public class VexBossEntity extends VexEntity
             }
     }
 
+    private void ShootFireball()
+    {
+        LivingEntity target = this.getTarget();
+        if (target != null && target.distanceTo(this) < 8)
+        {
+            Vec3d velocity = target.getPos().subtract(this.getPos()).normalize().multiply(random.nextFloat() * 0.2 + 0.1);
+            if (velocity.length() < 0.1)
+                return;
+
+            FireballEntity fireball = new FireballEntity(this.serverWorld, this, velocity.x, velocity.y, velocity.z, 1);
+            this.serverWorld.spawnEntity(fireball);
+        }
+    }
+
     private void DestroyCheatBlocks()
     {
         int XZDistance = SUMMON_DISTANCE + 3;
@@ -191,13 +220,32 @@ public class VexBossEntity extends VexEntity
                 for (int z = -XZDistance; z <= XZDistance; z++)
                 {
                     BlockPos pos = new BlockPos(summonPos.getX() + x, PLATFORM_HEIGHT + y, summonPos.getZ() + z);
-                    BlockState state = this.serverWorld.getBlockState(pos);
-                    if (!state.isAir() &&
-                        !state.isOf(Blocks.BLACK_STAINED_GLASS) &&
-                        !state.isOf(Blocks.RED_STAINED_GLASS))
+                    BlockState blockState = this.serverWorld.getBlockState(pos);
+                    FluidState fluidState = this.serverWorld.getFluidState(pos);
+
+                    if (!fluidState.isEmpty())
                     {
                         this.serverWorld.createExplosion(this, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, Explosion.DestructionType.BREAK);
-                        this.serverWorld.removeBlock(pos, false);
+                        this.serverWorld.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        continue;
+                    }
+
+                    if (blockState.isAir())
+                        continue;
+
+                    boolean cheatBlock =
+                            !blockState.isOf(Blocks.BLACK_STAINED_GLASS) &&
+                            !blockState.isOf(Blocks.RED_STAINED_GLASS);
+
+                    if (pos.getY() != PLATFORM_HEIGHT)
+                        cheatBlock = true;
+                    if (!pos.isWithinDistance(summonPos.withY(PLATFORM_HEIGHT), SUMMON_DISTANCE))
+                        cheatBlock = true;
+
+                    if (cheatBlock)
+                    {
+                        this.serverWorld.createExplosion(this, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, Explosion.DestructionType.BREAK);
+                        this.serverWorld.breakBlock(pos, true);
                     }
                 }
     }
@@ -230,6 +278,21 @@ public class VexBossEntity extends VexEntity
         }
     }
 
+    private void HealPlatform()
+    {
+        for (int x = -SUMMON_DISTANCE; x <= SUMMON_DISTANCE; x++)
+            for (int z = -SUMMON_DISTANCE; z <= SUMMON_DISTANCE; z++)
+            {
+                BlockPos pos = new BlockPos(summonPos.getX() + x, PLATFORM_HEIGHT, summonPos.getZ() + z);
+                if (pos.isWithinDistance(summonPos.withY(PLATFORM_HEIGHT), SUMMON_DISTANCE))
+                {
+                    if (this.serverWorld.isAir(pos))
+                        if (random.nextFloat() < 0.03f)
+                            this.serverWorld.setBlockState(pos, Blocks.BLACK_STAINED_GLASS.getDefaultState());
+                }
+            }
+    }
+
     private void RandomizePlatform()
     {
         for (int x = -SUMMON_DISTANCE; x <= SUMMON_DISTANCE; x++)
@@ -241,12 +304,7 @@ public class VexBossEntity extends VexEntity
                     if (random.nextFloat() > 0.1f)
                         continue;
 
-                    if (this.serverWorld.isAir(pos))
-                    {
-                        if (random.nextFloat() < (1.0f / 10.0f))
-                            this.serverWorld.setBlockState(pos, Blocks.BLACK_STAINED_GLASS.getDefaultState());
-                    }
-                    else if (this.serverWorld.getBlockState(pos).isOf(Blocks.BLACK_STAINED_GLASS))
+                    if (this.serverWorld.getBlockState(pos).isOf(Blocks.BLACK_STAINED_GLASS))
                     {
                         if (random.nextFloat() < (1.0f / 100.0f))
                             this.serverWorld.setBlockState(pos, Blocks.RED_STAINED_GLASS.getDefaultState());
