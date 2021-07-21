@@ -8,10 +8,12 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.gamerule.v1.rule.DoubleRule;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
@@ -42,6 +44,8 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static long tickTime = 0;
     public static double tickAvrg = 0;
     public static int tickNumber = 0;
+
+    VexBoss vexBoss = new VexBoss();
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
@@ -86,6 +90,8 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public void onInitializeServer()
     {
         ServerTickEvents.END_SERVER_TICK.register(new ServerTickEvent());
+        ServerTickEvents.END_SERVER_TICK.register(vexBoss);
+
         LOGGER.log(Level.INFO, "Initialized {} version {}", MOD_NAME, VERSION);
 
         // Add lootTable loaded callback
@@ -137,6 +143,20 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
                                         return 1;
                                     }))));
+
+            dispatcher.register(literal("artifacts")
+                .executes((context) ->
+                {
+                    final ServerCommandSource source = context.getSource();
+                    if (source.getPlayer() == null)
+                        return 1;
+
+                    if (!source.getPlayer().isPlayer())
+                        return 1;
+
+                    vexBoss.Summon(source.getPlayer().getBlockPos());
+                    return 0;
+                }));
         });
 
         // Set values from gamerules on server start
