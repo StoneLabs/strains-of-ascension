@@ -13,6 +13,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.VexEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.TeleportCommand;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
+import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 
 import java.util.Random;
 
@@ -62,6 +64,10 @@ public class VexBossEntity extends VexEntity
         this.setLifeTicks(Integer.MAX_VALUE);
         this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(200);
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
+
+        NbtCompound compound = new NbtCompound();
+        compound.putInt("test", 1);
+        this.writeNbt(compound);
 
         serverWorld.spawnEntity(this);
     }
@@ -352,6 +358,11 @@ public class VexBossEntity extends VexEntity
             return;
 
         if (source.getAttacker().isPlayer())
-            ((ServerPlayerEntity)source.getAttacker()).sendMessage(new LiteralText("test"), false);
+        {
+            int lootItems = (int)Math.floor(Math.min(Math.max(random.nextGaussian(), -1.5), 1)/1.5 + 2.75);
+            ArtifactManager.DropFullLootItems(this.serverWorld, this.getPos(), 2, this::dropStack);
+            for (int i = 0; i < 50; i++)
+                this.dropXp();
+        }
     }
 }
