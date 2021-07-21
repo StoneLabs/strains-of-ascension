@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.depth_mending_book3.name\"}'}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.depth_mending_book3.name\"}', Lore:['{\"translate\":\"item.strainsofascension.depth_mending_book3.lore1\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",
