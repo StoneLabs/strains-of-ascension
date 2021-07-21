@@ -26,10 +26,10 @@ public class ArtifactState
     @SuppressWarnings("ConstantConditions")
     public void consider(ItemStack stack, boolean isEquip)
     {
-        if (!stack.hasTag())
+        if (!stack.hasNbt())
             return;
 
-        NbtCompound tag = stack.getTag();
+        NbtCompound tag = stack.getNbt();
 
         Artifact artifact = Artifacts.ByID(tag.getInt("artifact"));
         if (artifact == null)
