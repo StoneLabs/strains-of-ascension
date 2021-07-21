@@ -36,7 +36,7 @@ def getRelease = { ->
 			commandLine 'git', 'branch', '--show-current'
 			standardOutput = code
 		}
-		return code.toString() == "master"
+		return code.toString().trim() == "master"
 	}
 	catch (ignored) {
 		return -1;
