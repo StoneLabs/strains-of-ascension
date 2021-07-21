@@ -23,7 +23,7 @@ import net.minecraft.world.explosion.Explosion;
 
 import java.util.Random;
 
-public class VexBoss extends VexEntity
+public class VexBossEntity extends VexEntity
 {
     final int SUMMON_DISTANCE = 10;
     final int PLATFORM_HEIGHT = 300;
@@ -41,7 +41,7 @@ public class VexBoss extends VexEntity
 
     Random random = new Random();
 
-    public VexBoss(ServerWorld serverWorld, BlockPos summonPos)
+    public VexBossEntity(ServerWorld serverWorld, BlockPos summonPos)
     {
         super(EntityType.VEX, serverWorld);
 

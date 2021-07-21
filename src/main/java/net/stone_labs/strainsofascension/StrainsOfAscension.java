@@ -8,12 +8,10 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.gamerule.v1.rule.DoubleRule;
 import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
@@ -151,7 +149,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                     if (!source.getPlayer().isPlayer())
                         return 1;
 
-                    new VexBoss(source.getWorld(), source.getPlayer().getBlockPos());
+                    new VexBossEntity(source.getWorld(), source.getPlayer().getBlockPos());
                     return 0;
                 }));
         });
