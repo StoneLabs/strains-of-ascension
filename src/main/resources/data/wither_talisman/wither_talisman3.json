@@ -9,7 +9,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.wither_talisman3.name\"}',Lore:['{\"translate\":\"item.strainsofascension.wither_talisman3.lore1\"}', '{\"translate\":\"item.strainsofascension.wither_talisman3.lore2\"}', '{\"translate\":\"item.strainsofascension.wither_talisman3.lore3\"}', '{\"translate\":\"item.strainsofascension.wither_talisman3.lore4\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.wither_talisman3.name\"}'}}"
     },
     {
       "function": "minecraft:set_nbt",

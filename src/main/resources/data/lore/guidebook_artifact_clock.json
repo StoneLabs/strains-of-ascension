@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.name\"}',Lore:['{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore4\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.name\"}'}}"
     },
     {
       "function": "minecraft:set_nbt",

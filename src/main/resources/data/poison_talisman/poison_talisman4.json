@@ -9,7 +9,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.poison_talisman4.name\"}',Lore:['{\"translate\":\"item.strainsofascension.poison_talisman4.lore1\"}', '{\"translate\":\"item.strainsofascension.poison_talisman4.lore2\"}', '{\"translate\":\"item.strainsofascension.poison_talisman4.lore3\"}', '{\"translate\":\"item.strainsofascension.poison_talisman4.lore4\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.poison_talisman4.name\"}'}}"
     },
     {
       "function": "minecraft:set_nbt",
