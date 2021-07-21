@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_layers.name\"}',Lore:['{\"translate\":\"item.strainsofascension.guidebook_layers.lore1\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.lore2\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.lore3\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.lore4\"}']}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_layers.name\"}'}}"
     },
     {
       "function": "minecraft:set_nbt",
