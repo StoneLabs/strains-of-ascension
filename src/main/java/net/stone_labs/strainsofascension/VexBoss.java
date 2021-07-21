@@ -1,5 +1,6 @@
 package net.stone_labs.strainsofascension;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -18,6 +19,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 import java.util.Random;
 
@@ -55,7 +57,6 @@ public class VexBoss extends VexEntity
         this.setLifeTicks(Integer.MAX_VALUE);
         this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(200);
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
-        this.setInvisible(false);
 
         serverWorld.spawnEntity(this);
     }
@@ -63,12 +64,16 @@ public class VexBoss extends VexEntity
     @Override
     public void tick()
     {
-        serverWorld.getServer().sendSystemMessage(new LiteralText(this.getPos().toString()), null);
+        super.tick();
         bossBar.setPercent(this.getHealth() / this.getMaxHealth());
 
         // Summon phase
         if (tickCounter == 0)
-            CreatePlatform(this.serverWorld);
+        {
+            CreatePlatform();
+            this.setInvulnerable(true);
+            this.setAiDisabled(true);
+        }
 
         if (tickCounter == 5)
             for (ServerPlayerEntity player : this.serverWorld.getPlayers())
@@ -93,18 +98,120 @@ public class VexBoss extends VexEntity
         if (!fightInProgress)
             return;
 
+        DestroyCheatBlocks();
         if (!spawnCompleted)
         {
             heal(1);
             if (this.getHealth() == this.getMaxHealth())
+            {
+                this.setAiDisabled(false);
+                this.setInvulnerable(false);
                 spawnCompleted = true;
+            }
 
             return;
         }
-        super.tick();
 
-        if (this.getHealth() < this.getMaxHealth() / 2)
+        if (bossBar.getPlayers().size() == 0)
+            kill();
+
+        if (this.world.getPlayers().stream().noneMatch(player -> player.distanceTo(this) < 50))
+            kill();
+
+        if (this.getHealth() <= 0)
+            return;
+
+        if (this.getHealth() < this.getMaxHealth() * 0.75 && this.getHealth() > this.getMaxHealth() * 0.33)
+        {
+            if (tickCounter % 100 == 0)
+                CreatePlatform();
+            if (tickCounter % 100 == 30)
+                MarkRandomPlatformPart();
+            if (tickCounter % 100 == 70)
+                DestroyRedPlatform();
+        }
+
+        if (this.getHealth() < this.getMaxHealth() * 0.33)
             RandomizePlatform();
+    }
+
+    private void MarkRandomPlatformPart()
+    {
+        int lowerXLim = -SUMMON_DISTANCE;
+        int lowerZLim = -SUMMON_DISTANCE;
+        int upperXLim = SUMMON_DISTANCE;
+        int upperZLim = SUMMON_DISTANCE;
+        int lowerDLim = 0;
+        int upperDLim = SUMMON_DISTANCE + 1;
+
+        switch (random.nextInt(10))
+        {
+            case 0 -> lowerXLim = 0;
+            case 1 -> lowerZLim = 0;
+            case 2 -> upperXLim = 0;
+            case 3 -> upperZLim = 0;
+            case 4 -> {
+                lowerXLim = 0;
+                lowerZLim = 0;
+            }
+            case 5 -> {
+                lowerXLim = 0;
+                upperZLim = 0;
+            }
+            case 6 -> {
+                upperXLim = 0;
+                lowerZLim = 0;
+            }
+            case 7 -> {
+                upperXLim = 0;
+                upperZLim = 0;
+            }
+            case 8 -> upperDLim = SUMMON_DISTANCE / 2;
+            case 9 -> lowerDLim = SUMMON_DISTANCE / 2;
+        }
+
+        for (int x = lowerXLim; x <= upperXLim; x++)
+            for (int z = lowerZLim; z <= upperZLim; z++)
+            {
+                BlockPos pos = new BlockPos(summonPos.getX() + x, PLATFORM_HEIGHT, summonPos.getZ() + z);
+                double distance = pos.getSquaredDistance(summonPos.withY(PLATFORM_HEIGHT));
+
+                if (lowerDLim * lowerDLim < distance && upperDLim * upperDLim > distance)
+                    if (this.serverWorld.getBlockState(pos).isOf(Blocks.BLACK_STAINED_GLASS))
+                        this.serverWorld.setBlockState(pos, Blocks.RED_STAINED_GLASS.getDefaultState());
+            }
+    }
+
+    private void DestroyCheatBlocks()
+    {
+        int XZDistance = SUMMON_DISTANCE + 3;
+        int YDistance = 5;
+        for (int x = -XZDistance; x <= XZDistance; x++)
+            for (int y = -1; y <= YDistance; y++)
+                for (int z = -XZDistance; z <= XZDistance; z++)
+                {
+                    BlockPos pos = new BlockPos(summonPos.getX() + x, PLATFORM_HEIGHT + y, summonPos.getZ() + z);
+                    BlockState state = this.serverWorld.getBlockState(pos);
+                    if (!state.isAir() &&
+                        !state.isOf(Blocks.BLACK_STAINED_GLASS) &&
+                        !state.isOf(Blocks.RED_STAINED_GLASS))
+                    {
+                        this.serverWorld.createExplosion(this, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, Explosion.DestructionType.BREAK);
+                        this.serverWorld.removeBlock(pos, false);
+                    }
+                }
+    }
+
+    private void DestroyRedPlatform()
+    {
+        for (int x = -SUMMON_DISTANCE; x <= SUMMON_DISTANCE; x++)
+            for (int z = -SUMMON_DISTANCE; z <= SUMMON_DISTANCE; z++)
+            {
+                BlockPos pos = new BlockPos(summonPos.getX() + x, PLATFORM_HEIGHT, summonPos.getZ() + z);
+                if (pos.isWithinDistance(summonPos.withY(PLATFORM_HEIGHT), SUMMON_DISTANCE))
+                    if (this.serverWorld.getBlockState(pos).isOf(Blocks.RED_STAINED_GLASS))
+                        this.serverWorld.removeBlock(pos, false);
+            }
     }
 
     private void SpawnSummoningParticles()
@@ -153,14 +260,14 @@ public class VexBoss extends VexEntity
             }
     }
 
-    private void CreatePlatform(World world)
+    private void CreatePlatform()
     {
         for (int x = -SUMMON_DISTANCE; x <= SUMMON_DISTANCE; x++)
             for (int z = -SUMMON_DISTANCE; z <= SUMMON_DISTANCE; z++)
             {
                 BlockPos pos = new BlockPos(summonPos.getX() + x, PLATFORM_HEIGHT, summonPos.getZ() + z);
                 if (pos.isWithinDistance(summonPos.withY(PLATFORM_HEIGHT), SUMMON_DISTANCE))
-                    world.setBlockState(pos, Blocks.BLACK_STAINED_GLASS.getDefaultState());
+                    this.serverWorld.setBlockState(pos, Blocks.BLACK_STAINED_GLASS.getDefaultState());
             }
     }
 
