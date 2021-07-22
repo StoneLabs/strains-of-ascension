@@ -40,7 +40,7 @@ public class InsanityStrain extends Strain
 
     public static void playRandomHorrorMessage(ServerPlayerEntity player, Random random)
     {
-        player.sendMessage(new LiteralText(horrorMessages.get(random.nextInt(horrorMessages.size()))), false);
+        player.sendMessage(horrorMessages.get(random.nextInt(horrorMessages.size())), false);
     }
 
     public static void playRandomHorrorAudio(ServerPlayerEntity player, Random random)
