@@ -22,6 +22,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -55,7 +56,7 @@ public class VexBossEntity extends VexEntity
         this.serverWorld = serverWorld;
         this.summonPos = summonPos;
 
-        this.bossBar = new ServerBossBar(new LiteralText("ANCIENT VEX"), BossBar.Color.PINK, BossBar.Style.NOTCHED_20);
+        this.bossBar = new ServerBossBar(new TranslatableText("entity.strainsofascension.vex_boss.name"), BossBar.Color.PINK, BossBar.Style.NOTCHED_20);
 
         BlockPos spawnPosition = this.summonPos.withY(SPAWN_HEIGHT);
         this.refreshPositionAndAngles(spawnPosition, 0.0F, 0.0F);
