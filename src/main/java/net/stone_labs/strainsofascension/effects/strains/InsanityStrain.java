@@ -1,16 +1,17 @@
-package net.stone_labs.strainsofascension.effects;
+package net.stone_labs.strainsofascension.effects.strains;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.LiteralText;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
+import net.stone_labs.strainsofascension.effects.ConstantEffect;
+import net.stone_labs.strainsofascension.effects.Effect;
 
 import java.util.Random;
 
 import static net.stone_labs.strainsofascension.StrainData.horrorMessages;
 import static net.stone_labs.strainsofascension.StrainData.horrorSounds;
 
-public class InsanityStrain extends Strain
+public class InsanityStrain extends ConstantEffect
 {
     public InsanityStrain()
     {

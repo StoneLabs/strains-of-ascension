@@ -1,11 +1,13 @@
-package net.stone_labs.strainsofascension.effects;
+package net.stone_labs.strainsofascension.effects.artifacts;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
+import net.stone_labs.strainsofascension.effects.ConstantEffect;
+import net.stone_labs.strainsofascension.effects.Effect;
 
-public class NetherPortalArtifact extends Strain
+public class NetherPortalArtifact extends ConstantEffect
 {
     public NetherPortalArtifact()
     {

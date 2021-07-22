@@ -1,20 +1,22 @@
 package net.stone_labs.strainsofascension.effects;
 
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 
-public abstract class Strain
+public abstract class Effect
 {
-    public int frequency = 10;
+    public final int frequency;
 
-    public Strain()
+    public Effect()
     {
-
+        this.frequency = 10;
     }
-    public Strain(int frequency)
+    public Effect(int frequency)
     {
         this.frequency = frequency;
     }
 
     public abstract void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState);
+    public abstract void apply(long tick, ServerPlayerEntity player, byte layer, boolean movingUp, ArtifactState artifactState);
 }

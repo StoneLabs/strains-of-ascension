@@ -15,9 +15,10 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameRules;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
-import net.stone_labs.strainsofascension.effects.BlindnessStrain;
-import net.stone_labs.strainsofascension.effects.PoisonNauseaStrain;
-import net.stone_labs.strainsofascension.effects.WitherStrain;
+import net.stone_labs.strainsofascension.effects.strains.BlindnessStrain;
+import net.stone_labs.strainsofascension.effects.strains.NightVisionStrain;
+import net.stone_labs.strainsofascension.effects.strains.PoisonNauseaStrain;
+import net.stone_labs.strainsofascension.effects.strains.WitherStrain;
 import net.stone_labs.strainsofascension.entities.VexBossEntity;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -168,7 +169,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
         {
             BlindnessStrain.doBlindness = server.getGameRules().get(DO_BLINDNESS_STRAIN).get();
-            BlindnessStrain.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
+            NightVisionStrain.allowNVCancelNether = server.getGameRules().get(ALLOW_NV_CANCEL_NETHER).get();
             PoisonNauseaStrain.doPoisonNausea = server.getGameRules().get(DO_POISON_STRAIN).get();
             PoisonNauseaStrain.doNausea = server.getGameRules().get(DO_NAUSEA_WITH_POISON_STRAIN).get();
             WitherStrain.doWither = server.getGameRules().get(DO_WITHER_STRAIN).get();
@@ -178,6 +179,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
             StrainManager.doSpectator = server.getGameRules().get(DO_SPECTATOR).get();
             StrainManager.localDifficultyEffectMultiplier = server.getGameRules().get(LOCAL_DIFFICULTY_LAYER_IMPACT).get();
             StrainManager.lunarDifficultyEffectMultiplier = server.getGameRules().get(LUNAR_DIFFICULTY_LAYER_IMPACT).get();
+            StrainManager.strainMode = server.getGameRules().get(DO_STRAINS_ON_ASCENSION).get() ? StrainManager.STRAINMODE.ASCENSION : StrainManager.STRAINMODE.DEPTH;
             StrainManager.debugHeight = server.getGameRules().get(DO_DEBUG_STRAIN_HEIGHT).get();
         });
     }
@@ -188,7 +190,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     }));
     public static final GameRules.Key<GameRules.BooleanRule> ALLOW_NV_CANCEL_NETHER = register("allowNVCancelNether", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
-        BlindnessStrain.allowNVCancelNether = rule.get();
+        NightVisionStrain.allowNVCancelNether = rule.get();
     }));
     public static final GameRules.Key<GameRules.BooleanRule> DO_POISON_STRAIN = register("doPoisonStrain", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true, (server, rule) ->
     {
@@ -229,6 +231,10 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final GameRules.Key<GameRules.BooleanRule> DO_DEBUG_STRAIN_HEIGHT = register("doDebugStrainHeight", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(false, (server, rule) ->
     {
         StrainManager.debugHeight = rule.get();
+    }));
+    public static final GameRules.Key<GameRules.BooleanRule> DO_STRAINS_ON_ASCENSION = register("doStrainsOnAscension", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(false, (server, rule) ->
+    {
+        StrainManager.strainMode = rule.get() ? StrainManager.STRAINMODE.ASCENSION : StrainManager.STRAINMODE.DEPTH;
     }));
 
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)
