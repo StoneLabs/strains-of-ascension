@@ -280,6 +280,7 @@ public class ArtifactManager
 
         LoreLoot.RegisterLootable("data/lore/guidebook_introduction.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_spawner.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_portal.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layers.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layer1.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layer2.json");
