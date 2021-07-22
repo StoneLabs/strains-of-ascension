@@ -110,6 +110,11 @@
   "item.strainsofascension.guidebook_layers.page1": "",
   "item.strainsofascension.guidebook_layers.page2": "",
   "item.strainsofascension.guidebook_layers.page3": "§6██████████\n█░░░░░░░░█\n█░██░░██░█\n█░░░██░░░█\n█░░████░░█\n█░░█░░█░░█\n█░░░░░░░░█\n██████████\n──█░░░░█\n──█░░░░█\n──█░░░░█\n──█░░░░█\n──█░░░░█\n──█░░░░█\n██████████\n█░░░██░░░█\n█░░░██░░░█\n█▄█▄██▄█▄█ ",
+  "item.strainsofascension.guidebook_spawners.name": "",
+  "item.strainsofascension.guidebook_spawners.page1": "",
+  "item.strainsofascension.guidebook_spawners.page2": "",
+  "item.strainsofascension.guidebook_spawners.page3": "",
+  "entity.strainsofascension.vex_boss.name": "vex_boss.name",
 
   "translation.test.none": "Hello, World!"
 }
