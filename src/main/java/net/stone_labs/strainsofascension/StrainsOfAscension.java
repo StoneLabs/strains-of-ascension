@@ -18,6 +18,7 @@ import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.effects.BlindnessStrain;
 import net.stone_labs.strainsofascension.effects.PoisonNauseaStrain;
 import net.stone_labs.strainsofascension.effects.WitherStrain;
+import net.stone_labs.strainsofascension.entities.VexBossEntity;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -140,18 +141,27 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                                     }))));
 
             dispatcher.register(literal("artifacts")
-                .executes((context) ->
-                {
-                    final ServerCommandSource source = context.getSource();
-                    if (source.getPlayer() == null)
-                        return 1;
+                    .then(literal("spawn")
+                            .then(literal("vexboss")
+                                .executes((context) ->
+                                {
+                                    final ServerCommandSource source = context.getSource();
 
-                    if (!source.getPlayer().isPlayer())
-                        return 1;
+                                    if (!source.hasPermissionLevel(2))
+                                    {
+                                        source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
+                                        return 0;
+                                    }
 
-                    new VexBossEntity(source.getWorld(), source.getPlayer().getBlockPos());
-                    return 0;
-                }));
+                                    if (source.getPlayer() == null)
+                                        return 1;
+
+                                    if (!source.getPlayer().isPlayer())
+                                        return 1;
+
+                                    new VexBossEntity(source.getWorld(), source.getPlayer().getBlockPos());
+                                    return 0;
+                                }))));
         });
 
         // Set values from gamerules on server start

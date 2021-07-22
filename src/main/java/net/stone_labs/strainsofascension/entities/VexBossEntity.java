@@ -1,4 +1,4 @@
-package net.stone_labs.strainsofascension;
+package net.stone_labs.strainsofascension.entities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
