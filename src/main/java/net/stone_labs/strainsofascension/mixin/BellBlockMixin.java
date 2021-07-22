@@ -35,6 +35,9 @@ abstract class BellBlockMixin
         if (info.getReturnValue() == ActionResult.PASS)
             return;
 
+        if (world.getRegistryKey() != World.OVERWORLD)
+            return;
+
         for (int x = -2; x <= 2; x++)
             for (int y = -1; y <= 1; y++)
                 for (int z = -2; z <= 2; z++)
