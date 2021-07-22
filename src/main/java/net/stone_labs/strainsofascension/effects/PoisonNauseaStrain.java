@@ -28,9 +28,9 @@ public class PoisonNauseaStrain extends Strain
         double artifactMultiplier = Math.max(1 - 0.1 * artifactState.GetPower(Artifacts.POISON_BONUS), 0.4);
         if (random.nextFloat() < StrainManager.effectRandomProbability * frequency * artifactMultiplier)
         {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, StrainManager.effectDuration, 0, true, false, StrainManager.showIcon));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, StrainManager.effectDuration, 0, true, false, StrainManager.showIcon));
             if (doNausea)
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, StrainManager.effectDuration, layer - 7, true, false, StrainManager.showIcon));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, StrainManager.effectDuration, layer - 7, true, false, StrainManager.showIcon));
         }
     }
 }
