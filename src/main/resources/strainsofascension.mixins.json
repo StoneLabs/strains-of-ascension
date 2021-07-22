@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "MilkBucketMixin",
-    "BrewingStandBlockEntityMixin"
+    "BrewingStandBlockEntityMixin",
+    "BellBlockMixin"
   ],
   "client": [],
   "server": [],
