@@ -28,12 +28,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BellBlock.class)
 abstract class BellBlockMixin
 {
-    @Inject(at = @At("HEAD"), method = "onUse")
+    @Inject(at = @At("RETURN"), method = "onUse")
     private void init(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> info)
     {
-        for (int x = -5; x <= 5; x++)
-            for (int y = -2; y <= 2; y++)
-                for (int z = -5; z <= 5; z++)
+        if (info.getReturnValue() == ActionResult.PASS)
+            return;
+
+        for (int x = -2; x <= 2; x++)
+            for (int y = -1; y <= 1; y++)
+                for (int z = -2; z <= 2; z++)
                     if (world.getBlockState(pos.add(x, y, z)).isOf(Blocks.SPAWNER))
                     {
                         player.sendMessage(new LiteralText("Test"), false);
