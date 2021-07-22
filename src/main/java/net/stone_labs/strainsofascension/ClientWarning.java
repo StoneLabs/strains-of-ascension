@@ -15,11 +15,14 @@ import org.lwjgl.glfw.GLFW;
 
 public class ClientWarning implements ClientModInitializer
 {
-    public boolean hide = false;
+    public static boolean hide = false;
     @Override
     public void onInitializeClient()
     {
         HudRenderCallback.EVENT.register((stack, delta) -> {
+            if (hide)
+                return;
+
             MinecraftClient.getInstance().textRenderer.draw(stack, new LiteralText("§4Warning: Strains of Ascension is a dedicated server only mod."), 2, 2, 1);
             MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§fIt will not work when installed on client minecraft."), 2, 12, 1);
             MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§fThis might change in the future. For updates and questions"), 2, 27, 1);
@@ -30,7 +33,7 @@ public class ClientWarning implements ClientModInitializer
         var keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.stainsofascension.hide_client_warning",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_F1,
+                GLFW.GLFW_KEY_K,
                 "key.stainsofascension.misc"
         ));
 
