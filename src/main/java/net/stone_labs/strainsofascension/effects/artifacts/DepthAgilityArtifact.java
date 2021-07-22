@@ -1,4 +1,4 @@
-package net.stone_labs.strainsofascension.effects;
+package net.stone_labs.strainsofascension.effects.artifacts;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -6,8 +6,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
+import net.stone_labs.strainsofascension.effects.ConstantEffect;
+import net.stone_labs.strainsofascension.effects.Effect;
 
-public class DepthAgilityArtifact extends Strain
+public class DepthAgilityArtifact extends ConstantEffect
 {
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)

@@ -1,16 +1,18 @@
-package net.stone_labs.strainsofascension.effects;
+package net.stone_labs.strainsofascension.effects.artifacts;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
+import net.stone_labs.strainsofascension.effects.ConstantEffect;
+import net.stone_labs.strainsofascension.effects.Effect;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class DepthMendingArtifact extends Strain
+public class DepthMendingArtifact extends ConstantEffect
 {
     public DepthMendingArtifact()
     {

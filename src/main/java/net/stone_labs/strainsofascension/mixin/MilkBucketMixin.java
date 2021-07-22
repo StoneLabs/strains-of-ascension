@@ -3,7 +3,7 @@ package net.stone_labs.strainsofascension.mixin;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.MilkBucketItem;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.stone_labs.strainsofascension.effects.BlindnessStrain;
+import net.stone_labs.strainsofascension.effects.strains.NightVisionStrain;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -16,7 +16,7 @@ abstract class MilkBucketMixin
     private boolean injectedClearStatusEffects(LivingEntity player)
     {
         if (player.isPlayer())
-            return BlindnessStrain.clearAllExceptNVCancel((ServerPlayerEntity) player);
+            return NightVisionStrain.ClearAllExceptNV((ServerPlayerEntity) player);
         else
             return player.clearStatusEffects();
     }

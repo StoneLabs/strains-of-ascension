@@ -1,4 +1,4 @@
-package net.stone_labs.strainsofascension.effects;
+package net.stone_labs.strainsofascension.effects.strains;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -6,10 +6,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.StrainManager;
 import net.stone_labs.strainsofascension.artifacts.Artifacts;
+import net.stone_labs.strainsofascension.effects.BasicEffect;
+import net.stone_labs.strainsofascension.effects.Effect;
 
 import java.util.Random;
 
-public class PoisonNauseaStrain extends Strain
+public class PoisonNauseaStrain extends BasicEffect
 {
     public static boolean doPoisonNausea = true;
     public static boolean doNausea = true;
@@ -26,7 +28,8 @@ public class PoisonNauseaStrain extends Strain
             return;
 
         double artifactMultiplier = Math.max(1 - 0.1 * artifactState.GetPower(Artifacts.POISON_BONUS), 0.4);
-        if (random.nextFloat() < StrainManager.effectRandomProbability * frequency * artifactMultiplier)
+        if (StrainManager.strainMode == StrainManager.STRAINMODE.ASCENSION ||
+                random.nextFloat() < StrainManager.effectRandomProbability * frequency * artifactMultiplier)
         {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, StrainManager.effectDuration, 0, true, false, StrainManager.showIcon));
             if (doNausea)
