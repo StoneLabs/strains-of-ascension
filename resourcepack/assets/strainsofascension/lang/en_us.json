@@ -116,6 +116,8 @@
   "item.strainsofascension.guidebook_spawners.page3": "",
   "entity.strainsofascension.vex_boss.name": "vex_boss.name",
   "entity.strainsofascension.vex_boss.warning": "vex_boss.warning",
+  "key.stainsofascension.hide_client_warning": "",
+  "key.stainsofascension.misc": "",
 
   "translation.test.none": "Hello, World!"
 }
