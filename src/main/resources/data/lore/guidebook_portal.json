@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:written_book",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_portal.name\"}'}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{filtered_title: \"§k..........\", title:\"§k..........\", author: \"§k..........\"}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_portal.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_portal.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_portal.page3\"}']}"
+    }
+  ]
+}
