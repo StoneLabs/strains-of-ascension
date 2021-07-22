@@ -279,6 +279,7 @@ public class ArtifactManager
         LoreLoot.RegisterLootTable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
         LoreLoot.RegisterLootable("data/lore/guidebook_introduction.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_spawner.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layers.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layer1.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_layer2.json");
