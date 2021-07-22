@@ -86,7 +86,7 @@ public class VexBossEntity extends VexEntity
 
         if (tickCounter == 5)
             for (ServerPlayerEntity player : this.serverWorld.getPlayers())
-                player.sendMessage(new LiteralText("The ground begins to rumble..."), false);
+                player.sendMessage(new TranslatableText("entity.strainsofascension.vex_boss.warning"), false);
 
         if (tickCounter > 5 && tickCounter < 75)
             SpawnSummoningParticles();
