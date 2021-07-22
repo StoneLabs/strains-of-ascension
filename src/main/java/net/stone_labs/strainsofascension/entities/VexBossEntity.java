@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -63,7 +64,7 @@ public class VexBossEntity extends VexEntity
         this.initialize(serverWorld, serverWorld.getLocalDifficulty(spawnPosition), SpawnReason.MOB_SUMMONED, null, null);
         this.setBounds(spawnPosition);
         this.setLifeTicks(Integer.MAX_VALUE);
-        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(200);
+        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(400);
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
         this.setPersistent();
 
@@ -132,7 +133,7 @@ public class VexBossEntity extends VexEntity
 
 
         // Fireball
-        if (tickCounter % 20 == 0 && random.nextFloat() < 0.1f)
+        if (tickCounter % 20 == 0 && random.nextFloat() < 0.2f)
             ShootFireball();
 
         // Stage 2
@@ -142,6 +143,7 @@ public class VexBossEntity extends VexEntity
             {
                 CreatePlatform();
                 MarkRandomPlatformPart();
+                this.playSound(SoundEvents.ENTITY_VEX_CHARGE, 100.0f, 0.1f);
             }
             if (tickCounter % 200 == 40)
                 DestroyRedPlatform();
@@ -204,7 +206,7 @@ public class VexBossEntity extends VexEntity
     private void ShootFireball()
     {
         LivingEntity target = this.getTarget();
-        if (target != null && target.distanceTo(this) < 8)
+        if (target != null && target.distanceTo(this) > 8)
         {
             Vec3d velocity = target.getPos().subtract(this.getPos()).normalize().multiply(random.nextFloat() * 0.2 + 0.1);
             if (velocity.length() < 0.1)
@@ -359,8 +361,10 @@ public class VexBossEntity extends VexEntity
         {
             int lootItems = (int)Math.floor(Math.min(Math.max(random.nextGaussian(), -1.5), 1)/1.5 + 2.75);
             ArtifactManager.DropFullLootItems(this.serverWorld, this.getPos(), 2, this::dropStack);
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 25; i++)
                 this.dropXp();
+            for (int i = 0; i < 5; i++)
+                ExperienceOrbEntity.spawn((ServerWorld)this.world, this.getPos(), 250);
         }
     }
 }
