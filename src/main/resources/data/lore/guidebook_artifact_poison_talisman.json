@@ -13,7 +13,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page3\"}']}"
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_poison_talisman.page10\"}']}"
     }
   ]
 }

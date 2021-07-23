@@ -13,7 +13,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page3\"}']}"
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_shield.page10\"}']}"
     }
   ]
 }

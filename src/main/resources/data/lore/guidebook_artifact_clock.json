@@ -13,7 +13,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page3\"}']}"
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.page10\"}']}"
     }
   ]
 }
