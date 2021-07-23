@@ -114,8 +114,14 @@ public final class StrainManager
     public static Map<ServerPlayerEntity, Double> lastKnownPlayerHeight = new HashMap<>();
     public static boolean hasMovedUp(ServerPlayerEntity player)
     {
-        boolean moved = lastKnownPlayerHeight.getOrDefault(player, Double.MAX_VALUE) < player.getPos().y;
-        lastKnownPlayerHeight.put(player, player.getPos().y);
+        double height = player.getPos().y;
+        if (player.world.getRegistryKey() == World.NETHER)
+            height -= 1000;
+        else if (player.world.getRegistryKey() == World.END)
+            height += 1000;
+
+        boolean moved = lastKnownPlayerHeight.getOrDefault(player, Double.MAX_VALUE) < height;
+        lastKnownPlayerHeight.put(player, height);
         return moved;
     }
     public static void applyEffects(ServerPlayerEntity player, ArtifactState artifactState)
