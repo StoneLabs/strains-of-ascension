@@ -13,7 +13,7 @@
     },
     {
       "function": "minecraft:set_nbt",
-      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page3\"}']}"
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_spyglass.page10\"}']}"
     }
   ]
 }
