@@ -44,6 +44,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static long tickTime = 0;
     public static double tickAvrg = 0;
     public static int tickNumber = 0;
+    public static boolean profiler = false;
 
     public static class ServerTickEvent implements ServerTickEvents.EndTick
     {
@@ -63,9 +64,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                 StrainManager.applyEffects(player, artifactState);
             }
 
-            if (queueArtifactDebug)
-                printProfilerOutput(server);
-
             queueArtifactDebug = false;
 
             tickNumber++;
@@ -74,6 +72,8 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
             {
                 tickAvrg = tickTime / 100.0 / 1000.0;
                 tickTime = 0;
+                if (profiler)
+                    printProfilerOutput(server);
             }
         }
     }
@@ -81,7 +81,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static void printProfilerOutput(MinecraftServer server)
     {
         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList())
-            serverPlayer.sendMessage(new LiteralText(String.format("\n§2Profiler: Average %.2fus per Server Tick.", tickAvrg)), false);
+            serverPlayer.sendMessage(new LiteralText(String.format("§2Profiler: Average %.2fμs per Server Tick over %d ticks.", tickAvrg, 100)), false);
     }
 
     @Override
@@ -139,9 +139,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
                                         source.sendFeedback(new LiteralText("Artifacts generated."), true);
 
                                         return 1;
-                                    }))));
-
-            dispatcher.register(literal("artifacts")
+                                    })))
                     .then(literal("spawn")
                             .then(literal("vexboss")
                                 .executes((context) ->
@@ -162,7 +160,23 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
                                     new VexBossEntity(source.getWorld(), source.getPlayer().getBlockPos());
                                     return 0;
-                                }))));
+                                })))
+                    .then(literal("profiler")
+                            .executes((context) ->
+                            {
+                                final ServerCommandSource source = context.getSource();
+
+                                if (!source.hasPermissionLevel(2))
+                                {
+                                    source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
+                                    return 0;
+                                }
+
+                                profiler = !profiler;
+                                source.sendFeedback(new LiteralText("Profiler output toggled."), false);
+
+                                return 1;
+                            })));
         });
 
         // Set values from gamerules on server start
