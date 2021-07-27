@@ -299,6 +299,7 @@ public class ArtifactManager
         LoreLoot.RegisterLootable("data/lore/guidebook_artifact_shield.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_artifact_spyglass.json");
         LoreLoot.RegisterLootable("data/lore/guidebook_artifact_wither_talisman.json");
+        LoreLoot.RegisterLootable("data/lore/guidebook_artifact_depth_mending.json");
 
         LOOT_TYPES = new ArrayList<>()
         {{
