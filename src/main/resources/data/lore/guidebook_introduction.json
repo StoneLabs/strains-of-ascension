@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_introduction.name\"}'}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_introduction.name\"}', Lore:['{\"translate\":\"item.strainsofascension.guidebook_introduction.lore1\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",

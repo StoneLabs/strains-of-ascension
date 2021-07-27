@@ -5,7 +5,7 @@
   "functions": [
     {
       "function": "minecraft:set_nbt",
-      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.name\"}'}}"
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.name\"}', Lore:['{\"translate\":\"item.strainsofascension.guidebook_artifact_clock.lore1\"}']}}"
     },
     {
       "function": "minecraft:set_nbt",
