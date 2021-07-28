@@ -9,6 +9,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.stone_labs.strainsofascension.entities.VexBossEntity;
@@ -31,6 +32,9 @@ abstract class BellBlockMixin
             return;
 
         if (world.getRegistryKey() != World.OVERWORLD)
+            return;
+
+        if (world.getDifficulty() == Difficulty.PEACEFUL)
             return;
 
         for (int x = -2; x <= 2; x++)
