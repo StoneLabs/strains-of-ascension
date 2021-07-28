@@ -7,12 +7,19 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.VexEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
@@ -64,8 +71,8 @@ public class VexBossEntity extends VexEntity
         this.initialize(serverWorld, serverWorld.getLocalDifficulty(spawnPosition), SpawnReason.MOB_SUMMONED, null, null);
         this.setBounds(spawnPosition);
         this.setLifeTicks(Integer.MAX_VALUE);
-        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(400);
-        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
+        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(600);
+        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(25);
         this.setPersistent();
 
         serverWorld.spawnEntity(this);
@@ -111,7 +118,7 @@ public class VexBossEntity extends VexEntity
         DestroyCheatBlocks();
         if (!spawnCompleted)
         {
-            heal(1);
+            heal(2);
             if (this.getHealth() == this.getMaxHealth())
             {
                 this.setAiDisabled(false);
@@ -120,6 +127,12 @@ public class VexBossEntity extends VexEntity
             }
 
             return;
+        }
+
+        if (this.getTarget() == null)
+        {
+            this.tickMovement();
+            this.tickMovement();
         }
 
         if (bossBar.getPlayers().size() == 0)
@@ -208,11 +221,11 @@ public class VexBossEntity extends VexEntity
         LivingEntity target = this.getTarget();
         if (target != null && target.distanceTo(this) > 8)
         {
-            Vec3d velocity = target.getPos().subtract(this.getPos()).normalize().multiply(random.nextFloat() * 0.2 + 0.1);
+            Vec3d velocity = target.getPos().subtract(this.getPos()).normalize().multiply(random.nextFloat() * 0.2 + 0.2);
             if (velocity.length() < 0.1)
                 return;
 
-            FireballEntity fireball = new FireballEntity(this.serverWorld, this, velocity.x, velocity.y, velocity.z, 1);
+            FireballEntity fireball = new FireballEntity(this.serverWorld, this, velocity.x, velocity.y, velocity.z, 2);
             this.serverWorld.spawnEntity(fireball);
         }
     }
