@@ -14,6 +14,10 @@
     {
       "function": "minecraft:set_nbt",
       "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_layers.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_layers.page10\"}']}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{generation: 3}"
     }
   ]
 }
