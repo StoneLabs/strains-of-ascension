@@ -14,6 +14,10 @@
     {
       "function": "minecraft:set_nbt",
       "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_wither_talisman.page10\"}']}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{generation: 3}"
     }
   ]
 }
