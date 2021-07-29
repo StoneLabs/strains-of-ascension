@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.java.games.input.Component;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.KeybindText;
 import net.minecraft.text.LiteralText;
@@ -19,6 +20,10 @@ public class ClientWarning implements ClientModInitializer
     @Override
     public void onInitializeClient()
     {
+        // Yes, the translation key is hacky as fuck but whatever, this is only a client warning.
+        // If you're seeing this message you are not using the mod correctly so it should be fine.
+        // I can't be bothered to add a lang file for a screen you only see if you install the mod incorrectly.
+
         HudRenderCallback.EVENT.register((stack, delta) -> {
             if (hide)
                 return;
@@ -27,14 +32,14 @@ public class ClientWarning implements ClientModInitializer
             MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§fIt will not work when installed on client minecraft."), 2, 12, 1);
             MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§fThis might change in the future. For updates and questions"), 2, 27, 1);
             MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§frefer to https://github.com/StoneLabs/strains-of-ascension."), 2, 37, 1);
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§fPress ").append(new KeybindText("key.stainsofascension.hide_client_warning")).append(new LiteralText(" §fto hide this warning.")), 2, 50, 1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(stack, new LiteralText("§fPress ").append(new KeybindText("Hide client warning")).append(new LiteralText(" §fto hide this warning.")), 2, 50, 1);
 
         });
         var keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.stainsofascension.hide_client_warning",
+                "Hide client warning",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
-                "key.stainsofascension.misc"
+                "Strains of Ascension"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
