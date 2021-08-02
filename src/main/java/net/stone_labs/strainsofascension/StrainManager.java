@@ -4,8 +4,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
+import net.stone_labs.strainsofascension.artifacts.Artifact;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
-import net.stone_labs.strainsofascension.artifacts.Artifacts;
 import net.stone_labs.strainsofascension.effects.*;
 import net.stone_labs.strainsofascension.effects.artifacts.DepthAgilityArtifact;
 import net.stone_labs.strainsofascension.effects.artifacts.DepthMendingArtifact;
@@ -83,7 +83,7 @@ public final class StrainManager
     {
         double localDifficultyImpact = localDifficultyEffectMultiplier * (player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty() / 6.75);
         double moonPhaseImpact = lunarDifficultyEffectMultiplier * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
-        double artifactHeightImpact = -artifactState.GetPower(Artifacts.DEPTH_BONUS);
+        double artifactHeightImpact = -artifactState.GetPower(Artifact.DEPTH_BONUS);
         double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact - artifactHeightImpact;
 
 
