@@ -2,10 +2,9 @@ package net.stone_labs.strainsofascension.effects.artifacts;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.stone_labs.strainsofascension.artifacts.Artifact;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
-import net.stone_labs.strainsofascension.artifacts.Artifacts;
 import net.stone_labs.strainsofascension.effects.ConstantEffect;
-import net.stone_labs.strainsofascension.effects.Effect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +23,10 @@ public class DepthMendingArtifact extends ConstantEffect
     @Override
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
     {
-        int power = artifactState.GetPower(Artifacts.DEPTH_MENDING);
+        int power = artifactState.GetPower(Artifact.DEPTH_MENDING);
         if (layer >= 4)
         {
-            if (random.nextFloat() < 0.05 * artifactState.GetPower(Artifacts.DEPTH_MENDING))
+            if (random.nextFloat() < 0.05 * artifactState.GetPower(Artifact.DEPTH_MENDING))
                 return;
 
             List<ItemStack> stacks = new ArrayList<>();
@@ -36,7 +35,7 @@ public class DepthMendingArtifact extends ConstantEffect
                 if (stack.isDamageable())
                     stacks.add(stack);
 
-            if (power == Artifacts.DEPTH_MENDING.MAX_VALUE)
+            if (power == Artifact.DEPTH_MENDING.MAX_VALUE)
             {
                 for (ItemStack stack : player.getInventory().offHand)
                     if (stack.isDamageable())

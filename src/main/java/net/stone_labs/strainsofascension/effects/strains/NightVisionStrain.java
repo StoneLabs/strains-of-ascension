@@ -4,9 +4,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.stone_labs.strainsofascension.StrainManager;
+import net.stone_labs.strainsofascension.artifacts.Artifact;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
-import net.stone_labs.strainsofascension.artifacts.Artifacts;
 import net.stone_labs.strainsofascension.effects.ConstantEffect;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +32,7 @@ public class NightVisionStrain extends ConstantEffect
         if (nvEffect != null)
         {
             int duration = nvEffect.getDuration();
-            int newDuration = duration - Math.max(0, 5 - artifactState.GetPower(Artifacts.NV_BONUS));
+            int newDuration = duration - Math.max(0, 5 - artifactState.GetPower(Artifact.NV_BONUS));
 
             player.setStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION,
                     newDuration, 0, true, true), null);

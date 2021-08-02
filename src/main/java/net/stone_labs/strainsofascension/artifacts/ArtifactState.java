@@ -31,7 +31,7 @@ public class ArtifactState
 
         NbtCompound tag = stack.getNbt();
 
-        Artifact artifact = Artifacts.ByID(tag.getInt("artifact"));
+        Artifact artifact = Artifact.ByID(tag.getInt("artifact"));
         if (artifact == null)
             return;
 
@@ -48,7 +48,7 @@ public class ArtifactState
         final String MAX_COLOR = "§6";
 
         StringBuilder message = new StringBuilder(String.format("§4%s:", player.getEntityName()));
-        for (Artifact artifact : Artifacts.GetCollection())
+        for (Artifact artifact : Artifact.values())
         {
             int artifactPower = this.GetPower(artifact);
 
