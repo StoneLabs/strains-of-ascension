@@ -16,6 +16,7 @@ import net.minecraft.loot.context.LootContextType;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -136,6 +137,18 @@ public class ArtifactManager
             artifactState.consider(stack, inventory.getMainHandStack() == stack);
 
         return artifactState;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static boolean isArtifact(ItemStack stack)
+    {
+        if (!stack.hasNbt())
+            return false;
+
+        NbtCompound tag = stack.getNbt();
+
+        Artifact artifact = Artifact.ByID(tag.getInt("artifact"));
+        return artifact != null;
     }
 
     public static void DropFullLootItems(ServerWorld world, Vec3d origin, int number, java.util.function.Consumer<ItemStack> consumer)

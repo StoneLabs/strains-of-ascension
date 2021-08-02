@@ -8,7 +8,8 @@
   "server": [
     "MilkBucketMixin",
     "BrewingStandBlockEntityMixin",
-    "BellBlockMixin"
+    "BellBlockMixin",
+    "AnvilScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
