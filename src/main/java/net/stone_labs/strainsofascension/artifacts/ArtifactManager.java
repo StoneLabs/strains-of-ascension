@@ -146,7 +146,7 @@ public class ArtifactManager
 
         NbtCompound tag = stack.getNbt();
 
-        Artifact artifact = Artifact.ByID(tag.getInt("artifact"));
+        Artifact artifact = Artifact.ByID(tag.getInt("artifactVersion"));
         return artifact != null;
     }
 
@@ -154,7 +154,7 @@ public class ArtifactManager
     {
         List<ItemStack> drops = new ArrayList<>();
         while (drops.size() < number)
-            LOOT_TYPE_FULL.GenerateLoot(world, origin, number, drops::add);
+            LOOT_TYPE_FULL.GenerateLoot(world, origin, 1, drops::add);
 
         for (ItemStack stack : drops)
             consumer.accept(stack);
@@ -171,9 +171,9 @@ public class ArtifactManager
         };
 
         // Yes this is a terrible solution. But i dont see a simpler way sadly...
-        // Also the chance of a item with loot change 0.05% is missing is e-11 so it should be fine
+        // Also the chance of a item with loot change 0.25% is missing is e-11 so it should be fine
         for (ArtifactManagerLootType lootType : LOOT_TYPES)
-            lootType.GenerateLoot(player.getServerWorld(), player.getPos(), 50000, applier);
+                lootType.GenerateLoot(player.getServerWorld(), player.getPos(), 10000, applier);
 
         drops.sort(Comparator.comparing(o -> o.getName().getString()));
 
