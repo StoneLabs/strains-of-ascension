@@ -118,7 +118,7 @@ public class ArtifactManager
                 for (String json : lootType.GetLootableJsons())
                     poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
 
-                supplier.withPool(lootType.LootPool);
+                supplier.withPool(poolBuilder.build());
             }
     }
 
