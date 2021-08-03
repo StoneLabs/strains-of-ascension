@@ -1,4 +1,4 @@
-package net.stone_labs.strainsofascension.utils;
+package net.stone_labs.strainsofascension.artifacts;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
@@ -8,9 +8,9 @@ import net.minecraft.loot.function.LootFunctionTypes;
 
 import java.util.Random;
 
-public class StackPreventer implements LootFunction
+public class ArtifactVersionLootFunction implements LootFunction
 {
-    Random random = new Random();
+    public static int ARTIFACT_VERSION = 1;
 
     @Override
     public LootFunctionType getType()
@@ -21,7 +21,7 @@ public class StackPreventer implements LootFunction
     @Override
     public ItemStack apply(ItemStack stack, LootContext lootContext)
     {
-        stack.getOrCreateNbt().putInt("stackPreventer", random.nextInt());
+        stack.getOrCreateNbt().putInt("artifactVersion", ARTIFACT_VERSION);
         return stack;
     }
 }

@@ -12,7 +12,6 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextType;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.provider.number.*;
@@ -24,7 +23,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.stone_labs.strainsofascension.utils.ResourceLoader;
-import net.stone_labs.strainsofascension.utils.StackPreventer;
 
 import java.util.*;
 
@@ -74,7 +72,8 @@ public class ArtifactManager
         {
             FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                     .rolls(ConstantLootNumberProvider.create(1))
-                    .withFunction(new StackPreventer());
+                    .withFunction(new StackPreventerLootFunction())
+                    .withFunction(new ArtifactVersionLootFunction());
 
             for (String json : this.GetLootableJsons())
                 poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
@@ -113,12 +112,12 @@ public class ArtifactManager
                 FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
                         .withCondition(RandomChanceLootCondition.builder(lootType.GetLootTableProbability(id)).build())
-                        .withFunction(new StackPreventer());
+                        .withFunction(new StackPreventerLootFunction())
+                        .withFunction(new ArtifactVersionLootFunction());
 
                 for (String json : lootType.GetLootableJsons())
                     poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
 
-                lootType.LootPool = poolBuilder.build();
                 supplier.withPool(lootType.LootPool);
             }
     }
