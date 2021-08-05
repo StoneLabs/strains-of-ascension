@@ -15,6 +15,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameRules;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
+import net.stone_labs.strainsofascension.commands.ArtifactsCommand;
 import net.stone_labs.strainsofascension.effects.strains.BlindnessStrain;
 import net.stone_labs.strainsofascension.effects.strains.NightVisionStrain;
 import net.stone_labs.strainsofascension.effects.strains.PoisonNauseaStrain;
@@ -95,89 +96,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         ArtifactManager.Init();
 
         // Add command to display artifacts for debugging
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
-        {
-            dispatcher.register(literal("artifacts")
-                    .then(literal("get")
-                            .then(argument("targets", EntityArgumentType.players())
-                                    .executes((context) ->
-                                    {
-                                        final ServerCommandSource source = context.getSource();
-
-                                        if (!source.hasPermissionLevel(2))
-                                        {
-                                            source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
-                                            return 0;
-                                        }
-
-                                        queueArtifactDebug = true;
-                                        queueArtifactDebugFor = getPlayers(context, "targets");
-
-                                        return 1;
-                                    })))
-                    .then(literal("give")
-                            .then(argument("targets", EntityArgumentType.players())
-                                    .executes((context) ->
-                                    {
-                                        final ServerCommandSource source = context.getSource();
-
-                                        if (!source.hasPermissionLevel(2))
-                                        {
-                                            source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
-                                            return 0;
-                                        }
-
-                                        var players = getPlayers(context, "targets");
-
-                                        source.sendFeedback(new LiteralText("Generating Artifacts, this may take a while..."), true);
-                                        for (ServerPlayerEntity player : players)
-                                        {
-                                            ArtifactManager.DropPlayerFullPool(player);
-                                            source.sendFeedback(new LiteralText(String.format("Artifacts generated for %s.", player.getEntityName())), true);
-                                        }
-
-                                        source.sendFeedback(new LiteralText("Artifacts generated."), true);
-
-                                        return 1;
-                                    })))
-                    .then(literal("spawn")
-                            .then(literal("vexboss")
-                                .executes((context) ->
-                                {
-                                    final ServerCommandSource source = context.getSource();
-
-                                    if (!source.hasPermissionLevel(2))
-                                    {
-                                        source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
-                                        return 0;
-                                    }
-
-                                    if (source.getPlayer() == null)
-                                        return 1;
-
-                                    if (!source.getPlayer().isPlayer())
-                                        return 1;
-
-                                    new VexBossEntity(source.getWorld(), source.getPlayer().getBlockPos());
-                                    return 0;
-                                })))
-                    .then(literal("profiler")
-                            .executes((context) ->
-                            {
-                                final ServerCommandSource source = context.getSource();
-
-                                if (!source.hasPermissionLevel(2))
-                                {
-                                    source.sendFeedback(new LiteralText("§4Insufficient permissions!"), false);
-                                    return 0;
-                                }
-
-                                profiler = !profiler;
-                                source.sendFeedback(new LiteralText("Profiler output toggled."), false);
-
-                                return 1;
-                            })));
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> ArtifactsCommand.register(dispatcher));
 
         // Set values from gamerules on server start
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
