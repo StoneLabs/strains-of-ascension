@@ -209,35 +209,35 @@ public class ArtifactManager
         FullLoot.RegisterLootTable(LootTables.BASTION_BRIDGE_CHEST, 0.1f);
         FullLoot.RegisterLootTable(LootTables.BASTION_HOGLIN_STABLE_CHEST, 0.1f);
 
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/shield.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock1.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock2.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock3.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock4.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock5.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/spyglass/spyglass.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/spyglass/spyglass1.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/spyglass/spyglass2.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/spyglass/spyglass3.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman1.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman2.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman3.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman4.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman5.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman1.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman2.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman3.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman4.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman5.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/crimson_fungus.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/rabbit_foot.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/depth_mending_book/depth_mending_book.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/depth_mending_book/depth_mending_book1.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/depth_mending_book/depth_mending_book2.json");
-        FullLoot.RegisterLootable("data/strainsofascension.lootables/depth_mending_book/depth_mending_book3.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/shield.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock1.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock2.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock3.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock4.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock5.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/spyglass/spyglass.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/spyglass/spyglass1.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/spyglass/spyglass2.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/spyglass/spyglass3.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman1.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman2.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman3.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman4.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman5.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman1.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman2.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman3.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman4.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman5.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/crimson_fungus.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/rabbit_foot.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/depth_mending_book/depth_mending_book.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/depth_mending_book/depth_mending_book1.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/depth_mending_book/depth_mending_book2.json");
+        FullLoot.RegisterLootable("data/strainsofascension/lootables/depth_mending_book/depth_mending_book3.json");
 
         ArtifactManagerLootType BasicLoot = new ArtifactManagerLootType(false);
         BasicLoot.RegisterLootTable(LootTables.WOODLAND_MANSION_CHEST, 0.05f);
@@ -259,12 +259,12 @@ public class ArtifactManager
 
         BasicLoot.RegisterLootTable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
-        BasicLoot.RegisterLootable("data/strainsofascension.lootables/clock/clock.json");
-        BasicLoot.RegisterLootable("data/strainsofascension.lootables/spyglass/spyglass.json");
-        BasicLoot.RegisterLootable("data/strainsofascension.lootables/poison_talisman/poison_talisman.json");
-        BasicLoot.RegisterLootable("data/strainsofascension.lootables/wither_talisman/wither_talisman.json");
-        BasicLoot.RegisterLootable("data/strainsofascension.lootables/crimson_fungus.json");
-        BasicLoot.RegisterLootable("data/strainsofascension.lootables/rabbit_foot.json");
+        BasicLoot.RegisterLootable("data/strainsofascension/lootables/clock/clock.json");
+        BasicLoot.RegisterLootable("data/strainsofascension/lootables/spyglass/spyglass.json");
+        BasicLoot.RegisterLootable("data/strainsofascension/lootables/poison_talisman/poison_talisman.json");
+        BasicLoot.RegisterLootable("data/strainsofascension/lootables/wither_talisman/wither_talisman.json");
+        BasicLoot.RegisterLootable("data/strainsofascension/lootables/crimson_fungus.json");
+        BasicLoot.RegisterLootable("data/strainsofascension/lootables/rabbit_foot.json");
 
         ArtifactManagerLootType LoreLoot = new ArtifactManagerLootType(true);
         LoreLoot.RegisterLootTable(LootTables.SIMPLE_DUNGEON_CHEST, 0.40f);
@@ -290,28 +290,28 @@ public class ArtifactManager
 
         LoreLoot.RegisterLootTable(LootTables.FISHING_TREASURE_GAMEPLAY, 0.02f);
 
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_introduction.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_spawner.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_portal.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layers.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer1.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer2.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer3.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer4.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer5.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer6.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer7.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer8.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_layer9.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifacts.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_clock.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_crimson_fungus.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_poison_talisman.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_rabbit_foot.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_shield.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_spyglass.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_wither_talisman.json");
-        LoreLoot.RegisterLootable("data/strainsofascension.lootables/lore/guidebook_artifact_depth_mending.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_introduction.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_spawner.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_portal.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layers.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer1.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer2.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer3.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer4.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer5.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer6.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer7.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer8.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_layer9.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifacts.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_clock.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_crimson_fungus.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_poison_talisman.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_rabbit_foot.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_shield.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_spyglass.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_wither_talisman.json");
+        LoreLoot.RegisterLootable("data/strainsofascension/lootables/lore/guidebook_artifact_depth_mending.json");
 
         LOOT_TYPES = new ArrayList<>()
         {{
