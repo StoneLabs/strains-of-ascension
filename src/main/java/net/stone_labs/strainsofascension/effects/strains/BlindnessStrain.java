@@ -17,6 +17,9 @@ public class BlindnessStrain extends BasicEffect
         if (layer < 5)
             return;
 
+        if (!doBlindness)
+            return;
+
         if (!NightVisionStrain.CanCancelBlindness(layer) || player.getStatusEffect(StatusEffects.NIGHT_VISION) == null)
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, StrainManager.effectDurationBlindness, 0, true, false, StrainManager.showIcon));
     }
