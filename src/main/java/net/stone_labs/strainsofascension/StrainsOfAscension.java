@@ -37,7 +37,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
 
     public static final String MOD_ID = "strainsofascension";
     public static final String MOD_NAME = "Strains of Ascension";
-    public static final String VERSION = "2.6.0";
+    public static final String VERSION = "2.7.0";
 
     public static boolean queueArtifactDebug = false;
     public static Collection<ServerPlayerEntity> queueArtifactDebugFor;
