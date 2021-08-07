@@ -1,6 +1,46 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id 'fabric-loom' version '0.9-SNAPSHOT'
 	id 'maven-publish'
+}
+
+def getVersionCode = { ->
+	try {
+		def shortHash = new ByteArrayOutputStream()
+		exec {
+			commandLine 'git', 'rev-parse', '--short', 'HEAD'
+			standardOutput = shortHash
+		}
+		def retVal = shortHash.toString().trim()
+
+		def status = new ByteArrayOutputStream()
+		exec {
+			commandLine 'git', 'status', '-s'
+			standardOutput = status
+		}
+		if (status.toString().trim() != "") {
+			System.console().printf("\nMarking file as modified, as the following changes have been made:\n")
+			System.console().printf("%s\n\n", status.toString().trim())
+			retVal += "_modified"
+		}
+
+		return retVal
+	}
+	catch (ignored) {
+		return -1;
+	}
+}
+def getRelease = { ->
+	try {
+		def code = new ByteArrayOutputStream()
+		exec {
+			commandLine 'git', 'branch', '--show-current'
+			standardOutput = code
+		}
+		return code.toString().trim() == "master"
+	}
+	catch (ignored) {
+		return -1;
+	}
 }
 
 sourceCompatibility = JavaVersion.VERSION_16
@@ -8,6 +48,8 @@ targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
+if (!getRelease())
+	version += "_" + getVersionCode()
 group = project.maven_group
 
 repositories {

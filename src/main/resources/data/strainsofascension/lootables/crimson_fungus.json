@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:crimson_fungus",
+  "weight": 8,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.crimson_fungus.name\"}'}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{artifact:6, artifactPower:1}"
+    }
+  ]
+}

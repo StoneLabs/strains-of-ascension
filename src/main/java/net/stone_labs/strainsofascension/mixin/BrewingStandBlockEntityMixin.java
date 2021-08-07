@@ -1,5 +1,6 @@
 package net.stone_labs.strainsofascension.mixin;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
@@ -15,26 +16,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BrewingStandBlockEntity.class)
 abstract class BrewingStandBlockEntityMixin
 {
-    @Inject(at = @At("HEAD"), method = "craft()V")
+    @Inject(at = @At("HEAD"), method = "craft")
     private static void init(World world, BlockPos pos, DefaultedList<ItemStack> slots, CallbackInfo info)
     {
         float power = 0;
 
         for (ItemStack stack : slots)
         {
-            if (!stack.hasTag())
+            if (!stack.hasNbt())
                 continue;
 
             //noinspection ConstantConditions
-            if (!stack.getTag().contains("strainArtifact", NbtElement.STRING_TYPE))
+            if (!stack.getNbt().contains("artifact", NbtElement.INT_TYPE))
                 continue;
 
-            power += stack.getTag().getInt("strainArtifactPower");
+            power += stack.getNbt().getInt("artifactPower");
         }
 
         if (power > 0)
         {
-            world.breakBlock(pos, true);
             world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), power, Explosion.DestructionType.DESTROY);
         }
     }

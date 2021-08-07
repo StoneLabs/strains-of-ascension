@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "strainsofascension",
   "version": "${version}",
-  "name": "Delayed Respawn",
+  "name": "Strains of Ascension",
   "description": "There is nothing but death down there.",
   "license": "UNLICENSE",
   "authors": [
@@ -17,7 +17,9 @@
   "environment": "*",
   "entrypoints": {
     "main": [],
-    "client": [],
+    "client": [
+      "net.stone_labs.strainsofascension.ClientWarning"
+    ],
     "server": [
       "net.stone_labs.strainsofascension.StrainsOfAscension"
     ]

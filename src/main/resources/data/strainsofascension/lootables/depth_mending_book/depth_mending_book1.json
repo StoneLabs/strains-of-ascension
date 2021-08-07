@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:enchanted_book",
+  "weight": 3,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.depth_mending_book1.name\"}'}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{artifact:8, artifactPower:2}"
+    }
+  ]
+}

@@ -4,10 +4,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
+import net.stone_labs.strainsofascension.artifacts.Artifact;
+import net.stone_labs.strainsofascension.artifacts.ArtifactState;
 import net.stone_labs.strainsofascension.effects.*;
+import net.stone_labs.strainsofascension.effects.artifacts.DepthAgilityArtifact;
+import net.stone_labs.strainsofascension.effects.artifacts.DepthMendingArtifact;
+import net.stone_labs.strainsofascension.effects.artifacts.NetherPortalArtifact;
+import net.stone_labs.strainsofascension.effects.artifacts.StrengthOfDepthArtifact;
+import net.stone_labs.strainsofascension.effects.strains.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
 L   H  DH	    Mining Fatigue  Weakness   Hunger  Slowness    Blindness    Nausea  Poison  Wither
@@ -27,15 +36,17 @@ DURATION 120*20
 
 public final class StrainManager
 {
-    public interface Strain
+    public enum STRAINMODE
     {
-        void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState);
+        ASCENSION,
+        DEPTH
     }
+    public static STRAINMODE strainMode = STRAINMODE.ASCENSION;
 
-    public static final List<Strain> strains = new ArrayList<Strain>();
+    public static final List<Effect> EFFECTS = new ArrayList<>();
 
-    public final static int effectDuration = 120 * 20 + 10;
-    public final static int effectDurationBlindness = 3 * 20 + 10;
+    public final static int effectDuration = 120 * 20 + 19;
+    public final static int effectDurationBlindness = 3 * 20 + 19;
     public final static float effectRandomProbability = 1.0f / effectDuration;
     public static double localDifficultyEffectMultiplier;
     public static double lunarDifficultyEffectMultiplier;
@@ -72,7 +83,7 @@ public final class StrainManager
     {
         double localDifficultyImpact = localDifficultyEffectMultiplier * (player.world.getLocalDifficulty(player.getBlockPos()).getLocalDifficulty() / 6.75);
         double moonPhaseImpact = lunarDifficultyEffectMultiplier * (Math.abs((Math.abs((player.world.getLunarTime() - (24000*4.75)) / 24000.0) % 8L) / 2 - 2) - 1);
-        double artifactHeightImpact = -artifactState.getDepthImmunityBonus();
+        double artifactHeightImpact = -artifactState.GetPower(Artifact.DEPTH_BONUS);
         double effectivePlayerHeight = player.getPos().y - localDifficultyImpact - moonPhaseImpact - artifactHeightImpact;
 
 
@@ -100,6 +111,19 @@ public final class StrainManager
         return 0;
     }
 
+    public static Map<ServerPlayerEntity, Double> lastKnownPlayerHeight = new HashMap<>();
+    public static boolean hasMovedUp(ServerPlayerEntity player)
+    {
+        double height = player.getPos().y;
+        if (player.world.getRegistryKey() == World.NETHER)
+            height -= 1000;
+        else if (player.world.getRegistryKey() == World.END)
+            height += 1000;
+
+        boolean moved = lastKnownPlayerHeight.getOrDefault(player, Double.MAX_VALUE) < height;
+        lastKnownPlayerHeight.put(player, height);
+        return moved;
+    }
     public static void applyEffects(ServerPlayerEntity player, ArtifactState artifactState)
     {
         if (player.interactionManager.getGameMode() == GameMode.SPECTATOR && !doSpectator)
@@ -109,22 +133,27 @@ public final class StrainManager
             return;
 
         byte layer = getLayer(player, artifactState);
+        boolean hasMovedUp = strainMode != STRAINMODE.DEPTH && hasMovedUp(player);
 
-        for (Strain strain : strains)
-            strain.effect(player, layer, artifactState);
+        for (Effect effect : EFFECTS)
+            effect.apply(player.server.getTicks(), player, layer, hasMovedUp, artifactState);
     }
 
     static
     {
-        strains.add(new FatiqueStrain());
-        strains.add(new WeaknessStrain());
-        strains.add(new HungerStrain());
-        strains.add(new SlownessStrain());
-        strains.add(new BlindnessStrain());
-        strains.add(new PoisonNauseaStrain());
-        strains.add(new WitherStrain());
-        strains.add(new InsanityStrain());
+        EFFECTS.add(new FatigueStrain());
+        EFFECTS.add(new WeaknessStrain());
+        EFFECTS.add(new HungerStrain());
+        EFFECTS.add(new SlownessStrain());
+        EFFECTS.add(new BlindnessStrain());
+        EFFECTS.add(new NightVisionStrain());
+        EFFECTS.add(new PoisonNauseaStrain());
+        EFFECTS.add(new WitherStrain());
+        EFFECTS.add(new InsanityStrain());
 
-        strains.add(new StrengthOfDepthArtifact());
+        EFFECTS.add(new StrengthOfDepthArtifact());
+        EFFECTS.add(new NetherPortalArtifact());
+        EFFECTS.add(new DepthAgilityArtifact());
+        EFFECTS.add(new DepthMendingArtifact());
     }
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:rabbit_foot",
+  "weight": 8,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.rabbit_foot.name\"}'}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{artifact:7, artifactPower:1}"
+    }
+  ]
+}

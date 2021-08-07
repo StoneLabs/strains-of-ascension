@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:clock",
+  "weight": 4,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.clock2.name\"}'}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{artifact:1, artifactPower:3}"
+    }
+  ]
+}

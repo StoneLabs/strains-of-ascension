@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:shield",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.shield.name\"}', Lore:['{\"translate\":\"item.strainsofascension.shield.lore1\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{artifact:5, artifactPower:1}"
+    }
+  ]
+}
