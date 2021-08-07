@@ -72,7 +72,7 @@ public class VexBossEntity extends VexEntity
         this.setBounds(spawnPosition);
         this.setLifeTicks(Integer.MAX_VALUE);
         this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(600);
-        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(25);
+        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(19);
         this.setPersistent();
 
         serverWorld.spawnEntity(this);
