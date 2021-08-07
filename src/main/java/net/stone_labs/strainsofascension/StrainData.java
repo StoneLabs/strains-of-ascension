@@ -2,67 +2,17 @@ package net.stone_labs.strainsofascension;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.TranslatableText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StrainData
 {
-    public static final List<String> horrorMessages = new ArrayList<String>()
+    public static final List<TranslatableText> horrorMessages = new ArrayList<TranslatableText>()
     {{
-        add("LEAVE THIS PLACE");
-        add("LEAVE OR DIE");
-        add("I CAN HEAR THEM");
-        add("HELP MEE");
-        add("IT HURTS");
-        add("WHERE ARE YOU");
-        add("DIE!");
-        add("DIE! DIE! DIE!");
-        add("LEAVE!");
-        add("GET OUT!");
-        add("AAAAAAAAAAAAHHHH");
-        add("HELP ME PLEASE");
-        add("I WANNT TO LEAVE");
-        add("PLEASE GET OUT");
-        add("ITS IN MY MIND");
-        add("I'M SCARED");
-        add("PLEASE NO MORE");
-        add("ESCAPE");
-        add("THERE IS NO ESCAPE");
-        add("YOU WILL DIE HERE");
-        add("CRY! CRY! CRY!");
-        add("I HAVE TO LEAVE");
-        add("I NEED TO GET OUT");
-        add("I WANT TO GO HOME");
-        add("WE'LL DIE!");
-        add("OH GOD PLEASE NO MORE");
-        add("DEATH!!!");
-        add("DEATH!");
-        add("DEATH DEATH DEATH");
-        add("IT IS TOO MUCH");
-        add("BEHIND YOU");
-        add("KILL ME!");
-        add("COME JOIN ME");
-        add("GO DEEPER");
-        add("COME CLOSER");
-        add("BLEED FOR ME");
-        add("SUFFER!");
-        add("You hear distant cries");
-        add("Your breathing becomes hasty");
-        add("You feel like you're being watched...");
-        add("Something is behind you!");
-        add("You feel someone's presence nearby..");
-        add("Is this really worth the risk?");
-        add("You feel a menacing presence nearby");
-        add("ᏖᏂᎧᏬᎶᏂ ᏕᏂᏗᏝᏖ ᏁᎧᏖ ᏒᏋᏖᏬᏒᏁ");
-        add("ᏕᏖᏗᎩ ᏇᎥᏖᏂ ᏬᏕ");
-        add("Yσυ ƈαɳɳσƚ ҽʂƈαρҽ υʂ");
-        add("Yσυ ƈαɳɳσƚ ҽʂƈαρҽ ყσυɾ ԃҽɱιʂҽ");
-        add("Yσυ ƈαɳɳσƚ ɾυɳ ϝσɾҽʋҽɾ");
-        add("Hσɯ ʅσɳɠ ƈαɳ ყσυ ƙҽҽρ ɠσιɳɠ ʅιƙҽ ƚԋιʂ?");
-        add("Cαɳ ყσυ ɱαƙҽ ιƚ συƚ ιɳ ƚιɱҽ?");
-        add("ɱσɾƚαʅʂ αʅɯαყʂ ɾιʂƙ ƚԋҽιɾ ʅιʋҽʂ ϝσɾ α ϝҽɯ ʂԋιɳყ ɾσƈƙʂ. Hσɯ αɱυʂιɳɠ");
-        add("Wԋყ αɾҽ ყσυ ɳσƚ ԃҽαԃ ყҽƚ!?");
+        for (int i = 0; i < 50; i++)
+            add(new TranslatableText("chat.strainsofascension.insanity.message" + i));
     }};
 
     public static final List<SoundEvent> horrorSounds = new ArrayList<SoundEvent>()

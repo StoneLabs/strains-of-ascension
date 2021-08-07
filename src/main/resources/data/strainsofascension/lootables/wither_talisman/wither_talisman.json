@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:potion",
+  "weight": 8,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{Potion:\"minecraft:awkward\", CustomPotionEffects:[{Id:9,Duration:2147483647},{Id:20,Amplifier:0,Duration:2147483647}], CustomPotionColor:0, HideFlags:63}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.wither_talisman0.name\"}'}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{artifact:4, artifactPower:1}"
+    }
+  ]
+}

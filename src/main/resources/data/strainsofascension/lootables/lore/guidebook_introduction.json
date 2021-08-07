@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:written_book",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_introduction.name\"}', Lore:['{\"translate\":\"item.strainsofascension.guidebook_introduction.lore1\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{filtered_title: \"§k..........\", title:\"§k..........\", author: \"§k..........\"}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_introduction.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_introduction.page10\"}']}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{generation: 3}"
+    }
+  ]
+}

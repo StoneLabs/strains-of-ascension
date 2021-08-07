@@ -3,11 +3,14 @@
   "package": "net.stone_labs.strainsofascension.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "MilkBucketMixin",
-    "BrewingStandBlockEntityMixin"
   ],
   "client": [],
-  "server": [],
+  "server": [
+    "MilkBucketMixin",
+    "BrewingStandBlockEntityMixin",
+    "BellBlockMixin",
+    "AnvilScreenHandlerMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

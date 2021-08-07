@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:item",
+  "name": "minecraft:written_book",
+  "weight": 1,
+  "functions": [
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{display:{Name:'{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.name\"}', Lore:['{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.lore1\"}']}}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{filtered_title: \"§k..........\", title:\"§k..........\", author: \"§k..........\"}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{pages: ['{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page1\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page2\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page3\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page4\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page5\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page6\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page7\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page8\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page9\"}', '{\"translate\":\"item.strainsofascension.guidebook_artifact_depth_mending.page10\"}']}"
+    },
+    {
+      "function": "minecraft:set_nbt",
+      "tag": "{generation: 3}"
+    }
+  ]
+}
