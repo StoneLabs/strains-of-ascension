@@ -1,5 +1,6 @@
 package net.stone_labs.strainsofascension.mixin;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
@@ -34,7 +35,6 @@ abstract class BrewingStandBlockEntityMixin
 
         if (power > 0)
         {
-            world.breakBlock(pos, true);
             world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), power, Explosion.DestructionType.DESTROY);
         }
     }
