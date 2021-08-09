@@ -373,7 +373,7 @@ public class VexBossEntity extends VexEntity
         if (source.getAttacker().isPlayer())
         {
             int lootItems = (int)Math.floor(Math.min(Math.max(random.nextGaussian(), -1.5), 1)/1.5 + 2.75);
-            ArtifactManager.DropFullLootItems(this.serverWorld, this.getPos(), 2, this::dropStack);
+            ArtifactManager.DropFullLootItems(this.serverWorld, this.getPos(), lootItems, this::dropStack);
             for (int i = 0; i < 25; i++)
                 this.dropXp();
             for (int i = 0; i < 5; i++)
