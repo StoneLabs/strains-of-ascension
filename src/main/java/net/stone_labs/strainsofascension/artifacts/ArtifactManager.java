@@ -173,7 +173,7 @@ public class ArtifactManager
         // Yes this is a terrible solution. But i dont see a simpler way sadly...
         // Also the chance of a item with loot change 0.25% is missing is e-11 so it should be fine
         for (ArtifactManagerLootType lootType : LOOT_TYPES)
-                lootType.GenerateLoot(player.getServerWorld(), player.getPos(), 10000, applier);
+                lootType.GenerateLoot(player.getWorld(), player.getPos(), 10000, applier);
 
         drops.sort(Comparator.comparing(o -> o.getName().getString()));
 
