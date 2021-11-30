@@ -2,38 +2,25 @@ package net.stone_labs.strainsofascension.entities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.VexEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.TeleportCommand;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 
@@ -373,7 +360,7 @@ public class VexBossEntity extends VexEntity
         if (source.getAttacker().isPlayer())
         {
             int lootItems = (int)Math.floor(Math.min(Math.max(random.nextGaussian(), -1.5), 1)/1.5 + 2.75);
-            ArtifactManager.DropFullLootItems(this.serverWorld, this.getPos(), 2, this::dropStack);
+            ArtifactManager.DropFullLootItems(this.serverWorld, this.getPos(), lootItems, this::dropStack);
             for (int i = 0; i < 25; i++)
                 this.dropXp();
             for (int i = 0; i < 5; i++)
