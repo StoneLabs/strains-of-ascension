@@ -2,17 +2,18 @@ package net.stone_labs.strainsofascension;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StrainData
 {
-    public static final List<TranslatableText> horrorMessages = new ArrayList<TranslatableText>()
+    public static final List<Text> horrorMessages = new ArrayList<Text>()
     {{
         for (int i = 0; i < 50; i++)
-            add(new TranslatableText("chat.strainsofascension.insanity.message" + i));
+            add(Text.translatable("chat.strainsofascension.insanity.message" + i));
     }};
 
     public static final List<SoundEvent> horrorSounds = new ArrayList<SoundEvent>()
