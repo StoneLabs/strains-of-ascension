@@ -3,7 +3,7 @@ package net.stone_labs.strainsofascension.artifacts;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,8 +60,8 @@ public class ArtifactState
 
         if (showToAll)
             for (ServerPlayerEntity serverPlayer : player.server.getPlayerManager().getPlayerList())
-                serverPlayer.sendMessage(new LiteralText(message.toString()), false);
+                serverPlayer.sendMessage(Text.literal(message.toString()), false);
         else
-            player.sendMessage(new LiteralText(message.toString()), false);
+            player.sendMessage(Text.literal(message.toString()), false);
     }
 }

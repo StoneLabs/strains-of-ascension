@@ -18,7 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.explosion.Explosion;
@@ -51,7 +51,7 @@ public class VexBossEntity extends VexEntity
         this.serverWorld = serverWorld;
         this.summonPos = summonPos;
 
-        this.bossBar = new ServerBossBar(new TranslatableText("entity.strainsofascension.vex_boss.name"), BossBar.Color.PINK, BossBar.Style.NOTCHED_20);
+        this.bossBar = new ServerBossBar(Text.translatable("entity.strainsofascension.vex_boss.name"), BossBar.Color.PINK, BossBar.Style.NOTCHED_20);
 
         BlockPos spawnPosition = this.summonPos.withY(SPAWN_HEIGHT);
         this.refreshPositionAndAngles(spawnPosition, 0.0F, 0.0F);
@@ -81,7 +81,7 @@ public class VexBossEntity extends VexEntity
 
         if (tickCounter == 5)
             for (ServerPlayerEntity player : this.serverWorld.getPlayers())
-                player.sendMessage(new TranslatableText("entity.strainsofascension.vex_boss.warning"), false);
+                player.sendMessage(Text.translatable("entity.strainsofascension.vex_boss.warning"), false);
 
         if (tickCounter > 5 && tickCounter < 75)
             SpawnSummoningParticles();
