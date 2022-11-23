@@ -30,7 +30,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_NAME = "Strains of Ascension";
-    public static final String VERSION = "2.8.0";
+    public static final String VERSION = "2.9.0";
 
     public static boolean queueArtifactDebug = false;
     public static Collection<ServerPlayerEntity> queueArtifactDebugFor;
