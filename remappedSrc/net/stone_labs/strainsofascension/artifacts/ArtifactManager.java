@@ -1,9 +1,9 @@
 package net.stone_labs.strainsofascension.artifacts;
 
 import com.google.gson.Gson;
-import net.fabricmc.fabric.api.loot.v2.LootTableSource;
-import net.minecraft.loot.LootPool;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
+import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
+import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerInventory;
@@ -67,30 +67,30 @@ public class ArtifactManager
             return lootablesJSONs;
         }
 
-        private LootPool lootPool = null;
+        private LootPool LootPool = null;
         private void CreateLootPool()
         {
-            LootPool.Builder poolBuilder = LootPool.builder()
+            FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                     .rolls(ConstantLootNumberProvider.create(1))
-                    .apply(new StackPreventerLootFunction())
-                    .apply(new ArtifactVersionLootFunction());
+                    .withFunction(new StackPreventerLootFunction())
+                    .withFunction(new ArtifactVersionLootFunction());
 
             for (String json : this.GetLootableJsons())
-                poolBuilder.with(LOOT_GSON.fromJson(json, LootPoolEntry.class));
+                poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
 
-            this.lootPool = poolBuilder.build();
+            this.LootPool = poolBuilder.build();
         }
         public void GenerateLoot(ServerWorld world, Vec3d origin, int number, java.util.function.Consumer<ItemStack> consumer)
         {
-            if (lootPool == null)
+            if (LootPool == null)
                 CreateLootPool();
 
             for (int i = 0; i < number; i++)
-                this.lootPool.addGeneratedLoot(consumer,
+                this.LootPool.addGeneratedLoot(consumer,
                         new LootContext.Builder(world)
                                 .parameter(LootContextParameters.ORIGIN, origin)
                                 .luck(3)
-                                .random(world.random)
+                                .random(new Random())
                                 .build(LootContextTypes.COMMAND));
         }
     }
@@ -101,24 +101,24 @@ public class ArtifactManager
 
     public static void Init()
     {
-        LootTableEvents.MODIFY.register(ArtifactManager::ModifyLootTable);
+        LootTableLoadingCallback.EVENT.register(ArtifactManager::ModifyLootTable);
     }
 
-    public static void ModifyLootTable(ResourceManager resourceManager, LootManager lootManager, Identifier id, LootTable.Builder builder, LootTableSource lootTableSource)
+    public static void ModifyLootTable(ResourceManager resourceManager, LootManager lootManager, Identifier id, FabricLootSupplierBuilder supplier, LootTableLoadingCallback.LootTableSetter setter)
     {
         for (ArtifactManagerLootType lootType : LOOT_TYPES)
             if (lootType.ContainsLootTable(id))
             {
-                LootPool.Builder poolBuilder = LootPool.builder()
+                FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(lootType.GetLootTableProbability(id)).build())
-                        .apply(new StackPreventerLootFunction())
-                        .apply(new ArtifactVersionLootFunction());
+                        .withCondition(RandomChanceLootCondition.builder(lootType.GetLootTableProbability(id)).build())
+                        .withFunction(new StackPreventerLootFunction())
+                        .withFunction(new ArtifactVersionLootFunction());
 
                 for (String json : lootType.GetLootableJsons())
-                    poolBuilder.with(LOOT_GSON.fromJson(json, LootPoolEntry.class));
+                    poolBuilder.withEntry(LOOT_GSON.fromJson(json, LootPoolEntry.class));
 
-                builder.pool(poolBuilder.build());
+                supplier.withPool(poolBuilder.build());
             }
     }
 

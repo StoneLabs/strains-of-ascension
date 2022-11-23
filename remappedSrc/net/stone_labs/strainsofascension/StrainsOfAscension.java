@@ -1,15 +1,17 @@
 package net.stone_labs.strainsofascension;
 
 import net.fabricmc.api.DedicatedServerModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.gamerule.v1.rule.DoubleRule;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 import net.minecraft.world.GameRules;
 import net.stone_labs.strainsofascension.artifacts.ArtifactManager;
 import net.stone_labs.strainsofascension.artifacts.ArtifactState;
@@ -18,17 +20,22 @@ import net.stone_labs.strainsofascension.effects.strains.BlindnessStrain;
 import net.stone_labs.strainsofascension.effects.strains.NightVisionStrain;
 import net.stone_labs.strainsofascension.effects.strains.PoisonNauseaStrain;
 import net.stone_labs.strainsofascension.effects.strains.WitherStrain;
+import net.stone_labs.strainsofascension.entities.VexBossEntity;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 
-@SuppressWarnings("CodeBlock2Expr")
+import static net.minecraft.command.argument.EntityArgumentType.getPlayers;
+import static net.minecraft.server.command.CommandManager.argument;
+import static net.minecraft.server.command.CommandManager.literal;
+
 public class StrainsOfAscension implements DedicatedServerModInitializer
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
+    public static final String MOD_ID = "strainsofascension";
     public static final String MOD_NAME = "Strains of Ascension";
     public static final String VERSION = "2.8.0";
 
@@ -89,7 +96,7 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         ArtifactManager.Init();
 
         // Add command to display artifacts for debugging
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> ArtifactsCommand.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> ArtifactsCommand.register(dispatcher));
 
         // Set values from gamerules on server start
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
@@ -163,7 +170,6 @@ public class StrainsOfAscension implements DedicatedServerModInitializer
         StrainManager.strainMode = rule.get() ? StrainManager.STRAINMODE.ASCENSION : StrainManager.STRAINMODE.DEPTH;
     }));
 
-    @SuppressWarnings("SameParameterValue")
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> type)
     {
         return GameRuleRegistry.register(name, category, type);
