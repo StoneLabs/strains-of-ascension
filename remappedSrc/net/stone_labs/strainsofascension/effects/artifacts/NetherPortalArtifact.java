@@ -17,6 +17,6 @@ public class NetherPortalArtifact extends ConstantEffect
     public void effect(ServerPlayerEntity player, byte layer, ArtifactState artifactState)
     {
         if (player.getPos().y >= -48 && artifactState.GetPower(Artifact.PORTAL_POWER) == 0 && !player.isCreative() && !player.isSpectator() && player.world.getRegistryKey() == World.OVERWORLD)
-            player.resetPortalCooldown();
+            player.resetNetherPortalCooldown();
     }
 }

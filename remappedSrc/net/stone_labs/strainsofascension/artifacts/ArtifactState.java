@@ -3,7 +3,7 @@ package net.stone_labs.strainsofascension.artifacts;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 
 import java.util.HashMap;
 import java.util.Map;
